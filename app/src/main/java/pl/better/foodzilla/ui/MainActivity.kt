@@ -1,4 +1,4 @@
-package pl.better.foodzilla
+package pl.better.foodzilla.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,32 +11,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import pl.better.foodzilla.ui.theme.FoodzillaTheme
+import pl.better.foodzilla.ui.views.LandingScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FoodzillaTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    Greeting("Android")
-                }
+                LandingScreen()
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    FoodzillaTheme {
-        Greeting("Android")
     }
 }
