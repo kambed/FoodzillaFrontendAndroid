@@ -2,16 +2,9 @@ package pl.better.foodzilla.ui.views
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,10 +22,12 @@ import androidx.compose.ui.unit.sp
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import pl.better.foodzilla.R
-import pl.better.foodzilla.ui.components.RoundedGradientButton
+import pl.better.foodzilla.ui.components.ButtonRoundedGradient
 
 @Composable
 fun LandingScreen() {
+    val systemUiController: SystemUiController = rememberSystemUiController()
+    systemUiController.setStatusBarColor(Color.Black)
     val fontFamily = FontFamily(
         Font(R.font.inter_extrabold, FontWeight.ExtraBold),
         Font(R.font.inter_bold, FontWeight.Bold),
@@ -42,8 +37,6 @@ fun LandingScreen() {
         Font(R.font.inter_light, FontWeight.Light),
         Font(R.font.inter_thin, FontWeight.Thin)
     )
-    val systemUiController: SystemUiController = rememberSystemUiController()
-    systemUiController.setStatusBarColor(Color.Black)
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             modifier = Modifier.fillMaxWidth(),
@@ -82,14 +75,23 @@ fun LandingScreen() {
                 .fillMaxSize()
                 .padding(40.dp), contentAlignment = Alignment.BottomCenter
         ) {
-            RoundedGradientButton(
-                color1 = Color(25, 118, 210),
-                color2 = Color(33, 149, 242),
+            ButtonRoundedGradient(
+                modifier = Modifier
+                    .height(67.dp)
+                    .width(163.dp)
+                    .clip(RoundedCornerShape(34.dp))
+                    .background(
+                        Brush.horizontalGradient(
+                            listOf(
+                                Color(25, 118, 210),
+                                Color(33, 149, 242)
+                            )
+                        )
+                    ),
                 textColor = Color.White,
                 buttonText = "Get Started",
-                fontFamily = fontFamily,
-                onClick = { /*TODO*/ }
-            )
+                fontFamily = fontFamily
+            ) { /*TODO*/ }
         }
     }
 }
