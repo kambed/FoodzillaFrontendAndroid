@@ -33,26 +33,26 @@ fun LoginScreen() {
                 imageModifier = Modifier.height(30.dp),
                 painterResource = painterResource(id = R.drawable.foodzilla_logo)
             )
-            TextFieldUserData(
-                modifier = Modifier.fillMaxWidth(),
-                value = "",
-                label = "E-mail address",
-                icon = Icons.Default.Email,
-                textColor = Color.Black
-            ) { /*TODO*/ }
-            Spacer(
-                modifier = Modifier.height(7.dp)
-            )
-            TextFieldUserData(
-                modifier = Modifier.fillMaxWidth(),
-                value = "",
-                label = "Password",
-                icon = Icons.Default.Lock,
-                textColor = Color.Black
-            ) { /*TODO*/ }
-            Spacer(
-                modifier = Modifier.height(10.dp)
-            )
+            Column(
+                modifier = Modifier.height(120.dp),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                TextFieldUserData(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = "",
+                    label = "E-mail address",
+                    icon = Icons.Default.Email,
+                    textColor = Color.Black
+                ) { /*TODO*/ }
+                TextFieldUserData(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = "",
+                    label = "Password",
+                    icon = Icons.Default.Lock,
+                    textColor = Color.Black
+                ) { /*TODO*/ }
+                Spacer(modifier = Modifier.height(5.dp))
+            }
             ButtonRoundedWithBorder(
                 modifier = Modifier
                     .width(120.dp)

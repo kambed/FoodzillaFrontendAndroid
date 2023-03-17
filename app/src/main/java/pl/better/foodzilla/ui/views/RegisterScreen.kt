@@ -6,9 +6,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.rounded.Lock
-import androidx.compose.material.icons.twotone.Lock
-import androidx.compose.material.icons.twotone.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,53 +33,46 @@ fun RegisterScreen() {
                 imageModifier = Modifier.height(30.dp),
                 painterResource = painterResource(id = R.drawable.foodzilla_logo)
             )
-            TextFieldUserData(
-                modifier = Modifier.fillMaxWidth(),
-                value = "",
-                label = "E-mail address",
-                icon = Icons.Default.Email,
-                textColor = Color.Black
-            ) { /*TODO*/ }
-            Spacer(
-                modifier = Modifier.height(7.dp)
-            )
-            TextFieldUserData(
-                modifier = Modifier.fillMaxWidth(),
-                value = "",
-                label = "First name",
-                icon = Icons.Outlined.Person,
-                textColor = Color.Black
-            ) { /*TODO*/ }
-            Spacer(
-                modifier = Modifier.height(7.dp)
-            )
-            TextFieldUserData(
-                modifier = Modifier.fillMaxWidth(),
-                value = "",
-                label = "Last name",
-                icon = Icons.Default.Person,
-                textColor = Color.Black
-            ) { /*TODO*/ }
-            Spacer(
-                modifier = Modifier.height(7.dp)
-            )
-            TextFieldUserData(
-                modifier = Modifier.fillMaxWidth(),
-                value = "",
-                label = "Password",
-                icon = Icons.Default.Lock,
-                textColor = Color.Black
-            ) { /*TODO*/ }
-            Spacer(
-                modifier = Modifier.height(7.dp)
-            )
-            TextFieldUserData(
-                modifier = Modifier.fillMaxWidth(),
-                value = "",
-                label = "Confirm password",
-                icon = Icons.Outlined.Lock,
-                textColor = Color.Black
-            ) { /*TODO*/ }
+            Column(
+                modifier = Modifier.height(310.dp),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                TextFieldUserData(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = "",
+                    label = "E-mail address",
+                    icon = Icons.Default.Email,
+                    textColor = Color.Black
+                ) { /*TODO*/ }
+                TextFieldUserData(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = "",
+                    label = "First name",
+                    icon = Icons.Outlined.Person,
+                    textColor = Color.Black
+                ) { /*TODO*/ }
+                TextFieldUserData(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = "",
+                    label = "Last name",
+                    icon = Icons.Default.Person,
+                    textColor = Color.Black
+                ) { /*TODO*/ }
+                TextFieldUserData(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = "",
+                    label = "Password",
+                    icon = Icons.Default.Lock,
+                    textColor = Color.Black
+                ) { /*TODO*/ }
+                TextFieldUserData(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = "",
+                    label = "Confirm password",
+                    icon = Icons.Outlined.Lock,
+                    textColor = Color.Black
+                ) { /*TODO*/ }
+            }
             Spacer(
                 modifier = Modifier.height(45.dp)
             )

@@ -1,6 +1,5 @@
 package pl.better.foodzilla.ui.components
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
