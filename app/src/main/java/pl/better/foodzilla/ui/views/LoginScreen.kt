@@ -10,10 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pl.better.foodzilla.R
 import pl.better.foodzilla.ui.components.*
 
+@Preview
 @Composable
 fun LoginScreen() {
     Column(
@@ -34,7 +36,7 @@ fun LoginScreen() {
                 painterResource = painterResource(id = R.drawable.foodzilla_logo)
             )
             Column(
-                modifier = Modifier.fillMaxHeight(0.25f),
+                modifier = Modifier.fillMaxHeight(0.3f),
                 verticalArrangement = Arrangement.SpaceAround
             ) {
                 TextFieldUserData(
@@ -60,8 +62,8 @@ fun LoginScreen() {
                 textColor = Color.Black
             ) { /*TODO*/ }
             ImageCenter(
-                modifier = Modifier.fillMaxHeight(0.65f),
-                imageModifier = Modifier.fillMaxHeight(0.75f),
+                modifier = Modifier.fillMaxHeight(0.6f),
+                imageModifier = Modifier.fillMaxHeight(0.8f),
                 painterResource = painterResource(id = R.drawable.foodzilla_dino_logo)
             )
             ButtonRoundedCorners(

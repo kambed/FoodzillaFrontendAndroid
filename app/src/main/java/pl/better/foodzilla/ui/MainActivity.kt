@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.Color
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import pl.better.foodzilla.ui.theme.FoodzillaTheme
+import pl.better.foodzilla.ui.views.LandingScreen
 import pl.better.foodzilla.ui.views.LoginScreen
 import pl.better.foodzilla.ui.views.RegisterScreen
 
@@ -17,7 +18,7 @@ class MainActivity : ComponentActivity() {
             FoodzillaTheme {
                 val systemUiController: SystemUiController = rememberSystemUiController()
                 systemUiController.setStatusBarColor(Color.White)
-                LoginScreen()
+                LandingScreen()
             }
         }
     }
