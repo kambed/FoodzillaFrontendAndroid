@@ -29,13 +29,13 @@ fun LoginScreen() {
                 .padding(horizontal = 16.dp)
         ) {
             ImageCenter(
-                modifier = Modifier.height(136.dp),
-                imageModifier = Modifier.height(30.dp),
+                modifier = Modifier.fillMaxHeight(0.2f),
+                imageModifier = Modifier.fillMaxHeight(0.3f),
                 painterResource = painterResource(id = R.drawable.foodzilla_logo)
             )
             Column(
-                modifier = Modifier.height(120.dp),
-                verticalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier.fillMaxHeight(0.25f),
+                verticalArrangement = Arrangement.SpaceAround
             ) {
                 TextFieldUserData(
                     modifier = Modifier.fillMaxWidth(),
@@ -51,7 +51,6 @@ fun LoginScreen() {
                     icon = Icons.Default.Lock,
                     textColor = Color.Black
                 ) { /*TODO*/ }
-                Spacer(modifier = Modifier.height(5.dp))
             }
             ButtonRoundedWithBorder(
                 modifier = Modifier
@@ -61,8 +60,8 @@ fun LoginScreen() {
                 textColor = Color.Black
             ) { /*TODO*/ }
             ImageCenter(
-                modifier = Modifier.height(250.dp),
-                imageModifier = Modifier.height(170.dp),
+                modifier = Modifier.fillMaxHeight(0.65f),
+                imageModifier = Modifier.fillMaxHeight(0.75f),
                 painterResource = painterResource(id = R.drawable.foodzilla_dino_logo)
             )
             ButtonRoundedCorners(
@@ -71,7 +70,7 @@ fun LoginScreen() {
                 textColor = Color.White
             ) { /*TODO*/ }
             Spacer(
-                modifier = Modifier.height(40.dp)
+                modifier = Modifier.fillMaxHeight(0.3f)
             )
             TextClickableTwoColors(
                 text1 = "NEW TO FOODZILLA? ",

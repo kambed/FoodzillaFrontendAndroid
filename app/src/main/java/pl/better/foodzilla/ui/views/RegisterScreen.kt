@@ -29,12 +29,12 @@ fun RegisterScreen() {
                 .padding(horizontal = 16.dp)
         ) {
             ImageCenter(
-                modifier = Modifier.height(136.dp),
-                imageModifier = Modifier.height(30.dp),
+                modifier = Modifier.fillMaxHeight(0.2f),
+                imageModifier = Modifier.fillMaxHeight(0.3f),
                 painterResource = painterResource(id = R.drawable.foodzilla_logo)
             )
             Column(
-                modifier = Modifier.height(310.dp),
+                modifier = Modifier.fillMaxHeight(0.6f),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 TextFieldUserData(
@@ -74,7 +74,7 @@ fun RegisterScreen() {
                 ) { /*TODO*/ }
             }
             Spacer(
-                modifier = Modifier.height(45.dp)
+                modifier = Modifier.fillMaxHeight(0.2f)
             )
             ButtonRoundedCorners(
                 modifier = Modifier.fillMaxWidth(),
@@ -82,7 +82,7 @@ fun RegisterScreen() {
                 textColor = Color.White
             ) { /*TODO*/ }
             Spacer(
-                modifier = Modifier.height(40.dp)
+                modifier = Modifier.fillMaxHeight(0.25f)
             )
             TextClickableTwoColors(
                 text1 = "HAVE ACCOUNT? ",

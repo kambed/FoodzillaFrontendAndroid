@@ -17,7 +17,7 @@ class MainActivity : ComponentActivity() {
             FoodzillaTheme {
                 val systemUiController: SystemUiController = rememberSystemUiController()
                 systemUiController.setStatusBarColor(Color.White)
-                RegisterScreen()
+                LoginScreen()
             }
         }
     }
