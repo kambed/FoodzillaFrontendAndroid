@@ -6,7 +6,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 
 @Composable
-fun TopBar(title: String, icon: ImageVector, onClick: () -> Unit) {
+fun TopBar(
+    title:
+    String,
+    icon: ImageVector,
+    onClick: () -> Unit
+) {
     TopAppBar(
         title = {
             Text(text = title)
