@@ -6,10 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.ui.graphics.Color
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.ramcosta.composedestinations.DestinationsNavHost
 import pl.better.foodzilla.ui.theme.FoodzillaTheme
-import pl.better.foodzilla.ui.views.LandingScreen
-import pl.better.foodzilla.ui.views.LoginScreen
-import pl.better.foodzilla.ui.views.RegisterScreen
+import pl.better.foodzilla.ui.views.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,7 +17,7 @@ class MainActivity : ComponentActivity() {
             FoodzillaTheme {
                 val systemUiController: SystemUiController = rememberSystemUiController()
                 systemUiController.setStatusBarColor(Color.White)
-                LandingScreen()
+                DestinationsNavHost(navGraph = NavGraphs.root)
             }
         }
     }
