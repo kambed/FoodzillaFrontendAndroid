@@ -12,18 +12,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import pl.better.foodzilla.R
 import pl.better.foodzilla.ui.components.*
+import pl.better.foodzilla.ui.views.destinations.LandingScreenDestination
+import pl.better.foodzilla.ui.views.destinations.LoginScreenDestination
 
-@Preview
+@Destination
 @Composable
-fun RegisterScreen() {
+fun RegisterScreen(
+    navigator: DestinationsNavigator
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
         TopBar("Create account", Icons.Filled.ArrowBack) {
-            /*TODO*/
+            navigator.navigate(LandingScreenDestination)
         }
         Column(
             modifier = Modifier
@@ -91,7 +97,9 @@ fun RegisterScreen() {
                 text1Color = Color.Black,
                 text2 = "SIGN IN",
                 text2Color = MaterialTheme.colors.primary
-            ) { /*TODO*/ }
+            ) {
+                navigator.navigate(LoginScreenDestination)
+            }
         }
     }
 }
