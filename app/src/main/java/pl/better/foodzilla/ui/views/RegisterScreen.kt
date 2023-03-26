@@ -12,12 +12,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import pl.better.foodzilla.R
 import pl.better.foodzilla.ui.components.*
 import pl.better.foodzilla.ui.views.destinations.LandingScreenDestination
 import pl.better.foodzilla.ui.views.destinations.LoginScreenDestination
 
+@RootNavGraph
 @Destination
 @Composable
 fun RegisterScreen(
@@ -85,9 +87,11 @@ fun RegisterScreen(
             )
             ButtonRoundedCorners(
                 modifier = Modifier.fillMaxWidth(),
-                buttonText = "SIGN IN",
+                buttonText = "REGISTER",
                 textColor = Color.White
-            ) { /*TODO*/ }
+            ) {
+                navigator.navigate(LoginScreenDestination)
+            }
             Spacer(
                 modifier = Modifier.fillMaxHeight(0.25f)
             )
