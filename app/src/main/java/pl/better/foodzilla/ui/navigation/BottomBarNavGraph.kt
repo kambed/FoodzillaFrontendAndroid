@@ -5,6 +5,6 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 
 @RootNavGraph
 @NavGraph
-annotation class BottomScreenNavGraph(
+annotation class BottomBarNavGraph(
     val start: Boolean = false
 )
