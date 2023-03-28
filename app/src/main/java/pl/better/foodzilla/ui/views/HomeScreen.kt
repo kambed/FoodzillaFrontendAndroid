@@ -1,7 +1,5 @@
 package pl.better.foodzilla.ui.views
 
-import android.graphics.BitmapFactory
-import android.util.Base64
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -22,11 +20,13 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import pl.better.foodzilla.data.models.Recipe
+import pl.better.foodzilla.data.models.RecipeReview
 import pl.better.foodzilla.ui.components.ImageRecipe
 import pl.better.foodzilla.ui.components.TextFieldSearch
 import pl.better.foodzilla.ui.navigation.BottomBarNavGraph
@@ -115,10 +115,10 @@ fun HomeScreen(
                         "Awesome hot dog with an egg, china vibes. GOOOOOOOOOOOOOOOD!",
                         imgBitmap,
                         listOf("Buy a dog", "Place an egg on dog's head"),
-                        3.5f,
+                        4.5f,
                         30,
                         512,
-                        listOf("Noice", "WP"),
+                        listOf(RecipeReview(1L, "Noice", 5.0f), RecipeReview(2L, LoremIpsum(1000).values.joinToString(separator = " "), 4.0f)),
                         listOf("Dog", "Egg", "Salt"),
                         listOf("China", "HotDog", "30-minute preparation", "Healthy")
                     )

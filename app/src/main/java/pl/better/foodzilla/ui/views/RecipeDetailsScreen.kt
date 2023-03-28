@@ -34,6 +34,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import pl.better.foodzilla.data.models.Recipe
 import pl.better.foodzilla.ui.components.TopBar
 import pl.better.foodzilla.ui.navigation.BottomBarNavGraph
+import pl.better.foodzilla.ui.views.destinations.ReviewsDetailsScreenDestination
 import java.text.DecimalFormat
 
 @Composable
@@ -82,7 +83,7 @@ fun RecipeDetailsScreen(
                     Text(
                         modifier = Modifier
                             .clickable {
-                                /*TODO*/
+                                navigator.navigate(ReviewsDetailsScreenDestination(recipe))
                             },
                         text = "(${recipe.reviews.size} reviews)",
                         fontSize = 16.sp,

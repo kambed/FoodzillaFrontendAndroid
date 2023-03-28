@@ -16,7 +16,7 @@ data class Recipe(
     val rating: Float,
     val preparationTime: Int,
     val calories: Int,
-    val reviews: List<String>, //TODO: CHANGE TO REVIEW OBJECT
+    val reviews: List<RecipeReview>, //TODO: CHANGE TO REVIEW OBJECT
     val ingredients: List<String>, //TODO: CHANGE TO INGREDIENT OBJECT
     val tags: List<String> //TODO: CHANGE TO TAG OBJECT
 ): Parcelable {
