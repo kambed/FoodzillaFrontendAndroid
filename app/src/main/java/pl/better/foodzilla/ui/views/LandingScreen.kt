@@ -22,12 +22,13 @@ import androidx.compose.ui.unit.sp
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import pl.better.foodzilla.R
 import pl.better.foodzilla.ui.components.ButtonRoundedGradient
 import pl.better.foodzilla.ui.views.destinations.RegisterScreenDestination
-
-@Destination(start = true)
+@RootNavGraph(start = true)
+@Destination
 @Composable
 fun LandingScreen(
     navigator: DestinationsNavigator
