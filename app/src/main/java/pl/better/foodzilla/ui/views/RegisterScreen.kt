@@ -1,5 +1,6 @@
 package pl.better.foodzilla.ui.views
 
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
@@ -29,7 +30,7 @@ fun RegisterScreen(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        TopBar("Create account", Icons.Filled.ArrowBack) {
+        TopBar(title = "Create account", icon = Icons.Filled.ArrowBack) {
             navigator.navigate(LandingScreenDestination)
         }
         Column(

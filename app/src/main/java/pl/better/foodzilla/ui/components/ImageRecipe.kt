@@ -34,7 +34,7 @@ fun ImageRecipe(modifier: Modifier = Modifier, recipe: Recipe, onClick: () -> Un
             fontWeight = FontWeight.SemiBold
         )
         Text(
-            text = "${recipe.preparationTime} mins",
+            text = "${recipe.preparationTime} min",
             fontSize = 13.sp,
         )
     }

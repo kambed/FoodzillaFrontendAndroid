@@ -8,9 +8,17 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Recipe(
+    val id: Long,
     val name: String,
+    val description: String,
     val imageBase64: String,
-    val preparationTime: Int
+    val steps: List<String>,
+    val rating: Float,
+    val preparationTime: Int,
+    val calories: Int,
+    val reviews: List<String>, //TODO: CHANGE TO REVIEW OBJECT
+    val ingredients: List<String>, //TODO: CHANGE TO INGREDIENT OBJECT
+    val tags: List<String> //TODO: CHANGE TO TAG OBJECT
 ): Parcelable {
     fun getBitmap(): Bitmap {
         val imageByteArray = Base64.decode(imageBase64, 0)

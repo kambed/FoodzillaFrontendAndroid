@@ -30,7 +30,7 @@ fun LoginScreen(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        TopBar("Sign in", Icons.Filled.ArrowBack) {
+        TopBar(title = "Sign in", icon = Icons.Filled.ArrowBack) {
             navigator.navigate(LandingScreenDestination)
         }
         Column(

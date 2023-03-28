@@ -110,29 +110,17 @@ fun HomeScreen(
             items(
                 listOf(
                     Recipe(
-                        "Creamy pasta",
-                        imgBitmap,
-                        20
-                    ),
-                    Recipe(
-                        "Alfredo pasta",
-                        imgBitmap,
-                        40
-                    ),
-                    Recipe(
-                        "Pesto pasta",
-                        imgBitmap,
-                        60
-                    ),
-                    Recipe(
+                        1,
                         "Hot dog",
+                        "Awesome hot dog with an egg, china vibes. GOOOOOOOOOOOOOOOD!",
                         imgBitmap,
-                        10
-                    ),
-                    Recipe(
-                        "Pizza",
-                        imgBitmap,
-                        100
+                        listOf("Buy a dog", "Place an egg on dog's head"),
+                        3.5f,
+                        30,
+                        512,
+                        listOf("Noice", "WP"),
+                        listOf("Dog", "Egg", "Salt"),
+                        listOf("China", "HotDog", "30-minute preparation", "Healthy")
                     )
                 )
             ) {
