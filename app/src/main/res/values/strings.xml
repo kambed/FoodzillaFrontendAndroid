@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Foodzilla</string>
+
+    <string name="home_screen">Home</string>
+    <string name="search_screen">Search</string>
+    <string name="favorites_screen">Favorites</string>
+    <string name="dashboard_screen">Dashboard</string>
 </resources>

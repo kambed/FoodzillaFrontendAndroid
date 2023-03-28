@@ -17,17 +17,22 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import pl.better.foodzilla.R
 import pl.better.foodzilla.ui.components.ButtonRoundedGradient
-
-@Preview
+import pl.better.foodzilla.ui.views.destinations.RegisterScreenDestination
+@RootNavGraph(start = true)
+@Destination
 @Composable
-fun LandingScreen() {
+fun LandingScreen(
+    navigator: DestinationsNavigator
+) {
     val systemUiController: SystemUiController = rememberSystemUiController()
     systemUiController.setStatusBarColor(Color.Black)
     val fontFamily = FontFamily(
@@ -93,7 +98,9 @@ fun LandingScreen() {
                 textColor = Color.White,
                 buttonText = "Get Started",
                 fontFamily = fontFamily
-            ) { /*TODO*/ }
+            ) {
+                navigator.navigate(RegisterScreenDestination)
+            }
         }
     }
 }
