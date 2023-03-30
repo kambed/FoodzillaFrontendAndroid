@@ -80,7 +80,8 @@ fun LandingScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(40.dp), contentAlignment = Alignment.BottomCenter
+                .padding(40.dp),
+            contentAlignment = Alignment.BottomCenter
         ) {
             ButtonRoundedGradient(
                 modifier = Modifier
