@@ -7,16 +7,22 @@ import pl.better.foodzilla.data.mappers.login.toCustomer
 import pl.better.foodzilla.data.mappers.login.toLogin
 import pl.better.foodzilla.data.models.login.Customer
 import pl.better.foodzilla.data.models.login.Login
+import pl.better.foodzilla.utils.exception.GraphQLErrorResponseException
 import javax.inject.Inject
+import kotlin.streams.toList
 
 class LoginFlowClient @Inject constructor(
     private val apolloClient: ApolloClient
 ) {
 
     suspend fun login(login: String, password: String): Login? {
-        return apolloClient
+        val response = apolloClient
             .mutation(LoginMutation(login, password))
             .execute()
+        if (response.data?.login == null && response.errors != null) {
+            throw GraphQLErrorResponseException(response.errors!!.stream().map { it.message }.toList())
+        }
+        return response
             .data
             ?.login
             ?.toLogin()

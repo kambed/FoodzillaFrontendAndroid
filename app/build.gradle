@@ -86,6 +86,10 @@ dependencies {
     kaptAndroidTest 'com.google.dagger:hilt-compiler:2.44.2'
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
     implementation("com.apollographql.apollo3:apollo-runtime:3.8.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
 
     implementation "io.github.raamcosta.compose-destinations:core:$compose_destinations_version"
     ksp "io.github.raamcosta.compose-destinations:ksp:$compose_destinations_version"
