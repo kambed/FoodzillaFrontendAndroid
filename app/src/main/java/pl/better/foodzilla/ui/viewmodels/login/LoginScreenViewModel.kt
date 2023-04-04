@@ -7,13 +7,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pl.better.foodzilla.data.models.login.Login
+import pl.better.foodzilla.data.repositories.SharedPreferencesRepository
 import pl.better.foodzilla.data.repositories.login.LoginRepository
 import pl.better.foodzilla.utils.exception.GraphQLErrorResponseException
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginScreenViewModel @Inject constructor(
-    private val loginRepository: LoginRepository
+    private val loginRepository: LoginRepository,
+    sharedPreferencesRepository: SharedPreferencesRepository
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<LoginUIState>(LoginUIState.Waiting())
     val uiState = _uiState.asStateFlow()
@@ -21,6 +23,12 @@ class LoginScreenViewModel @Inject constructor(
     val login = _login.asStateFlow()
     private val _password = MutableStateFlow("")
     val password = _password.asStateFlow()
+
+    init {
+        if(sharedPreferencesRepository.checkIfFirstStart()) {
+            _uiState.value = LoginUIState.FirstStart()
+        }
+    }
 
     fun changeLogin(login : String) {
         _login.value = login
@@ -49,5 +57,6 @@ class LoginScreenViewModel @Inject constructor(
         data class Success(val login: Login?) : LoginUIState()
         data class Error(val message: String?) : LoginUIState()
         data class Waiting(val message: String? = null) : LoginUIState()
+        data class FirstStart(val message: String? = null) : LoginUIState()
     }
 }
