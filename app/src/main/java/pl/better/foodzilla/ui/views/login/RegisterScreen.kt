@@ -7,17 +7,19 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import pl.better.foodzilla.R
 import pl.better.foodzilla.ui.components.*
+import pl.better.foodzilla.ui.viewmodels.login.RegisterScreenViewModel
 import pl.better.foodzilla.ui.views.destinations.LandingScreenDestination
 import pl.better.foodzilla.ui.views.destinations.LoginScreenDestination
 
@@ -27,6 +29,7 @@ import pl.better.foodzilla.ui.views.destinations.LoginScreenDestination
 fun RegisterScreen(
     navigator: DestinationsNavigator
 ) {
+    val viewModel: RegisterScreenViewModel = hiltViewModel()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -50,41 +53,46 @@ fun RegisterScreen(
             ) {
                 TextFieldUserData(
                     modifier = Modifier.fillMaxWidth(),
-                    value = "",
+                    value = viewModel.login.collectAsState().value,
                     label = "Username",
                     icon = Icons.Default.AccountBox,
-                    textColor = Color.Black
-                ) { /*TODO*/ }
+                    textColor = Color.Black,
+                    onTextChanged = viewModel::changeLogin
+                )
                 TextFieldUserData(
                     modifier = Modifier.fillMaxWidth(),
-                    value = "",
+                    value = viewModel.firstname.collectAsState().value,
                     label = "First name",
                     icon = Icons.Outlined.Person,
-                    textColor = Color.Black
-                ) { /*TODO*/ }
+                    textColor = Color.Black,
+                    onTextChanged = viewModel::changeFirstname
+                )
                 TextFieldUserData(
                     modifier = Modifier.fillMaxWidth(),
-                    value = "",
+                    value = viewModel.lastname.collectAsState().value,
                     label = "Last name",
                     icon = Icons.Default.Person,
-                    textColor = Color.Black
-                ) { /*TODO*/ }
+                    textColor = Color.Black,
+                    onTextChanged = viewModel::changeLastname
+                )
                 TextFieldUserData(
                     modifier = Modifier.fillMaxWidth(),
-                    value = "",
+                    value = viewModel.password.collectAsState().value,
                     label = "Password",
                     icon = Icons.Default.Lock,
                     textColor = Color.Black,
-                    visualTransformation = PasswordVisualTransformation()
-                ) { /*TODO*/ }
+                    visualTransformation = PasswordVisualTransformation(),
+                    onTextChanged = viewModel::changePassword
+                )
                 TextFieldUserData(
                     modifier = Modifier.fillMaxWidth(),
-                    value = "",
+                    value = viewModel.confirmPassword.collectAsState().value,
                     label = "Confirm password",
                     icon = Icons.Outlined.Lock,
                     textColor = Color.Black,
-                    visualTransformation = PasswordVisualTransformation()
-                ) { /*TODO*/ }
+                    visualTransformation = PasswordVisualTransformation(),
+                    onTextChanged = viewModel::changeConfirmPassword
+                )
             }
             Spacer(
                 modifier = Modifier.fillMaxHeight(0.2f)
@@ -94,6 +102,7 @@ fun RegisterScreen(
                 buttonText = "REGISTER",
                 textColor = Color.White
             ) {
+                viewModel.sendRegisterRequest()
                 navigator.navigate(LoginScreenDestination)
             }
             Spacer(
