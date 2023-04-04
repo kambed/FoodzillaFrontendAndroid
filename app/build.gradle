@@ -1,13 +1,27 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.44.2'
+    }
+}
+
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id("kotlin-parcelize")
     id 'com.google.devtools.ksp' version '1.8.10-1.0.9'
+    id 'com.google.dagger.hilt.android'
+    id("com.apollographql.apollo3").version("3.8.0")
 }
+apply plugin: 'com.google.dagger.hilt.android'
 
 android {
     namespace 'pl.better.foodzilla'
     compileSdk 33
+
+    apply plugin: "kotlin-kapt"
 
     defaultConfig {
         applicationId "pl.better.foodzilla"
@@ -64,7 +78,25 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
+    implementation 'com.google.dagger:hilt-android:2.44.2'
+    androidTestImplementation  'com.google.dagger:hilt-android-testing:2.44.2'
+    kapt 'com.google.dagger:hilt-compiler:2.44.2'
+    testImplementation 'com.google.dagger:hilt-android-testing:2.44.2'
+    kaptTest 'com.google.dagger:hilt-compiler:2.44.2'
+    kaptAndroidTest 'com.google.dagger:hilt-compiler:2.44.2'
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
+    implementation("com.apollographql.apollo3:apollo-runtime:3.8.0")
 
     implementation "io.github.raamcosta.compose-destinations:core:$compose_destinations_version"
     ksp "io.github.raamcosta.compose-destinations:ksp:$compose_destinations_version"
+}
+
+apollo {
+    service("service") {
+        packageName.set("pl.better.foodzilla")
+    }
+}
+
+kapt {
+    correctErrorTypes = true
 }

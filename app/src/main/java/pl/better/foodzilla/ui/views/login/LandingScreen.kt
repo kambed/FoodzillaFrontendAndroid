@@ -1,4 +1,4 @@
-package pl.better.foodzilla.ui.views
+package pl.better.foodzilla.ui.views.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

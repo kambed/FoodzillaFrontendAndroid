@@ -1,5 +1,6 @@
 package pl.better.foodzilla.ui.components
 
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -8,6 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 
 @Composable
 fun TextFieldUserData(
@@ -16,6 +20,7 @@ fun TextFieldUserData(
     label: String,
     icon: ImageVector,
     textColor: Color,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
     onTextChanged: (String) -> Unit,
 ) {
     TextField(
@@ -23,6 +28,7 @@ fun TextFieldUserData(
         value = value,
         onValueChange = onTextChanged,
         label = { Text(label) },
+        visualTransformation = visualTransformation,
         trailingIcon = {
             Icon(
                 imageVector = icon,

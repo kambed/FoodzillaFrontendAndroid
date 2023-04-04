@@ -1,6 +1,5 @@
-package pl.better.foodzilla.ui.views
+package pl.better.foodzilla.ui.views.login
 
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
@@ -11,6 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
@@ -50,8 +51,8 @@ fun RegisterScreen(
                 TextFieldUserData(
                     modifier = Modifier.fillMaxWidth(),
                     value = "",
-                    label = "E-mail address",
-                    icon = Icons.Default.Email,
+                    label = "Username",
+                    icon = Icons.Default.AccountBox,
                     textColor = Color.Black
                 ) { /*TODO*/ }
                 TextFieldUserData(
@@ -73,14 +74,16 @@ fun RegisterScreen(
                     value = "",
                     label = "Password",
                     icon = Icons.Default.Lock,
-                    textColor = Color.Black
+                    textColor = Color.Black,
+                    visualTransformation = PasswordVisualTransformation()
                 ) { /*TODO*/ }
                 TextFieldUserData(
                     modifier = Modifier.fillMaxWidth(),
                     value = "",
                     label = "Confirm password",
                     icon = Icons.Outlined.Lock,
-                    textColor = Color.Black
+                    textColor = Color.Black,
+                    visualTransformation = PasswordVisualTransformation()
                 ) { /*TODO*/ }
             }
             Spacer(
