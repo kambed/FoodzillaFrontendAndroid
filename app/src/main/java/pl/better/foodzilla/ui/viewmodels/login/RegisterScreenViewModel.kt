@@ -6,13 +6,17 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import pl.better.foodzilla.data.models.login.Customer
 import pl.better.foodzilla.data.repositories.login.LoginRepository
+import pl.better.foodzilla.utils.exception.GraphQLErrorResponseException
 import javax.inject.Inject
 
 @HiltViewModel
 class RegisterScreenViewModel @Inject constructor(
     private val loginRepository: LoginRepository
 ) : ViewModel() {
+    private val _uiState = MutableStateFlow<RegisterUIState>(RegisterUIState.Waiting())
+    val uiState = _uiState.asStateFlow()
     private val _firstname = MutableStateFlow("")
     val firstname = _firstname.asStateFlow()
     private val _lastname = MutableStateFlow("")
@@ -46,11 +50,23 @@ class RegisterScreenViewModel @Inject constructor(
 
     fun sendRegisterRequest() {
         viewModelScope.launch {
-            if (_password.value == _confirmPassword.value) {
-                val loginResponse = loginRepository.register(_firstname.value, _lastname.value,
+            _uiState.value = RegisterUIState.Waiting()
+            try {
+                if (_password.value != _confirmPassword.value) {
+                    throw GraphQLErrorResponseException(listOf("Passwords are not identical"))
+                }
+                val registerResponse = loginRepository.register(_firstname.value, _lastname.value,
                     _login.value, _password.value)
-                loginResponse?.firstname
+                _uiState.value = RegisterUIState.Success(registerResponse)
+            } catch (exception: GraphQLErrorResponseException) {
+                _uiState.value = RegisterUIState.Error(exception.errors.joinToString(",\n"))
             }
         }
+    }
+
+    sealed class RegisterUIState {
+        data class Success(val register: Customer?) : RegisterUIState()
+        data class Error(val message: String?) : RegisterUIState()
+        data class Waiting(val message: String? = null) : RegisterUIState()
     }
 }

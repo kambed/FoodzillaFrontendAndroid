@@ -29,9 +29,13 @@ class LoginFlowClient @Inject constructor(
     }
 
     suspend fun register(firstname: String, lastname: String, login: String, password: String): Customer? {
-        return apolloClient
+        val response = apolloClient
             .mutation(RegisterMutation(firstname, lastname, login, password))
             .execute()
+        if (response.data?.createCustomer == null && response.errors != null) {
+            throw GraphQLErrorResponseException(response.errors!!.stream().map { it.message }.toList())
+        }
+        return response
             .data
             ?.createCustomer
             ?.toCustomer()
