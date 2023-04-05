@@ -1,7 +1,9 @@
 package pl.better.foodzilla.ui.viewmodels.login
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import pl.better.foodzilla.data.repositories.SharedPreferencesRepository
 import javax.inject.Inject
 
@@ -11,6 +13,8 @@ class LandingScreenViewModel @Inject constructor(
 ) : ViewModel() {
 
     fun setNotFirstTime() {
-        sharedPreferencesRepository.setNotFirstStart()
+        viewModelScope.launch {
+            sharedPreferencesRepository.setNotFirstStart()
+        }
     }
 }

@@ -28,7 +28,7 @@ import pl.better.foodzilla.ui.views.destinations.LandingScreenDestination
 import pl.better.foodzilla.ui.views.destinations.MainNavigationScreenDestination
 import pl.better.foodzilla.ui.views.destinations.RegisterScreenDestination
 
-@RootNavGraph(start = true)
+@RootNavGraph
 @Destination
 @Composable
 fun LoginScreen(
@@ -44,9 +44,6 @@ fun LoginScreen(
                 }
                 is LoginScreenViewModel.LoginUIState.Error -> {
                     Toast.makeText(context, "Login failed: ${uiState.message}", Toast.LENGTH_LONG).show()
-                }
-                is LoginScreenViewModel.LoginUIState.FirstStart -> {
-                    navigator.navigate(LandingScreenDestination)
                 }
                 else -> { /*ignored*/ }
             }

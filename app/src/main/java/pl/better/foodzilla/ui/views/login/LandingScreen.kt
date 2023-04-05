@@ -29,7 +29,8 @@ import pl.better.foodzilla.R
 import pl.better.foodzilla.ui.components.ButtonRoundedGradient
 import pl.better.foodzilla.ui.viewmodels.login.LandingScreenViewModel
 import pl.better.foodzilla.ui.views.destinations.RegisterScreenDestination
-@RootNavGraph
+
+@RootNavGraph(start = true)
 @Destination
 @Composable
 fun LandingScreen(
