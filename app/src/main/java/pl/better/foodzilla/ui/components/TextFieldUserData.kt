@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.input.VisualTransformation
 
 @Composable
 fun TextFieldUserData(
@@ -16,6 +17,7 @@ fun TextFieldUserData(
     label: String,
     icon: ImageVector,
     textColor: Color,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
     onTextChanged: (String) -> Unit,
 ) {
     TextField(
@@ -23,6 +25,7 @@ fun TextFieldUserData(
         value = value,
         onValueChange = onTextChanged,
         label = { Text(label) },
+        visualTransformation = visualTransformation,
         trailingIcon = {
             Icon(
                 imageVector = icon,

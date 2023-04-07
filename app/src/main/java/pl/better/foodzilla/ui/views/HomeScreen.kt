@@ -27,6 +27,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import pl.better.foodzilla.data.models.Recipe
 import pl.better.foodzilla.data.models.RecipeReview
+import pl.better.foodzilla.data.models.login.Login
 import pl.better.foodzilla.ui.components.ImageRecipe
 import pl.better.foodzilla.ui.components.TextFieldSearch
 import pl.better.foodzilla.ui.navigation.BottomBarNavGraph
@@ -36,7 +37,8 @@ import pl.better.foodzilla.ui.views.destinations.RecipeDetailsScreenDestination
 @Destination
 @Composable
 fun HomeScreen(
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
+    user: Login?
 ) {
     //TODO: MOCK REMOVE WHEN DATA FROM API RETRIVED
     val imgBitmap = remember {
@@ -54,7 +56,7 @@ fun HomeScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Hi, username",
+                text = "Hi, ${user?.customer?.username}!",
                 color = MaterialTheme.colors.onBackground,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold

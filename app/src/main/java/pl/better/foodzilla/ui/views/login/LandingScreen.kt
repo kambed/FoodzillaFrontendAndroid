@@ -1,4 +1,4 @@
-package pl.better.foodzilla.ui.views
+package pl.better.foodzilla.ui.views.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
@@ -26,12 +27,15 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import pl.better.foodzilla.R
 import pl.better.foodzilla.ui.components.ButtonRoundedGradient
+import pl.better.foodzilla.ui.viewmodels.login.LandingScreenViewModel
 import pl.better.foodzilla.ui.views.destinations.RegisterScreenDestination
+
 @RootNavGraph(start = true)
 @Destination
 @Composable
 fun LandingScreen(
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
+    viewModel: LandingScreenViewModel = hiltViewModel()
 ) {
     val systemUiController: SystemUiController = rememberSystemUiController()
     systemUiController.setStatusBarColor(Color.Black)
@@ -100,6 +104,7 @@ fun LandingScreen(
                 buttonText = "Get Started",
                 fontFamily = fontFamily
             ) {
+                viewModel.setNotFirstTime()
                 navigator.navigate(RegisterScreenDestination)
             }
         }
