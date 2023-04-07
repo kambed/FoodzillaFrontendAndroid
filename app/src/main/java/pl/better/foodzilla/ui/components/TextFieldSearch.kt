@@ -1,5 +1,7 @@
 package pl.better.foodzilla.ui.components
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -8,16 +10,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.input.VisualTransformation
 
 @Composable
-fun TextFieldUserData(
+fun TextFieldSearch(
     modifier: Modifier = Modifier,
     value: String,
     label: String,
     icon: ImageVector,
     textColor: Color,
-    visualTransformation: VisualTransformation = VisualTransformation.None,
     onTextChanged: (String) -> Unit,
 ) {
     TextField(
@@ -25,10 +25,17 @@ fun TextFieldUserData(
         value = value,
         onValueChange = onTextChanged,
         label = { Text(label) },
-        visualTransformation = visualTransformation,
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Search,
+                tint = Color.Black,
+                contentDescription = null
+            )
+        },
         trailingIcon = {
             Icon(
                 imageVector = icon,
+                tint = Color.Black,
                 contentDescription = null
             )
         },

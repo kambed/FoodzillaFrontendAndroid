@@ -4,23 +4,27 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun TopBar(
-    title:
-    String,
+    title: String,
     icon: ImageVector,
+    color: Color = Color.White,
     onClick: () -> Unit
 ) {
     TopAppBar(
         title = {
-            Text(text = title)
+            Text(
+                text = title
+            )
         },
         navigationIcon = {
             IconButton(onClick = onClick) {
                 Icon(imageVector = icon, contentDescription = "Navigation icon")
             }
         },
-        backgroundColor = Color.White
+        backgroundColor = color,
+        elevation = 0.dp
     )
 }

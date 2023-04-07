@@ -31,7 +31,7 @@ fun MainNavigationScreen() {
                 BottomNavigationItem(
                     selected = currentDestination == destination.direction,
                     selectedContentColor = MaterialTheme.colors.primary,
-                    unselectedContentColor = Color(66,66,66),
+                    unselectedContentColor = Color(66, 66, 66),
                     icon = {
                         Icon(
                             imageVector = destination.icon,
@@ -48,7 +48,10 @@ fun MainNavigationScreen() {
             }
         }
     }) { padding ->
-        Column(modifier = Modifier.padding(padding)) {
+        Column(
+            modifier = Modifier
+                .padding(padding)
+        ) {
             NavGraphs.root.nestedNavGraphs.find { it.route == "bottom_bar" }?.let {
                 DestinationsNavHost(navGraph = it, navController = navController)
             }
