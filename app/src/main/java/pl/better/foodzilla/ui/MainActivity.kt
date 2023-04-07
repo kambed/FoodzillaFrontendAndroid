@@ -39,7 +39,8 @@ class MainActivity : ComponentActivity() {
                     composable(MainNavigationScreenDestination) {
                         MainNavigationScreen(
                             destinationsNavigator,
-                            (viewModel.uiState.collectAsState().value as MainActivityViewModel.MainUIState.Navigate).user!!)
+                            (viewModel.uiState.collectAsState().value as MainActivityViewModel.MainUIState.Navigate).user ?: this.navArgs.user
+                        )
                     }
                 }
             }
