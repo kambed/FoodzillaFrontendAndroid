@@ -26,21 +26,20 @@ import pl.better.foodzilla.ui.components.*
 import pl.better.foodzilla.ui.viewmodels.login.RegisterScreenViewModel
 import pl.better.foodzilla.ui.views.destinations.LandingScreenDestination
 import pl.better.foodzilla.ui.views.destinations.LoginScreenDestination
-import pl.better.foodzilla.ui.views.destinations.MainNavigationScreenDestination
 
 @RootNavGraph
 @Destination
 @Composable
 fun RegisterScreen(
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
+    viewModel: RegisterScreenViewModel = hiltViewModel()
 ) {
-    val viewModel: RegisterScreenViewModel = hiltViewModel()
     val context = LocalContext.current
     LaunchedEffect(key1 = true) {
         viewModel.uiState.collectLatest { uiState ->
             when (uiState) {
                 is RegisterScreenViewModel.RegisterUIState.Success -> {
-                    navigator.navigate(MainNavigationScreenDestination)
+                    navigator.navigate(LoginScreenDestination)
                 }
                 is RegisterScreenViewModel.RegisterUIState.Error -> {
                     Toast.makeText(context, "Registration failed: ${uiState.message}", Toast.LENGTH_LONG).show()

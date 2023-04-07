@@ -44,12 +44,14 @@ class LoginScreenViewModel @Inject constructor(
                 _uiState.value = LoginUIState.Success(loginResponse)
             } catch (exception: GraphQLErrorResponseException) {
                 _uiState.value = LoginUIState.Error(exception.errors.joinToString(",\n"))
+            } catch (exception: Exception) {
+                _uiState.value = LoginUIState.Error(exception.message)
             }
         }
     }
 
     sealed class LoginUIState {
-        data class Success(val login: Login?) : LoginUIState()
+        data class Success(val login: Login) : LoginUIState()
         data class Error(val message: String?) : LoginUIState()
         data class Waiting(val message: String? = null) : LoginUIState()
     }

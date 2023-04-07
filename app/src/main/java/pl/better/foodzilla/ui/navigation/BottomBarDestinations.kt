@@ -7,15 +7,11 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
 import pl.better.foodzilla.R
-import pl.better.foodzilla.ui.views.destinations.DashboardScreenDestination
-import pl.better.foodzilla.ui.views.destinations.FavoritesScreenDestination
-import pl.better.foodzilla.ui.views.destinations.HomeScreenDestination
-import pl.better.foodzilla.ui.views.destinations.SearchScreenDestination
+import pl.better.foodzilla.ui.views.destinations.*
 
 enum class BottomBarDestinations(
-    val direction: DirectionDestinationSpec,
+    val direction: TypedDestination<out Any>,
     val icon: ImageVector,
     @StringRes val label: Int
 ) {

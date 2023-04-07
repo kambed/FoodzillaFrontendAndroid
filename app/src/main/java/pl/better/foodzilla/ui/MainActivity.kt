@@ -10,10 +10,13 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.manualcomposablecalls.composable
 import dagger.hilt.android.AndroidEntryPoint
 import pl.better.foodzilla.ui.theme.FoodzillaTheme
 import pl.better.foodzilla.ui.viewmodels.MainActivityViewModel
+import pl.better.foodzilla.ui.views.MainNavigationScreen
 import pl.better.foodzilla.ui.views.NavGraphs
+import pl.better.foodzilla.ui.views.destinations.MainNavigationScreenDestination
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -32,7 +35,13 @@ class MainActivity : ComponentActivity() {
                 DestinationsNavHost(
                     navGraph = NavGraphs.root,
                     startRoute = (viewModel.uiState.collectAsState().value as MainActivityViewModel.MainUIState.Navigate).destination
-                )
+                ) {
+                    composable(MainNavigationScreenDestination) {
+                        MainNavigationScreen(
+                            destinationsNavigator,
+                            (viewModel.uiState.collectAsState().value as MainActivityViewModel.MainUIState.Navigate).user!!)
+                    }
+                }
             }
         }
     }
