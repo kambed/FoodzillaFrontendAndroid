@@ -32,15 +32,15 @@ import pl.better.foodzilla.ui.views.destinations.RegisterScreenDestination
 @Destination
 @Composable
 fun LoginScreen(
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
+    viewModel: LoginScreenViewModel = hiltViewModel()
 ) {
-    val viewModel: LoginScreenViewModel = hiltViewModel()
     val context = LocalContext.current
     LaunchedEffect(key1 = true) {
         viewModel.uiState.collectLatest { uiState ->
             when (uiState) {
                 is LoginScreenViewModel.LoginUIState.Success -> {
-                    navigator.navigate(MainNavigationScreenDestination)
+                    navigator.navigate(MainNavigationScreenDestination(uiState.login))
                 }
                 is LoginScreenViewModel.LoginUIState.Error -> {
                     Toast.makeText(context, "Login failed: ${uiState.message}", Toast.LENGTH_LONG).show()

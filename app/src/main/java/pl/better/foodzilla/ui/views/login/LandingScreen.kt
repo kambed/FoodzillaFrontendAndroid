@@ -34,9 +34,9 @@ import pl.better.foodzilla.ui.views.destinations.RegisterScreenDestination
 @Destination
 @Composable
 fun LandingScreen(
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
+    viewModel: LandingScreenViewModel = hiltViewModel()
 ) {
-    val viewModel: LandingScreenViewModel = hiltViewModel()
     val systemUiController: SystemUiController = rememberSystemUiController()
     systemUiController.setStatusBarColor(Color.Black)
     val fontFamily = FontFamily(

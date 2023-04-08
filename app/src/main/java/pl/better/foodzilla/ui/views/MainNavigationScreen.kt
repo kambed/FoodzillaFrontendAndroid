@@ -11,14 +11,19 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.annotation.RootNavGraph
-import com.ramcosta.composedestinations.navigation.navigate
+import com.ramcosta.composedestinations.manualcomposablecalls.composable
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import pl.better.foodzilla.data.models.login.Login
 import pl.better.foodzilla.ui.navigation.BottomBarDestinations
-import pl.better.foodzilla.ui.views.destinations.Destination
+import pl.better.foodzilla.ui.views.destinations.*
 
 @RootNavGraph
 @com.ramcosta.composedestinations.annotation.Destination
 @Composable
-fun MainNavigationScreen() {
+fun MainNavigationScreen(
+    navigator: DestinationsNavigator,
+    user: Login
+) {
     val navController = rememberNavController()
     Scaffold(bottomBar = {
         BottomNavigation(
@@ -42,7 +47,7 @@ fun MainNavigationScreen() {
                         Text(text = stringResource(id = destination.label))
                     },
                     onClick = {
-                        navController.navigate(destination.direction)
+                        navController.navigate(destination.direction.route)
                     }
                 )
             }
@@ -53,7 +58,20 @@ fun MainNavigationScreen() {
                 .padding(padding)
         ) {
             NavGraphs.root.nestedNavGraphs.find { it.route == "bottom_bar" }?.let {
-                DestinationsNavHost(navGraph = it, navController = navController)
+                DestinationsNavHost(navGraph = it, navController = navController) {
+                    composable(HomeScreenDestination) {
+                        HomeScreen(destinationsNavigator, user)
+                    }
+                    composable(SearchScreenDestination) {
+                        SearchScreen(destinationsNavigator, user)
+                    }
+                    composable(FavoritesScreenDestination) {
+                        FavoritesScreen(destinationsNavigator, user)
+                    }
+                    composable(DashboardScreenDestination) {
+                        DashboardScreen(destinationsNavigator, user, navigator)
+                    }
+                }
             }
         }
     }
