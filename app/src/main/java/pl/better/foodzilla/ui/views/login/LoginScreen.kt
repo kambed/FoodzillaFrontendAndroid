@@ -12,10 +12,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
@@ -27,6 +29,7 @@ import pl.better.foodzilla.ui.viewmodels.login.LoginScreenViewModel
 import pl.better.foodzilla.ui.views.destinations.LandingScreenDestination
 import pl.better.foodzilla.ui.views.destinations.MainNavigationScreenDestination
 import pl.better.foodzilla.ui.views.destinations.RegisterScreenDestination
+import pl.better.foodzilla.utils.SizeNormalizer
 
 @RootNavGraph
 @Destination
@@ -43,12 +46,15 @@ fun LoginScreen(
                     navigator.navigate(MainNavigationScreenDestination(uiState.login))
                 }
                 is LoginScreenViewModel.LoginUIState.Error -> {
-                    Toast.makeText(context, "Login failed: ${uiState.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "Login failed: ${uiState.message}", Toast.LENGTH_LONG)
+                        .show()
                 }
-                else -> { /*ignored*/ }
+                else -> { /*ignored*/
+                }
             }
         }
     }
+    val screenHeight = LocalConfiguration.current.screenHeightDp
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -62,26 +68,34 @@ fun LoginScreen(
                 .padding(horizontal = 16.dp)
         ) {
             ImageCenter(
-                modifier = Modifier.fillMaxHeight(0.2f),
-                imageModifier = Modifier.fillMaxHeight(0.3f),
+                modifier = Modifier.height(SizeNormalizer.normalize(136.dp, screenHeight)),
+                imageModifier = Modifier.height(SizeNormalizer.normalize(30.dp, screenHeight)),
                 painterResource = painterResource(id = R.drawable.foodzilla_logo)
             )
             Column(
-                modifier = Modifier.fillMaxHeight(0.3f),
+                modifier = Modifier.height(SizeNormalizer.normalize(130.dp, screenHeight)),
                 verticalArrangement = Arrangement.SpaceAround
             ) {
                 TextFieldUserData(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(SizeNormalizer.normalize(55.dp, screenHeight)),
                     value = viewModel.login.collectAsState().value,
+                    valueFontSize = SizeNormalizer.normalize(16.sp, screenHeight),
                     label = "Username",
+                    labelFontSize = SizeNormalizer.normalize(12.sp, screenHeight),
                     icon = Icons.Default.AccountBox,
                     textColor = Color.Black,
                     onTextChanged = viewModel::changeLogin
                 )
                 TextFieldUserData(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(SizeNormalizer.normalize(55.dp, screenHeight)),
                     value = viewModel.password.collectAsState().value,
+                    valueFontSize = SizeNormalizer.normalize(16.sp, screenHeight),
                     label = "Password",
+                    labelFontSize = SizeNormalizer.normalize(12.sp, screenHeight),
                     icon = Icons.Default.Lock,
                     textColor = Color.Black,
                     onTextChanged = viewModel::changePassword,
@@ -91,30 +105,34 @@ fun LoginScreen(
             ButtonRoundedWithBorder(
                 modifier = Modifier
                     .width(120.dp)
-                    .height(20.dp),
+                    .height(SizeNormalizer.normalize(20.dp, screenHeight)),
                 buttonText = "FORGOT PASSWORD?",
                 textColor = Color.Black
             ) { /*TODO*/ }
             ImageCenter(
-                modifier = Modifier.fillMaxHeight(0.6f),
-                imageModifier = Modifier.fillMaxHeight(0.8f),
+                modifier = Modifier.height(SizeNormalizer.normalize(250.dp, screenHeight)),
+                imageModifier = Modifier.height(SizeNormalizer.normalize(170.dp, screenHeight)),
                 painterResource = painterResource(id = R.drawable.foodzilla_dino_logo)
             )
             ButtonRoundedCorners(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(SizeNormalizer.normalize(45.dp, screenHeight)),
                 buttonText = "SIGN IN",
                 textColor = Color.White
             ) {
                 viewModel.sendLoginRequest()
             }
             Spacer(
-                modifier = Modifier.fillMaxHeight(0.3f)
+                modifier = Modifier
+                    .height(SizeNormalizer.normalize(40.dp, screenHeight))
             )
             TextClickableTwoColors(
                 text1 = "NEW TO FOODZILLA? ",
                 text1Color = Color.Black,
                 text2 = "CREATE AN ACCOUNT",
-                text2Color = MaterialTheme.colors.primary
+                text2Color = MaterialTheme.colors.primary,
+                textSize = SizeNormalizer.normalize(12.sp, screenHeight)
             ) {
                 navigator.navigate(RegisterScreenDestination)
             }

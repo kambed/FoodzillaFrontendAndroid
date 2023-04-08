@@ -1,7 +1,6 @@
 package pl.better.foodzilla.ui.views
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
@@ -129,7 +128,8 @@ fun DashboardScreen(
             text1 = "Enabled: ",
             text1Color = MaterialTheme.colors.primary,
             text2 = "dietary | low-carb | gluten-free",
-            text2Color = Color.Black
+            text2Color = Color.Black,
+            textSize = SizeNormalizer.normalize(12.sp, screenHeight)
         ) {}
     }
 }
