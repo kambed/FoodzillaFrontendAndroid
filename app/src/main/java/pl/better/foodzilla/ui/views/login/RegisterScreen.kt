@@ -4,7 +4,10 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
@@ -12,10 +15,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
@@ -26,6 +31,7 @@ import pl.better.foodzilla.ui.components.*
 import pl.better.foodzilla.ui.viewmodels.login.RegisterScreenViewModel
 import pl.better.foodzilla.ui.views.destinations.LandingScreenDestination
 import pl.better.foodzilla.ui.views.destinations.LoginScreenDestination
+import pl.better.foodzilla.utils.SizeNormalizer
 
 @RootNavGraph
 @Destination
@@ -42,12 +48,18 @@ fun RegisterScreen(
                     navigator.navigate(LoginScreenDestination)
                 }
                 is RegisterScreenViewModel.RegisterUIState.Error -> {
-                    Toast.makeText(context, "Registration failed: ${uiState.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        context,
+                        "Registration failed: ${uiState.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
-                else -> { /*ignored*/ }
+                else -> { /*ignored*/
+                }
             }
         }
     }
+    val screenHeight = LocalConfiguration.current.screenHeightDp
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -61,18 +73,20 @@ fun RegisterScreen(
                 .padding(horizontal = 16.dp)
         ) {
             ImageCenter(
-                modifier = Modifier.fillMaxHeight(0.2f),
-                imageModifier = Modifier.fillMaxHeight(0.3f),
+                modifier = Modifier.height(SizeNormalizer.normalize(136.dp, screenHeight)),
+                imageModifier = Modifier.height(SizeNormalizer.normalize(30.dp, screenHeight)),
                 painterResource = painterResource(id = R.drawable.foodzilla_logo)
             )
             Column(
-                modifier = Modifier.fillMaxHeight(0.6f),
+                modifier = Modifier.height(SizeNormalizer.normalize(320.dp, screenHeight)),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 TextFieldUserData(
                     modifier = Modifier.fillMaxWidth(),
                     value = viewModel.login.collectAsState().value,
+                    valueFontSize = SizeNormalizer.normalize(16.sp, screenHeight),
                     label = "Username",
+                    labelFontSize = SizeNormalizer.normalize(12.sp, screenHeight),
                     icon = Icons.Default.AccountBox,
                     textColor = Color.Black,
                     onTextChanged = viewModel::changeLogin
@@ -80,7 +94,9 @@ fun RegisterScreen(
                 TextFieldUserData(
                     modifier = Modifier.fillMaxWidth(),
                     value = viewModel.firstname.collectAsState().value,
+                    valueFontSize = SizeNormalizer.normalize(16.sp, screenHeight),
                     label = "First name",
+                    labelFontSize = SizeNormalizer.normalize(12.sp, screenHeight),
                     icon = Icons.Outlined.Person,
                     textColor = Color.Black,
                     onTextChanged = viewModel::changeFirstname
@@ -88,7 +104,9 @@ fun RegisterScreen(
                 TextFieldUserData(
                     modifier = Modifier.fillMaxWidth(),
                     value = viewModel.lastname.collectAsState().value,
+                    valueFontSize = SizeNormalizer.normalize(16.sp, screenHeight),
                     label = "Last name",
+                    labelFontSize = SizeNormalizer.normalize(12.sp, screenHeight),
                     icon = Icons.Default.Person,
                     textColor = Color.Black,
                     onTextChanged = viewModel::changeLastname
@@ -96,7 +114,9 @@ fun RegisterScreen(
                 TextFieldUserData(
                     modifier = Modifier.fillMaxWidth(),
                     value = viewModel.password.collectAsState().value,
+                    valueFontSize = SizeNormalizer.normalize(16.sp, screenHeight),
                     label = "Password",
+                    labelFontSize = SizeNormalizer.normalize(12.sp, screenHeight),
                     icon = Icons.Default.Lock,
                     textColor = Color.Black,
                     visualTransformation = PasswordVisualTransformation(),
@@ -105,7 +125,9 @@ fun RegisterScreen(
                 TextFieldUserData(
                     modifier = Modifier.fillMaxWidth(),
                     value = viewModel.confirmPassword.collectAsState().value,
+                    valueFontSize = SizeNormalizer.normalize(16.sp, screenHeight),
                     label = "Confirm password",
+                    labelFontSize = SizeNormalizer.normalize(12.sp, screenHeight),
                     icon = Icons.Outlined.Lock,
                     textColor = Color.Black,
                     visualTransformation = PasswordVisualTransformation(),
@@ -113,23 +135,26 @@ fun RegisterScreen(
                 )
             }
             Spacer(
-                modifier = Modifier.fillMaxHeight(0.2f)
+                modifier = Modifier.height(SizeNormalizer.normalize(45.dp, screenHeight))
             )
             ButtonRoundedCorners(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(SizeNormalizer.normalize(45.dp, screenHeight)),
                 buttonText = "REGISTER",
                 textColor = Color.White
             ) {
                 viewModel.sendRegisterRequest()
             }
             Spacer(
-                modifier = Modifier.fillMaxHeight(0.25f)
+                modifier = Modifier.height(SizeNormalizer.normalize(45.dp, screenHeight))
             )
             TextClickableTwoColors(
                 text1 = "HAVE ACCOUNT? ",
                 text1Color = Color.Black,
                 text2 = "SIGN IN",
-                text2Color = MaterialTheme.colors.primary
+                text2Color = MaterialTheme.colors.primary,
+                textSize = SizeNormalizer.normalize(12.sp, screenHeight)
             ) {
                 navigator.navigate(LoginScreenDestination)
             }
