@@ -16,6 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import pl.better.foodzilla.R
@@ -24,6 +25,7 @@ import pl.better.foodzilla.ui.components.ButtonRoundedCorners
 import pl.better.foodzilla.ui.components.TextClickableTwoColors
 import pl.better.foodzilla.ui.components.TextFieldDisabled
 import pl.better.foodzilla.ui.navigation.BottomBarNavGraph
+import pl.better.foodzilla.ui.viewmodels.DashboardScreenViewModel
 import pl.better.foodzilla.ui.views.destinations.LoginScreenDestination
 import pl.better.foodzilla.utils.SizeNormalizer
 
@@ -34,6 +36,7 @@ fun DashboardScreen(
     navigator: DestinationsNavigator,
     user: Login?,
     rootNavigator: DestinationsNavigator,
+    viewModel: DashboardScreenViewModel = hiltViewModel()
 ) {
     val screenHeight = LocalConfiguration.current.screenHeightDp
     Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -108,7 +111,7 @@ fun DashboardScreen(
                     .height(SizeNormalizer.normalize(45.dp, screenHeight))
                     .padding(end = SizeNormalizer.normalize(15.dp, screenHeight))
             ) {
-                //TODO REMOVE TOKEN FROM SHARED PREFERENCES
+                viewModel.logOut()
                 rootNavigator.navigate(LoginScreenDestination)
             }
         }
