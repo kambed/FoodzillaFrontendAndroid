@@ -53,7 +53,7 @@ fun FavouriteSearchesScreen() {
         LazyColumn(
             modifier = Modifier.fillMaxHeight(0.5f),
             verticalArrangement = Arrangement.spacedBy(12.dp),
-            contentPadding = PaddingValues(vertical = 12.dp)
+            contentPadding = PaddingValues(vertical = 6.dp)
         ) {
             items(
                 listOf(
@@ -95,7 +95,7 @@ fun FavouriteSearchesScreen() {
         LazyColumn(
             modifier = Modifier.fillMaxHeight(),
             verticalArrangement = Arrangement.spacedBy(12.dp),
-            contentPadding = PaddingValues(vertical = 12.dp)
+            contentPadding = PaddingValues(vertical = 6.dp)
         ) {
             items(
                 listOf(
