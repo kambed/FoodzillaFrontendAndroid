@@ -10,6 +10,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,7 +39,7 @@ fun FavouriteSearchesScreen() {
                 .shadow(2.dp),
             value = "",
             label = "Search favourite searches",
-            icon = Icons.Default.ArrowForward,
+            icon = Icons.Default.SwapHoriz,
             textColor = MaterialTheme.colors.onBackground,
             onTextChanged = { /*TODO*/ }
         )
