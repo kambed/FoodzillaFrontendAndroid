@@ -1,16 +1,21 @@
 package pl.better.foodzilla.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.material.TextFieldDefaults.indicatorLine
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -29,6 +34,8 @@ fun TextFieldUserData(
     onTextChanged: (String) -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
+    val isPasswordTextField by remember { mutableStateOf(visualTransformation != VisualTransformation.None) }
+    var isPasswordHidden by remember { mutableStateOf(visualTransformation != VisualTransformation.None) }
     BasicTextField(
         modifier = modifier
             .background(Color.Transparent)
@@ -45,21 +52,32 @@ fun TextFieldUserData(
             fontSize = valueFontSize,
             color = textColor
         ),
-        visualTransformation = visualTransformation,
+        visualTransformation = if (isPasswordHidden) PasswordVisualTransformation() else VisualTransformation.None,
     ) {
         TextFieldDefaults.TextFieldDecorationBox(
             value = value,
             innerTextField = it,
             singleLine = true,
             enabled = false,
-            visualTransformation = visualTransformation,
+            visualTransformation = if (isPasswordHidden) PasswordVisualTransformation() else VisualTransformation.None,
             label = { Text(text = label, fontSize = labelFontSize) },
             interactionSource = interactionSource,
             trailingIcon = {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = null
-                )
+                Row {
+                    if (isPasswordTextField) {
+                        Icon(
+                            modifier = Modifier.clickable {
+                                isPasswordHidden = !isPasswordHidden
+                            },
+                            imageVector = if (isPasswordHidden) Icons.Filled.VisibilityOff else Icons.Filled.Visibility,
+                            contentDescription = null
+                        )
+                    }
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null
+                    )
+                }
             },
             contentPadding = TextFieldDefaults.textFieldWithoutLabelPadding(
                 top = 0.dp, bottom = 0.dp, start = 0.dp
