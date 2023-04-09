@@ -50,7 +50,7 @@ fun LandingScreen(
     )
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxSize(),
             painter = painterResource(id = R.drawable.landing_background),
             contentDescription = "background",
             contentScale = ContentScale.Crop,
