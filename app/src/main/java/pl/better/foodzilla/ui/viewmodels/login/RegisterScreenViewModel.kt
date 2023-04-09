@@ -60,6 +60,8 @@ class RegisterScreenViewModel @Inject constructor(
                 _uiState.value = RegisterUIState.Success(registerResponse)
             } catch (exception: GraphQLErrorResponseException) {
                 _uiState.value = RegisterUIState.Error(exception.errors.joinToString(",\n"))
+            } catch (exception: Exception) {
+                _uiState.value = RegisterUIState.Error(exception.message)
             }
         }
     }

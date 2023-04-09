@@ -3,16 +3,12 @@ package pl.better.foodzilla.ui.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Delay
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import pl.better.foodzilla.data.models.login.Login
 import pl.better.foodzilla.data.repositories.SharedPreferencesRepository
-import pl.better.foodzilla.ui.views.destinations.DirectionDestination
-import pl.better.foodzilla.ui.views.destinations.LandingScreenDestination
-import pl.better.foodzilla.ui.views.destinations.LoginScreenDestination
-import pl.better.foodzilla.ui.views.destinations.MainNavigationScreenDestination
+import pl.better.foodzilla.ui.views.destinations.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,12 +27,12 @@ class MainActivityViewModel @Inject constructor(
             } else {
                 LandingScreenDestination
             }
-            _uiState.value = MainUIState.Navigate(destination)
+            _uiState.value = MainUIState.Navigate(destination, sharedPreferencesRepository.getLoggedUserData())
         }
     }
 
     sealed class MainUIState {
         data class Loading(val message: String? = null) : MainUIState()
-        data class Navigate(val destination: DirectionDestination) : MainUIState()
+        data class Navigate(val destination: TypedDestination<out Any>, val user: Login? = null) : MainUIState()
     }
 }
