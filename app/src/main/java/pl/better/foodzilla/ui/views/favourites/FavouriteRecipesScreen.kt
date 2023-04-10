@@ -1,10 +1,8 @@
 package pl.better.foodzilla.ui.views.favourites
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -13,18 +11,19 @@ import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import pl.better.foodzilla.data.models.Recipe
 import pl.better.foodzilla.data.models.RecipeReview
+import pl.better.foodzilla.data.models.Recipes
 import pl.better.foodzilla.data.models.login.Login
-import pl.better.foodzilla.ui.components.ImageRecipe
 import pl.better.foodzilla.ui.components.ListRecipesHorizontal
 import pl.better.foodzilla.ui.components.TextFieldSearch
+import pl.better.foodzilla.ui.views.destinations.RecipesListScreenDestination
 
 @Composable
 fun FavouriteRecipesScreen(
@@ -84,6 +83,20 @@ fun FavouriteRecipesScreen(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(text = "Recently viewed", fontWeight = FontWeight.Bold)
+            Text(
+                modifier = Modifier.clickable {
+                    navigator.navigate(
+                        RecipesListScreenDestination(
+                            title = "Recently viewed",
+                            recipes = Recipes(recipes)
+                        )
+                    )
+                },
+                text = "See more",
+                fontWeight = FontWeight.Bold,
+                fontSize = 14.sp,
+                color = MaterialTheme.colors.primary
+            )
         }
         ListRecipesHorizontal(navigator = navigator, recipes = recipes)
         Row(
@@ -93,6 +106,20 @@ fun FavouriteRecipesScreen(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(text = "Favourites", fontWeight = FontWeight.Bold)
+            Text(
+                modifier = Modifier.clickable {
+                    navigator.navigate(
+                        RecipesListScreenDestination(
+                            title = "Favourites",
+                            recipes = Recipes(recipes)
+                        )
+                    )
+                },
+                text = "See more",
+                fontWeight = FontWeight.Bold,
+                fontSize = 14.sp,
+                color = MaterialTheme.colors.primary
+            )
         }
         ListRecipesHorizontal(navigator = navigator, recipes = recipes)
     }
