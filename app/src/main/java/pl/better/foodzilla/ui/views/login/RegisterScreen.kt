@@ -130,6 +130,7 @@ fun RegisterScreen(
                     labelFontSize = SizeNormalizer.normalize(12.sp, screenHeight),
                     icon = Icons.Outlined.Lock,
                     textColor = Color.Black,
+                    onKeyboardDoneExecuteRequest = viewModel::sendRegisterRequest,
                     visualTransformation = PasswordVisualTransformation(),
                     onTextChanged = viewModel::changeConfirmPassword
                 )

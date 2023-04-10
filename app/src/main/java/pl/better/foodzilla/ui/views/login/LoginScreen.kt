@@ -99,6 +99,7 @@ fun LoginScreen(
                     icon = Icons.Default.Lock,
                     textColor = Color.Black,
                     onTextChanged = viewModel::changePassword,
+                    onKeyboardDoneExecuteRequest = viewModel::sendLoginRequest,
                     visualTransformation = PasswordVisualTransformation()
                 )
             }
