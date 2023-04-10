@@ -1,10 +1,6 @@
 package pl.better.foodzilla.ui.views
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -12,7 +8,6 @@ import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
@@ -23,11 +18,10 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import pl.better.foodzilla.data.models.Recipe
 import pl.better.foodzilla.data.models.RecipeReview
 import pl.better.foodzilla.data.models.login.Login
-import pl.better.foodzilla.ui.components.ImageRecipe
+import pl.better.foodzilla.ui.components.ListRecipesVertical2Columns
 import pl.better.foodzilla.ui.components.TextFieldSearch
 import pl.better.foodzilla.ui.components.TopBarWithAvatar
 import pl.better.foodzilla.ui.navigation.BottomBarNavGraph
-import pl.better.foodzilla.ui.views.destinations.RecipeDetailsScreenDestination
 
 @BottomBarNavGraph(start = true)
 @Destination
@@ -76,51 +70,30 @@ fun HomeScreen(
                 fontWeight = FontWeight.SemiBold
             )
         }
-        LazyVerticalGrid(
-            modifier = Modifier
-                .fillMaxSize(),
-            columns = GridCells.Fixed(2)
-        ) {
-            items(
-                listOf(
-                    Recipe(
-                        1,
-                        "Hot dog",
-                        "Awesome hot dog with an egg, china vibes. GOOOOOOOOOOOOOOOD!",
-                        imgBitmap,
-                        listOf("Buy a dog", "Place an egg on dog's head"),
-                        4.5f,
-                        30,
-                        512,
-                        listOf(
-                            RecipeReview(1L, "Noice", 5.0f),
-                            RecipeReview(
-                                2L,
-                                LoremIpsum(1000).values.joinToString(separator = " "),
-                                4.0f
-                            )
-                        ),
-                        listOf("Dog", "Egg", "Salt"),
-                        listOf("China", "HotDog", "30-minute preparation", "Healthy")
-                    )
+        ListRecipesVertical2Columns(
+            navigator = navigator,
+            recipes = listOf(
+                Recipe(
+                    1,
+                    "Hot dog",
+                    "Awesome hot dog with an egg, china vibes. GOOOOOOOOOOOOOOOD!",
+                    imgBitmap,
+                    listOf("Buy a dog", "Place an egg on dog's head"),
+                    4.5f,
+                    30,
+                    512,
+                    listOf(
+                        RecipeReview(1L, "Noice", 5.0f),
+                        RecipeReview(
+                            2L,
+                            LoremIpsum(1000).values.joinToString(separator = " "),
+                            4.0f
+                        )
+                    ),
+                    listOf("Dog", "Egg", "Salt"),
+                    listOf("China", "HotDog", "30-minute preparation", "Healthy")
                 )
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceAround
-                ) {
-                    ImageRecipe(
-                        modifier = Modifier
-                            .fillMaxWidth(0.8f)
-                            .height(180.dp)
-                            .clip(RoundedCornerShape(30.dp)),
-                        recipe = it,
-                        onClick = {
-                            navigator.navigate(RecipeDetailsScreenDestination(it))
-                        }
-                    )
-                }
-            }
-        }
+            )
+        )
     }
 }
