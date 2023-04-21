@@ -17,10 +17,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.collectLatest
 import pl.better.foodzilla.data.models.login.Login
+import pl.better.foodzilla.ui.components.ImageRecipe
 import pl.better.foodzilla.ui.components.ListRecipesVertical2Columns
 import pl.better.foodzilla.ui.components.TextFieldSearch
 import pl.better.foodzilla.ui.components.TopBarWithAvatar
@@ -87,11 +89,9 @@ fun HomeScreen(
                 fontWeight = FontWeight.SemiBold
             )
         }
-        viewModel.uiState.collectAsState().value.recipes?.let {
-            ListRecipesVertical2Columns(
-                navigator = navigator,
-                recipes = it,
-            )
-        }
+        ListRecipesVertical2Columns(
+            navigator = navigator,
+            recipes = viewModel.uiState.collectAsStateWithLifecycle().value.recipes ?: emptyList(),
+        )
     }
 }

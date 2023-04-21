@@ -9,13 +9,15 @@ import kotlinx.coroutines.launch
 import pl.better.foodzilla.data.models.login.Login
 import pl.better.foodzilla.data.repositories.SharedPreferencesRepository
 import pl.better.foodzilla.data.repositories.login.LoginRepository
+import pl.better.foodzilla.utils.DispatchersProvider
 import pl.better.foodzilla.utils.exception.GraphQLErrorResponseException
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginScreenViewModel @Inject constructor(
     private val loginRepository: LoginRepository,
-    private val sharedPreferencesRepository: SharedPreferencesRepository
+    private val sharedPreferencesRepository: SharedPreferencesRepository,
+    private val dispatchers: DispatchersProvider
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<LoginUIState>(LoginUIState.Waiting())
     val uiState = _uiState.asStateFlow()
@@ -33,7 +35,7 @@ class LoginScreenViewModel @Inject constructor(
     }
 
     fun sendLoginRequest() {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatchers.io) {
             _uiState.value = LoginUIState.Waiting()
             try {
                 val loginResponse = loginRepository.login(_login.value, _password.value)

@@ -9,7 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import pl.better.foodzilla.data.api.RecipeFlowClient
+import pl.better.foodzilla.data.api.recipe.RecipeFlowClient
 import pl.better.foodzilla.data.api.login.LoginFlowClient
 import pl.better.foodzilla.data.repositories.RecipeRepository
 import pl.better.foodzilla.data.repositories.RecipeRepositoryImpl

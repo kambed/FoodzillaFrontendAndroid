@@ -8,12 +8,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pl.better.foodzilla.data.models.login.Customer
 import pl.better.foodzilla.data.repositories.login.LoginRepository
+import pl.better.foodzilla.utils.DispatchersProvider
 import pl.better.foodzilla.utils.exception.GraphQLErrorResponseException
 import javax.inject.Inject
 
 @HiltViewModel
 class RegisterScreenViewModel @Inject constructor(
-    private val loginRepository: LoginRepository
+    private val loginRepository: LoginRepository,
+    private val dispatchers: DispatchersProvider
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<RegisterUIState>(RegisterUIState.Waiting())
     val uiState = _uiState.asStateFlow()
@@ -49,7 +51,7 @@ class RegisterScreenViewModel @Inject constructor(
     }
 
     fun sendRegisterRequest() {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatchers.io) {
             _uiState.value = RegisterUIState.Waiting()
             try {
                 if (_password.value != _confirmPassword.value) {
