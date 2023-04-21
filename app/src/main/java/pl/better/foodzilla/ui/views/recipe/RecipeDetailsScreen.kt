@@ -1,4 +1,4 @@
-package pl.better.foodzilla.ui.views
+package pl.better.foodzilla.ui.views.recipe
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -67,7 +67,7 @@ fun RecipeDetailsScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RatingBar(
-                        value = recipe.rating,
+                        value = recipe.rating!!,
                         config = RatingBarConfig()
                             .inactiveColor(Color.LightGray)
                             .style(RatingBarStyle.Normal),
@@ -85,7 +85,7 @@ fun RecipeDetailsScreen(
                             .clickable {
                                 navigator.navigate(ReviewsDetailsScreenDestination(recipe))
                             },
-                        text = "(${recipe.reviews.size} reviews)",
+                        text = "(${recipe.reviews?.size} reviews)",
                         fontSize = 16.sp,
                         style = TextStyle(textDecoration = TextDecoration.Underline),
                         color = MaterialTheme.colors.primary
@@ -105,7 +105,7 @@ fun RecipeDetailsScreen(
                 )
                 Text(
                     modifier = Modifier.padding(top = 5.dp),
-                    text = recipe.description,
+                    text = recipe.description!!,
                     fontWeight = FontWeight.Normal,
                     fontSize = 16.sp,
                 )
@@ -117,7 +117,7 @@ fun RecipeDetailsScreen(
                 )
             }
         }
-        items(recipe.tags) {
+        items(recipe.tags!!) {
             Card(
                 modifier = Modifier
                     .padding(4.dp)
@@ -140,7 +140,7 @@ fun RecipeDetailsScreen(
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 18.sp,
                 )
-                recipe.ingredients.forEach {
+                recipe.ingredients?.forEach {
                     Text(text = "• $it")
                 }
                 Text(
@@ -149,7 +149,7 @@ fun RecipeDetailsScreen(
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 18.sp,
                 )
-                recipe.steps.forEachIndexed { i, it ->
+                recipe.steps?.forEachIndexed { i, it ->
                     Text(text = "${i + 1}. $it")
                 }
             }

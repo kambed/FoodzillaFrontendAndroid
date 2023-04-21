@@ -31,6 +31,18 @@ input CustomerInput {
   password: String!
 }
 
+input FilterType {
+  attribute: String!
+
+  equals: String
+
+  from: Int
+
+  to: Int
+
+  in: [String]
+}
+
 """
 Built-in Float
 """
@@ -63,15 +75,30 @@ type Mutation {
 
   editCustomer(customer: CustomerEditInput): Customer
 
+  addRecipeToFavourites(recipeId: ID!): [Recipe]
+
+  removeRecipeFromFavourites(recipeId: ID!): [Recipe]
+
   createRecipe(recipe: RecipeInput): Recipe
+
+  createReview(command: ReviewInput): Review
 }
 
 type Query {
+  favouriteRecipes: [Recipe]
+
   ingredients: [Ingredient]
 
   recipe(id: ID!): Recipe
 
-  recommendations(id: ID!, numOfRecommendations: Int!): [Recommendation]!
+  recommendations: [Recipe]!
+
+  forceChangeRecommendations: Boolean!
+
+  search(input: SearchInput! = {
+
+  }
+  ): SearchResult!
 
   tags: [Tag]
 }
@@ -142,10 +169,10 @@ input RecipeInput {
   tags: [TagInput]
 }
 
-type Recommendation {
-  recipe: Recipe!
+input RecipeSort {
+  attribute: String!
 
-  preference: Float!
+  direction: SortDirection! = ASC
 }
 
 type Review {
@@ -154,6 +181,45 @@ type Review {
   review: String
 
   rating: Int!
+}
+
+input ReviewInput {
+  recipeId: Int!
+
+  review: String
+
+  rating: Int!
+}
+
+input SearchInput {
+  phrase: String
+
+  currentPage: Int = 1
+
+  pageSize: Int = 5
+
+  sort: [RecipeSort] = [{
+    attribute: "name"
+  }
+  ]
+
+  filters: [FilterType]
+}
+
+type SearchResult {
+  currentPage: Int!
+
+  numberOfPages: Int!
+
+  opinion: String
+
+  recipes: [Recipe]!
+}
+
+enum SortDirection {
+  ASC
+
+  DESC
 }
 
 """

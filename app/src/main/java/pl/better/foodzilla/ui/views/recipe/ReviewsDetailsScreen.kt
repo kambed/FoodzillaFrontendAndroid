@@ -1,4 +1,4 @@
-package pl.better.foodzilla.ui.views
+package pl.better.foodzilla.ui.views.recipe
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -52,7 +52,7 @@ fun ReviewsDetailsScreen(
                     /*TODO*/
                 }
             }
-            items(recipe.reviews) { review ->
+            items(recipe.reviews!!) { review ->
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()

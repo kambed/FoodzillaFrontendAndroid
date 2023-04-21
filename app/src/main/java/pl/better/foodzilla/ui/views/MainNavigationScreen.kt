@@ -60,7 +60,7 @@ fun MainNavigationScreen(
             NavGraphs.root.nestedNavGraphs.find { it.route == "bottom_bar" }?.let {
                 DestinationsNavHost(navGraph = it, navController = navController) {
                     composable(HomeScreenDestination) {
-                        HomeScreen(destinationsNavigator, user)
+                        HomeScreen(destinationsNavigator, user, navigator)
                     }
                     composable(SearchScreenDestination) {
                         SearchScreen(destinationsNavigator, user)

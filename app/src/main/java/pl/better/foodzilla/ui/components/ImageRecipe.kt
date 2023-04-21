@@ -3,6 +3,7 @@ package pl.better.foodzilla.ui.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -17,6 +18,7 @@ import pl.better.foodzilla.data.models.Recipe
 @Composable
 fun ImageRecipe(modifier: Modifier = Modifier, recipe: Recipe, onClick: () -> Unit) {
     Column(modifier = Modifier
+        .fillMaxWidth(0.85f)
         .padding(vertical = 8.dp)
         .clickable {
             onClick()
