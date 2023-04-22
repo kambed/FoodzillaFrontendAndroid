@@ -69,7 +69,7 @@ fun ReviewsDetailsScreen(
                     ) {
                         RatingBar(
                             modifier = Modifier.padding(start = 20.dp, end = 10.dp),
-                            value = review.rating,
+                            value = review.rating!!.toFloat(),
                             config = RatingBarConfig()
                                 .inactiveColor(Color.LightGray)
                                 .style(RatingBarStyle.Normal),
@@ -89,7 +89,7 @@ fun ReviewsDetailsScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 20.dp, vertical = 10.dp),
-                        text = review.review,
+                        text = review.review!!,
                         fontSize = 14.sp
                     )
                 }

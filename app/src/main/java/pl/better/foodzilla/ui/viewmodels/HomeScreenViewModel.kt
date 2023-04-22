@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import pl.better.foodzilla.data.models.Recipe
 import pl.better.foodzilla.data.repositories.RecipeRepository
@@ -27,11 +28,11 @@ class HomeScreenViewModel @Inject constructor(
                 recipeRepository.getRecommendations()?.let { recipes ->
                     _uiState.value = HomeScreenUIState.SuccessNoImages(recipes)
                     recipes.forEach {
-                        _uiState.value = HomeScreenUIState.Loading(recipes)
-                        it.imageBase64 = recipeRepository.getRecipeImage(it.id)?.imageBase64
-                        _uiState.value = HomeScreenUIState.SuccessNoImages(recipes)
+                        viewModelScope.launch(dispatchers.default) {
+                            it.imageBase64 = recipeRepository.getRecipeImage(it.id)?.imageBase64
+                            _uiState.update { HomeScreenUIState.Success(recipes) }
+                        }
                     }
-                    _uiState.value = HomeScreenUIState.Success(recipes)
                 }
             } catch (e: Exception) {
                 sharedPreferencesRepository.removeLoggedUserData()

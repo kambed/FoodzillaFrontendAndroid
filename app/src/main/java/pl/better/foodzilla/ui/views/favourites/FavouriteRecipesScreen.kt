@@ -17,9 +17,7 @@ import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import pl.better.foodzilla.data.models.Recipe
-import pl.better.foodzilla.data.models.RecipeReview
-import pl.better.foodzilla.data.models.Recipes
+import pl.better.foodzilla.data.models.*
 import pl.better.foodzilla.data.models.login.Login
 import pl.better.foodzilla.ui.components.ListRecipesHorizontal
 import pl.better.foodzilla.ui.components.TextFieldSearch
@@ -44,16 +42,24 @@ fun FavouriteRecipesScreen(
             4.5f,
             30,
             512,
+            10,
+            10.0,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
             listOf(
-                RecipeReview(1L, "Noice", 5.0f),
+                RecipeReview(1L, "Noice", 5),
                 RecipeReview(
                     2L,
                     LoremIpsum(1000).values.joinToString(separator = " "),
-                    4.0f
+                    4
                 )
             ),
-            listOf("Dog", "Egg", "Salt"),
-            listOf("China", "HotDog", "30-minute preparation", "Healthy")
+            listOf(RecipeIngredient(1, "Dog"), RecipeIngredient(2, "Egg"), RecipeIngredient(3, "Salt")),
+            listOf(RecipeTag(1, "China"), RecipeTag(2, "HotDog"), RecipeTag(3, "30-minute preparation"), RecipeTag(4, "Healthy"))
         )
     )
     val scrollState = rememberScrollState()
