@@ -3,6 +3,7 @@ package pl.better.foodzilla.ui.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -22,32 +23,33 @@ class HomeScreenViewModel @Inject constructor(
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<HomeScreenUIState>(HomeScreenUIState.Loading())
     val uiState = _uiState.asStateFlow()
-    private val _recipes = MutableSharedFlow<List<Recipe>>()
-    val recipes = _recipes.asSharedFlow()
+    private val _recipesWithImages = MutableSharedFlow<List<Recipe>>()
+    val recipesWithImages = _recipesWithImages.asSharedFlow()
+    private val exceptionHandler = CoroutineExceptionHandler { _, error ->
+        var exceptionMessage = error.message
+        if (error.message == null) {
+            exceptionMessage = "Unexpected error occurred. Try again later!"
+        }
+        sharedPreferencesRepository.removeLoggedUserData()
+        _uiState.value = HomeScreenUIState.Error(exceptionMessage)
+    }
 
-    init {
-        viewModelScope.launch(dispatchers.io) {
-            try {
-                recipeRepository.getRecommendations()?.let { recipes ->
-                    _uiState.value = HomeScreenUIState.Success(recipes)
-                    recipes.forEach {
-                        viewModelScope.launch(dispatchers.default) {
-                            it.imageBase64 = recipeRepository.getRecipeImage(it.id)?.imageBase64
-                            _recipes.emit(emptyList())
-                            _recipes.emit(recipes)
-                        }
-                    }
+    fun getRecipes() {
+        viewModelScope.launch(dispatchers.io + exceptionHandler) {
+            recipeRepository.getRecommendations()?.let {
+                val recipes = it.toMutableList()
+                _uiState.value = HomeScreenUIState.Success()
+                recipes.forEachIndexed { index, recipe ->
+                    recipes[index] = recipe.copy(imageBase64 = recipeRepository.getRecipeImage(recipe.id)?.imageBase64)
+                    _recipesWithImages.emit(recipes.toList())
                 }
-            } catch (e: Exception) {
-                sharedPreferencesRepository.removeLoggedUserData()
-                _uiState.value = HomeScreenUIState.Error()
             }
         }
     }
 
-    sealed class HomeScreenUIState(open val recipes: List<Recipe>? = null) {
-        data class Success(override val recipes: List<Recipe>) : HomeScreenUIState(recipes)
-        data class Error(override val recipes: List<Recipe>? = null) : HomeScreenUIState(recipes)
-        data class Loading(override val recipes: List<Recipe>? = null) : HomeScreenUIState()
+    sealed class HomeScreenUIState {
+        data class Success(val message: String? = null) : HomeScreenUIState()
+        data class Error(val message: String? = null) : HomeScreenUIState()
+        data class Loading(val message: String? = null) : HomeScreenUIState()
     }
 }

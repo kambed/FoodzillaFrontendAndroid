@@ -2,14 +2,14 @@ package pl.better.foodzilla.ui.views
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
@@ -22,7 +22,6 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.collectLatest
 import pl.better.foodzilla.data.models.login.Login
-import pl.better.foodzilla.ui.components.ImageRecipe
 import pl.better.foodzilla.ui.components.ListRecipesVertical2Columns
 import pl.better.foodzilla.ui.components.TextFieldSearch
 import pl.better.foodzilla.ui.components.TopBarWithAvatar
@@ -41,6 +40,7 @@ fun HomeScreen(
 ) {
     val context = LocalContext.current
     LaunchedEffect(key1 = true) {
+        viewModel.getRecipes()
         viewModel.uiState.collectLatest { uiState ->
             when (uiState) {
                 is HomeScreenViewModel.HomeScreenUIState.Error -> {
@@ -48,8 +48,7 @@ fun HomeScreen(
                         .show()
                     rootNavigator.navigate(LoginScreenDestination)
                 }
-                else -> { /*ignored*/
-                }
+                else -> { /*ignored*/ }
             }
         }
     }
@@ -89,9 +88,20 @@ fun HomeScreen(
                 fontWeight = FontWeight.SemiBold
             )
         }
-        ListRecipesVertical2Columns(
-            navigator = navigator,
-            recipes = viewModel.recipes.collectAsStateWithLifecycle(emptyList()).value,
-        )
+        viewModel.recipesWithImages.collectAsStateWithLifecycle(emptyList()).value.let {
+            if (it.isEmpty()) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            } else {
+                ListRecipesVertical2Columns(
+                    navigator = navigator,
+                    recipes = viewModel.recipesWithImages.collectAsStateWithLifecycle(emptyList()).value
+                )
+            }
+        }
     }
 }

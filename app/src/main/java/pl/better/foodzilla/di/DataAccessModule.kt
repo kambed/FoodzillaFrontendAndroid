@@ -29,6 +29,10 @@ object DataAccessModule {
             .serverUrl("http://10.0.2.2:8080/graphql")
             .okHttpClient(
                 OkHttpClient.Builder()
+                    .connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+                    .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+                    .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+                    .callTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
                     .addInterceptor { chain: Interceptor.Chain ->
                         val token = sharedPreferencesRepository.getLoggedUserData()?.token
                             ?: return@addInterceptor chain.proceed(chain.request())
