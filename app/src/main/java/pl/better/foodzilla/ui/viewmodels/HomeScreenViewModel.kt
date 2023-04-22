@@ -40,8 +40,10 @@ class HomeScreenViewModel @Inject constructor(
                 val recipes = it.toMutableList()
                 _uiState.value = HomeScreenUIState.Success()
                 recipes.forEachIndexed { index, recipe ->
-                    recipes[index] = recipe.copy(imageBase64 = recipeRepository.getRecipeImage(recipe.id)?.imageBase64)
-                    _recipesWithImages.emit(recipes.toList())
+                    viewModelScope.launch(dispatchers.io + exceptionHandler) {
+                        recipes[index] = recipe.copy(imageBase64 = recipeRepository.getRecipeImage(recipe.id)?.imageBase64)
+                        _recipesWithImages.emit(recipes.toList())
+                    }
                 }
             }
         }
