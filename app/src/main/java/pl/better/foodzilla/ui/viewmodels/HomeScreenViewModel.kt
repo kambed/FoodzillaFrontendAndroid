@@ -3,9 +3,10 @@ package pl.better.foodzilla.ui.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import pl.better.foodzilla.data.models.Recipe
 import pl.better.foodzilla.data.repositories.RecipeRepository
@@ -21,16 +22,19 @@ class HomeScreenViewModel @Inject constructor(
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<HomeScreenUIState>(HomeScreenUIState.Loading())
     val uiState = _uiState.asStateFlow()
+    private val _recipes = MutableSharedFlow<List<Recipe>>()
+    val recipes = _recipes.asSharedFlow()
 
     init {
         viewModelScope.launch(dispatchers.io) {
             try {
                 recipeRepository.getRecommendations()?.let { recipes ->
-                    _uiState.value = HomeScreenUIState.SuccessNoImages(recipes)
+                    _uiState.value = HomeScreenUIState.Success(recipes)
                     recipes.forEach {
                         viewModelScope.launch(dispatchers.default) {
                             it.imageBase64 = recipeRepository.getRecipeImage(it.id)?.imageBase64
-                            _uiState.update { HomeScreenUIState.Success(recipes) }
+                            _recipes.emit(emptyList())
+                            _recipes.emit(recipes)
                         }
                     }
                 }
@@ -43,7 +47,6 @@ class HomeScreenViewModel @Inject constructor(
 
     sealed class HomeScreenUIState(open val recipes: List<Recipe>? = null) {
         data class Success(override val recipes: List<Recipe>) : HomeScreenUIState(recipes)
-        data class SuccessNoImages(override val recipes: List<Recipe>) : HomeScreenUIState(recipes)
         data class Error(override val recipes: List<Recipe>? = null) : HomeScreenUIState(recipes)
         data class Loading(override val recipes: List<Recipe>? = null) : HomeScreenUIState()
     }

@@ -91,7 +91,7 @@ fun HomeScreen(
         }
         ListRecipesVertical2Columns(
             navigator = navigator,
-            recipes = viewModel.uiState.collectAsStateWithLifecycle().value.recipes ?: emptyList(),
+            recipes = viewModel.recipes.collectAsStateWithLifecycle(emptyList()).value,
         )
     }
 }
