@@ -16,21 +16,23 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.flow.StateFlow
 import pl.better.foodzilla.data.models.Recipe
 
 @Composable
-fun ImageRecipe(modifier: Modifier = Modifier, recipe: Recipe, onClick: () -> Unit) {
+fun ImageRecipe(modifier: Modifier = Modifier, recipe: StateFlow<Recipe>, onClick: () -> Unit) {
     Column(modifier = Modifier
         .fillMaxWidth(0.85f)
         .padding(vertical = 8.dp)
         .clickable {
             onClick()
         }) {
-        recipe.imageBase64?.let {
+        recipe.collectAsStateWithLifecycle().value.imageBase64?.let {
             Image(
                 modifier = modifier,
-                bitmap = recipe.getBitmap().asImageBitmap(),
-                contentDescription = recipe.name,
+                bitmap = recipe.collectAsStateWithLifecycle().value.getBitmap().asImageBitmap(),
+                contentDescription = recipe.collectAsStateWithLifecycle().value.name,
                 contentScale = ContentScale.Crop
             )
         } ?: run {
@@ -43,12 +45,12 @@ fun ImageRecipe(modifier: Modifier = Modifier, recipe: Recipe, onClick: () -> Un
         }
         Text(
             modifier = Modifier.padding(vertical = 3.dp),
-            text = recipe.name,
+            text = recipe.collectAsStateWithLifecycle().value.name,
             fontSize = 15.sp,
             fontWeight = FontWeight.SemiBold
         )
         Text(
-            text = "${recipe.preparationTime} min",
+            text = "${recipe.collectAsStateWithLifecycle().value.preparationTime} min",
             fontSize = 13.sp,
         )
     }

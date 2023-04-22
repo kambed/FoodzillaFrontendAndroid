@@ -29,7 +29,7 @@ fun RecipeDetailsQuery.Recipe.toRecipe(): Recipe {
         description = description,
         imageBase64 = image,
         steps = steps,
-        rating = reviews!!.map { it!!.rating }.toList().average().toFloat(),
+        rating = reviews!!.map { it!!.rating }.toList().average().let { if (it.isNaN()) 0.0 else it }.toFloat(),
         preparationTime = timeOfPreparation,
         numberOfSteps = numberOfSteps,
         numberOfIngredients = numberOfIngredients,

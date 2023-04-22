@@ -10,13 +10,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.flow.StateFlow
 import pl.better.foodzilla.data.models.Recipe
 import pl.better.foodzilla.ui.views.destinations.RecipeDetailsScreenDestination
 
 @Composable
 fun ListRecipesVertical2Columns(
     navigator: DestinationsNavigator,
-    recipes: List<Recipe>
+    recipes: List<StateFlow<Recipe>>
 ) {
     LazyVerticalGrid(
         modifier = Modifier
@@ -36,7 +37,7 @@ fun ListRecipesVertical2Columns(
                         .clip(RoundedCornerShape(30.dp)),
                     recipe = it,
                     onClick = {
-                        navigator.navigate(RecipeDetailsScreenDestination(it))
+                        navigator.navigate(RecipeDetailsScreenDestination(it.value))
                     }
                 )
             }

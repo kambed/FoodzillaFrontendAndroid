@@ -20,27 +20,27 @@ fun ListRecipesHorizontal(
     navigator: DestinationsNavigator,
     recipes: List<Recipe>
 ) {
-    LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(30.dp),
-        contentPadding = PaddingValues(horizontal = 16.dp)
-    ) {
-        itemsIndexed(
-            items = recipes
-        ) { _, recipe ->
-            ImageRecipe(
-                modifier = Modifier
-                    .width(140.dp)
-                    .height(170.dp)
-                    .clip(RoundedCornerShape(30.dp)),
-                recipe = recipe,
-                onClick = {
-                    navigator.navigate(
-                        RecipeDetailsScreenDestination(
-                            recipe
-                        )
-                    )
-                }
-            )
-        }
-    }
+//    LazyRow(
+//        horizontalArrangement = Arrangement.spacedBy(30.dp),
+//        contentPadding = PaddingValues(horizontal = 16.dp)
+//    ) {
+//        itemsIndexed(
+//            items = recipes
+//        ) { _, recipe ->
+//            ImageRecipe(
+//                modifier = Modifier
+//                    .width(140.dp)
+//                    .height(170.dp)
+//                    .clip(RoundedCornerShape(30.dp)),
+//                recipe = recipe,
+//                onClick = {
+//                    navigator.navigate(
+//                        RecipeDetailsScreenDestination(
+//                            recipe
+//                        )
+//                    )
+//                }
+//            )
+//        }
+//    }
 }

@@ -89,9 +89,11 @@ fun HomeScreen(
                 fontWeight = FontWeight.SemiBold
             )
         }
-        ListRecipesVertical2Columns(
-            navigator = navigator,
-            recipes = viewModel.recipes.collectAsStateWithLifecycle(emptyList()).value,
-        )
+        viewModel.uiState.collectAsStateWithLifecycle().value.recipes?.let {
+            ListRecipesVertical2Columns(
+                navigator = navigator,
+                recipes = it
+            )
+        }
     }
 }

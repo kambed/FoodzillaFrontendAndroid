@@ -25,6 +25,6 @@ fun RecipesListScreen(
         TopBar(title = title, icon = Icons.Filled.ArrowBack) {
             navigator.navigateUp()
         }
-        ListRecipesVertical2Columns(navigator = navigator, recipes = recipes.recipes)
+        //ListRecipesVertical2Columns(navigator = navigator, recipes = recipes.recipes)
     }
 }
