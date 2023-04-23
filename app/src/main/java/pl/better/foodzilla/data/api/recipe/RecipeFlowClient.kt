@@ -1,11 +1,14 @@
 package pl.better.foodzilla.data.api.recipe
 
 import com.apollographql.apollo3.ApolloClient
+import pl.better.foodzilla.CreateReviewMutation
 import pl.better.foodzilla.RecommendationsQuery
 import pl.better.foodzilla.RecipeImageQuery
 import pl.better.foodzilla.RecipeDetailsQuery
 import pl.better.foodzilla.data.mappers.login.toRecipe
+import pl.better.foodzilla.data.mappers.login.toReview
 import pl.better.foodzilla.data.models.Recipe
+import pl.better.foodzilla.data.models.RecipeReview
 import pl.better.foodzilla.utils.exception.GraphQLErrorResponseException
 import javax.inject.Inject
 import kotlin.streams.toList
@@ -50,5 +53,18 @@ class RecipeFlowClient @Inject constructor(
             .data
             ?.recipe
             ?.toRecipe()
+    }
+
+    suspend fun createReview(recipeId: Long, review: String, rating: Int): RecipeReview? {
+        val response = apolloClient
+            .mutation(CreateReviewMutation(recipeId.toInt(), review, rating))
+            .execute()
+        if (response.data?.createReview == null && response.errors != null) {
+            throw GraphQLErrorResponseException(response.errors!!.stream().map { it.message }.toList())
+        }
+        return response
+            .data
+            ?.createReview
+            ?.toReview()
     }
 }

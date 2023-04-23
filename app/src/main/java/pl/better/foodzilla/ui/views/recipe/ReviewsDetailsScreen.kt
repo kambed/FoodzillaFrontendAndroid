@@ -29,6 +29,7 @@ import pl.better.foodzilla.ui.components.ComboBox
 import pl.better.foodzilla.ui.components.TopBar
 import pl.better.foodzilla.ui.navigation.BottomBarNavGraph
 import pl.better.foodzilla.ui.viewmodels.recipe.ReviewsDetailsScreenViewModel
+import pl.better.foodzilla.ui.views.destinations.ReviewCreateScreenDestination
 
 @Composable
 @BottomBarNavGraph
@@ -74,7 +75,7 @@ fun ReviewsDetailsScreen(
                             buttonText = "Add opinion",
                             textColor = Color.White
                         ) {
-                            /*TODO*/
+                            navigator.navigate(ReviewCreateScreenDestination(recipe))
                         }
                     }
                 }

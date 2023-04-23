@@ -1,5 +1,6 @@
 package pl.better.foodzilla.data.mappers.login
 
+import pl.better.foodzilla.CreateReviewMutation
 import pl.better.foodzilla.RecipeDetailsQuery
 import pl.better.foodzilla.RecipeImageQuery
 import pl.better.foodzilla.RecommendationsQuery
@@ -47,6 +48,14 @@ fun RecipeDetailsQuery.Recipe.toRecipe(): Recipe {
 }
 
 fun RecipeDetailsQuery.Review.toReview(): RecipeReview {
+    return RecipeReview(
+        id = id!!.toLong(),
+        review = review,
+        rating = rating
+    )
+}
+
+fun CreateReviewMutation.CreateReview.toReview(): RecipeReview {
     return RecipeReview(
         id = id!!.toLong(),
         review = review,
