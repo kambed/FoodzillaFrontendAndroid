@@ -16,7 +16,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,6 +36,7 @@ import com.gowtham.ratingbar.RatingBarStyle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import pl.better.foodzilla.data.models.Recipe
+import pl.better.foodzilla.ui.components.Table
 import pl.better.foodzilla.ui.components.TopBar
 import pl.better.foodzilla.ui.navigation.BottomBarNavGraph
 import pl.better.foodzilla.ui.viewmodels.recipe.RecipeDetailsScreenViewModel
@@ -80,7 +80,8 @@ fun RecipeDetailsScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             RatingBar(
-                                value = viewModel.uiState.collectAsStateWithLifecycle().value.recipe!!.rating ?: 0f,
+                                value = viewModel.uiState.collectAsStateWithLifecycle().value.recipe!!.rating
+                                    ?: 0f,
                                 config = RatingBarConfig()
                                     .inactiveColor(Color.LightGray)
                                     .style(RatingBarStyle.Normal),
@@ -168,6 +169,27 @@ fun RecipeDetailsScreen(
                         viewModel.uiState.collectAsStateWithLifecycle().value.recipe!!.steps?.forEachIndexed { i, it ->
                             Text(text = "${i + 1}. $it")
                         }
+                        Text(
+                            modifier = Modifier.padding(top = 10.dp),
+                            text = "Nutrition",
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 18.sp,
+                        )
+                        Table(
+                            tableData = viewModel.uiState.collectAsStateWithLifecycle().value.recipe.let { recipe ->
+                                mapOf(
+                                    Pair("Calories", "${recipe?.calories.toString()} kcal"),
+                                    Pair("Fat", "${recipe?.fat.toString()} g"),
+                                    Pair("Sugar", "${recipe?.sugar.toString()} g"),
+                                    Pair("Sodium", "${recipe?.sodium.toString()} g"),
+                                    Pair("Protein", "${recipe?.protein.toString()} g"),
+                                    Pair("Saturated fat", "${recipe?.saturatedFat.toString()} g"),
+                                    Pair("Carbohydrates", "${recipe?.carbohydrates.toString()} g")
+                                )
+                            },
+                            label1 = "Nutrition",
+                            label2 = "Value"
+                        )
                     }
                 }
             }
