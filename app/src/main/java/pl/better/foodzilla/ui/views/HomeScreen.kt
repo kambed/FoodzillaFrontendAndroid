@@ -88,8 +88,8 @@ fun HomeScreen(
                 fontWeight = FontWeight.SemiBold
             )
         }
-        viewModel.recipesWithImages.collectAsStateWithLifecycle(emptyList()).value.let {
-            if (it.isEmpty()) {
+        viewModel.uiState.collectAsStateWithLifecycle().value.recipes.let {
+            if (it == null || it.isEmpty()) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
@@ -99,7 +99,7 @@ fun HomeScreen(
             } else {
                 ListRecipesVertical2Columns(
                     navigator = navigator,
-                    recipes = viewModel.recipesWithImages.collectAsStateWithLifecycle(emptyList()).value
+                    recipes = it
                 )
             }
         }

@@ -9,8 +9,8 @@ class RecipeRepositoryImpl(private val recipeFlowClient: RecipeFlowClient) : Rec
         return recipeFlowClient.getRecommendedRecipes()
     }
 
-    override suspend fun getRecipeImage(recipeId: Long): Recipe? {
-        return recipeFlowClient.getRecipeImage(recipeId)
+    override suspend fun getRecommendationsWithImages(): List<Recipe>? {
+        return recipeFlowClient.getRecommendedRecipesWithImages()
     }
 
     override suspend fun getRecipeDetails(recipeId: Long): Recipe? {

@@ -5,7 +5,7 @@ import pl.better.foodzilla.data.models.RecipeReview
 
 interface RecipeRepository {
     suspend fun getRecommendations(): List<Recipe>?
-    suspend fun getRecipeImage(recipeId: Long): Recipe?
+    suspend fun getRecommendationsWithImages(): List<Recipe>?
     suspend fun getRecipeDetails(recipeId: Long): Recipe?
     suspend fun createReview(recipeId: Long, review: String, rating: Int): RecipeReview?
 }
