@@ -1,10 +1,7 @@
 package pl.better.foodzilla.data.api.recipe
 
 import com.apollographql.apollo3.ApolloClient
-import pl.better.foodzilla.CreateReviewMutation
-import pl.better.foodzilla.RecommendationsQuery
-import pl.better.foodzilla.RecipeImageQuery
-import pl.better.foodzilla.RecipeDetailsQuery
+import pl.better.foodzilla.*
 import pl.better.foodzilla.data.mappers.login.toRecipe
 import pl.better.foodzilla.data.mappers.login.toReview
 import pl.better.foodzilla.data.models.Recipe
@@ -29,17 +26,17 @@ class RecipeFlowClient @Inject constructor(
             ?.map { it!!.toRecipe() }
     }
 
-    suspend fun getRecipeImage(recipeId: Long): Recipe? {
+    suspend fun getRecommendedRecipesWithImages(): List<Recipe>? {
         val response = apolloClient
-            .query(RecipeImageQuery(recipeId.toString()))
+            .query(RecommendationsWithImagesQuery())
             .execute()
-        if (response.data?.recipe == null && response.errors != null) {
+        if (response.data?.recommendations == null && response.errors != null) {
             throw GraphQLErrorResponseException(response.errors!!.stream().map { it.message }.toList())
         }
         return response
             .data
-            ?.recipe
-            ?.toRecipe()
+            ?.recommendations
+            ?.map { it!!.toRecipe() }
     }
 
     suspend fun getRecipeDetails(recipeId: Long): Recipe? {

@@ -1,9 +1,6 @@
 package pl.better.foodzilla.data.mappers.login
 
-import pl.better.foodzilla.CreateReviewMutation
-import pl.better.foodzilla.RecipeDetailsQuery
-import pl.better.foodzilla.RecipeImageQuery
-import pl.better.foodzilla.RecommendationsQuery
+import pl.better.foodzilla.*
 import pl.better.foodzilla.data.models.Recipe
 import pl.better.foodzilla.data.models.RecipeReview
 
@@ -15,10 +12,11 @@ fun RecommendationsQuery.Recommendation.toRecipe(): Recipe {
     )
 }
 
-fun RecipeImageQuery.Recipe.toRecipe(): Recipe {
+fun RecommendationsWithImagesQuery.Recommendation.toRecipe(): Recipe {
     return Recipe(
         id = id!!.toLong(),
         name = name,
+        preparationTime = timeOfPreparation!!,
         imageBase64 = image
     )
 }

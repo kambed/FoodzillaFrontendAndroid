@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Parcelable
 import android.util.Base64
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -11,6 +12,7 @@ data class Recipe(
     val id: Long,
     val name: String,
     val description: String? = null,
+    @IgnoredOnParcel
     var imageBase64: String? = null,
     val steps: List<String?>? = null,
     val rating: Float? = null,

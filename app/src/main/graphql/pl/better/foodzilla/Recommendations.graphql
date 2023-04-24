@@ -5,3 +5,12 @@ query Recommendations {
         timeOfPreparation
     }
 }
+
+query RecommendationsWithImages {
+    recommendations {
+        id
+        name
+        timeOfPreparation
+        image
+    }
+}
