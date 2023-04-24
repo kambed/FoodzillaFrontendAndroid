@@ -9,6 +9,7 @@ import pl.better.foodzilla.data.models.login.Customer
 import pl.better.foodzilla.data.models.login.Login
 import pl.better.foodzilla.utils.exception.GraphQLErrorResponseException
 import javax.inject.Inject
+import javax.inject.Named
 import kotlin.streams.toList
 
 class LoginFlowClient @Inject constructor(

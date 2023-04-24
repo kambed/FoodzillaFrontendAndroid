@@ -32,7 +32,6 @@ fun ListRecipesVertical2Columns(
             ) {
                 ImageRecipe(
                     modifier = Modifier
-                        .fillMaxWidth(0.8f)
                         .height(180.dp)
                         .clip(RoundedCornerShape(30.dp)),
                     recipe = it,

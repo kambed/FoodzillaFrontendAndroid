@@ -4,8 +4,8 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class RecipeReview(
+data class RecipeTag(
     val id: Long,
-    val review: String?,
-    val rating: Int?
+    val name: String,
 ) : Parcelable
+
