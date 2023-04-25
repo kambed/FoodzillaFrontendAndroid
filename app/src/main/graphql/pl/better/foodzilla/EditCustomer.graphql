@@ -1,0 +1,19 @@
+mutation EditCustomer(
+    $firstname: String!,
+    $lastname: String!
+    $username: String!
+    $password: String!
+) {
+    editCustomer(
+        customer: {
+            firstname: $firstname
+            lastname: $lastname
+            username: $username
+            password: $password
+        }
+    ) {
+        firstname
+        lastname
+        username
+    }
+}

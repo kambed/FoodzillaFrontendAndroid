@@ -3,13 +3,13 @@ package pl.better.foodzilla.data.api.login
 import com.apollographql.apollo3.ApolloClient
 import pl.better.foodzilla.LoginMutation
 import pl.better.foodzilla.RegisterMutation
+import pl.better.foodzilla.EditCustomerMutation
 import pl.better.foodzilla.data.mappers.login.toCustomer
 import pl.better.foodzilla.data.mappers.login.toLogin
 import pl.better.foodzilla.data.models.login.Customer
 import pl.better.foodzilla.data.models.login.Login
 import pl.better.foodzilla.utils.exception.GraphQLErrorResponseException
 import javax.inject.Inject
-import javax.inject.Named
 import kotlin.streams.toList
 
 class LoginFlowClient @Inject constructor(
@@ -39,6 +39,19 @@ class LoginFlowClient @Inject constructor(
         return response
             .data
             ?.createCustomer
+            ?.toCustomer()
+    }
+
+    suspend fun editCustomer(firstname: String, lastname: String, username: String, password: String): Customer? {
+        val response = apolloClient
+            .mutation(EditCustomerMutation(firstname, lastname, username, password))
+            .execute()
+        if (response.data?.editCustomer == null && response.errors != null) {
+            throw GraphQLErrorResponseException(response.errors!!.stream().map { it.message }.toList())
+        }
+        return response
+            .data
+            ?.editCustomer
             ?.toCustomer()
     }
 }
