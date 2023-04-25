@@ -64,4 +64,18 @@ class RecipeFlowClient @Inject constructor(
             ?.createReview
             ?.toReview()
     }
+
+    suspend fun searchRecipes(phrase: String, page: Int, pageSize: Int): List<Recipe>? {
+        val response = apolloClient
+            .query(SearchRecipesQuery(phrase, page, pageSize))
+            .execute()
+        if (response.data?.search == null && response.errors != null) {
+            throw GraphQLErrorResponseException(response.errors!!.stream().map { it.message }.toList())
+        }
+        return response
+            .data
+            ?.search
+            ?.recipes
+            ?.map { it!!.toRecipe() }
+    }
 }

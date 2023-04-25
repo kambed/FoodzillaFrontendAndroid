@@ -1,0 +1,16 @@
+query SearchRecipes($phrase: String!, $currentPage: Int!, $pageSize: Int!) {
+    search (input: {
+        phrase: $phrase
+        currentPage: $currentPage
+        pageSize: $pageSize
+    }) {
+        currentPage
+        numberOfPages
+        recipes {
+            id
+            name
+            timeOfPreparation
+            image
+        }
+    }
+}

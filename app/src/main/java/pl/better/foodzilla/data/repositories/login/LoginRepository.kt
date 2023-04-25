@@ -8,10 +8,18 @@ interface LoginRepository {
         login: String,
         password: String
     ): Login?
+
     suspend fun register(
         firstname: String,
         lastname: String,
         login: String,
+        password: String
+    ): Customer?
+
+    suspend fun editCustomer(
+        firstname: String,
+        lastname: String,
+        username: String,
         password: String
     ): Customer?
 }

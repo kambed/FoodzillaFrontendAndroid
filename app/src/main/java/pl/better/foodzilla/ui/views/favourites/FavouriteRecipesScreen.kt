@@ -80,7 +80,8 @@ fun FavouriteRecipesScreen(
             label = "Search favourite recipes",
             icon = Icons.Default.SwapHoriz,
             textColor = MaterialTheme.colors.onBackground,
-            onTextChanged = { /*TODO*/ }
+            onTextChanged = { /*TODO*/ },
+            onSearch = { /*TODO*/ }
         )
         Row(
             modifier = Modifier

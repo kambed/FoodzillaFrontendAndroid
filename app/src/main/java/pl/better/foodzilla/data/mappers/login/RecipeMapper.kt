@@ -75,3 +75,12 @@ fun RecipeDetailsQuery.Tag.toTag(): pl.better.foodzilla.data.models.RecipeTag {
     )
 }
 
+fun SearchRecipesQuery.Recipe.toRecipe(): Recipe {
+    return Recipe(
+        id = id!!.toLong(),
+        name = name,
+        preparationTime = timeOfPreparation,
+        imageBase64 = image,
+    )
+}
+
