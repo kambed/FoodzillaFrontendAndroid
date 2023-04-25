@@ -1,5 +1,6 @@
 package pl.better.foodzilla.data.mappers.login
 
+import pl.better.foodzilla.EditCustomerMutation
 import pl.better.foodzilla.LoginMutation
 import pl.better.foodzilla.RegisterMutation
 import pl.better.foodzilla.data.models.login.Customer
@@ -21,6 +22,14 @@ fun LoginMutation.Customer.toCustomer(): Customer {
 }
 
 fun RegisterMutation.CreateCustomer.toCustomer(): Customer {
+    return Customer(
+        username = username,
+        firstname = firstname,
+        lastname = lastname
+    )
+}
+
+fun EditCustomerMutation.EditCustomer.toCustomer(): Customer {
     return Customer(
         username = username,
         firstname = firstname,
