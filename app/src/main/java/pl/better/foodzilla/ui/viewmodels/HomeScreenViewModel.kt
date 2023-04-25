@@ -6,7 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import pl.better.foodzilla.data.models.Recipe
@@ -24,6 +25,8 @@ class HomeScreenViewModel @Inject constructor(
 ) : ViewModel() {
     val uiState =
         savedStateHandle.getStateFlow<HomeScreenUIState>("uiState", HomeScreenUIState.Loading())
+    private val _search = MutableStateFlow("")
+    val search = _search.asStateFlow()
     private val exceptionHandler = CoroutineExceptionHandler { _, error ->
         var exceptionMessage = error.message
         if (error.message == null) {
@@ -43,6 +46,10 @@ class HomeScreenViewModel @Inject constructor(
             savedStateHandle["uiState"] = HomeScreenUIState.SuccessNoImages(recipeRepository.getRecommendations())
             savedStateHandle["uiState"] = HomeScreenUIState.Success(recipeRepository.getRecommendationsWithImages())
         }
+    }
+
+    fun changeSearch(search: String) {
+        _search.value = search
     }
 
     @Parcelize

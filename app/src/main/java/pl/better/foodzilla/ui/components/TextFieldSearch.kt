@@ -1,5 +1,6 @@
 package pl.better.foodzilla.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.Icon
@@ -19,6 +20,7 @@ fun TextFieldSearch(
     icon: ImageVector,
     textColor: Color,
     onTextChanged: (String) -> Unit,
+    onSearch: (String) -> Unit,
 ) {
     TextField(
         modifier = modifier,
@@ -27,6 +29,9 @@ fun TextFieldSearch(
         label = { Text(label) },
         leadingIcon = {
             Icon(
+                modifier = Modifier.clickable {
+                    onSearch(value)
+                },
                 imageVector = Icons.Default.Search,
                 tint = Color.Black,
                 contentDescription = null
@@ -34,6 +39,9 @@ fun TextFieldSearch(
         },
         trailingIcon = {
             Icon(
+                modifier = Modifier.clickable {
+                    onSearch(value)
+                },
                 imageVector = icon,
                 tint = Color.Black,
                 contentDescription = null

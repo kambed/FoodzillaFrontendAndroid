@@ -28,6 +28,7 @@ import pl.better.foodzilla.ui.components.TopBarWithAvatar
 import pl.better.foodzilla.ui.navigation.BottomBarNavGraph
 import pl.better.foodzilla.ui.viewmodels.HomeScreenViewModel
 import pl.better.foodzilla.ui.views.destinations.LoginScreenDestination
+import pl.better.foodzilla.ui.views.destinations.RecipesListPagedScreenDestination
 
 @BottomBarNavGraph(start = true)
 @Destination
@@ -69,11 +70,15 @@ fun HomeScreen(
                         vertical = 11.dp
                     )
                     .shadow(2.dp),
-                value = "",
+                value = viewModel.search.collectAsStateWithLifecycle().value,
                 label = "Search recipes",
                 icon = Icons.Default.SwapHoriz,
                 textColor = MaterialTheme.colors.onBackground,
-                onTextChanged = { /*TODO*/ }
+                onTextChanged = viewModel::changeSearch,
+                onSearch = {
+                    navigator.navigate(RecipesListPagedScreenDestination(viewModel.search.value))
+                    viewModel.changeSearch("")
+                }
             )
         }
         Row(
