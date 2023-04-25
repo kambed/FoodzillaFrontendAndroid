@@ -74,7 +74,7 @@ fun ListRecipesVertical2ColumnsWithPaging(
                         )
                     }
                 }
-                for (i in 0..1) {
+                repeat(2) {
                     item {
                         if (recipes.loadState.append is LoadState.Loading) {
                             Box(

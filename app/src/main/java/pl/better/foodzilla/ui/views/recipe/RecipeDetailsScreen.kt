@@ -1,6 +1,7 @@
 package pl.better.foodzilla.ui.views.recipe
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -8,10 +9,7 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
@@ -43,6 +41,7 @@ import pl.better.foodzilla.ui.viewmodels.recipe.RecipeDetailsScreenViewModel
 import pl.better.foodzilla.ui.views.destinations.ReviewsDetailsScreenDestination
 import java.text.DecimalFormat
 
+@OptIn(ExperimentalMaterialApi::class, ExperimentalLayoutApi::class)
 @Composable
 @BottomBarNavGraph
 @Destination
@@ -134,19 +133,22 @@ fun RecipeDetailsScreen(
                         )
                     }
                 }
-                items(viewModel.uiState.value.recipe!!.tags!!.map { it.name }) {
-                    Card(
-                        modifier = Modifier
-                            .padding(4.dp)
-                            .clip(RoundedCornerShape(12.dp)),
-                        backgroundColor = Color(224, 224, 224)
+                item(span = { GridItemSpan(3) }) {
+                    FlowRow(
+                        horizontalArrangement = Arrangement.spacedBy(15.dp),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Text(
-                            modifier = Modifier.padding(vertical = 4.dp),
-                            text = it,
-                            fontSize = 16.sp,
-                            textAlign = TextAlign.Center
-                        )
+                        viewModel.uiState.collectAsStateWithLifecycle().value.recipe?.tags?.forEach { tag ->
+                            Chip(
+                                colors = ChipDefaults.chipColors(
+                                    backgroundColor = Color(224, 224, 224),
+                                    contentColor = Color.Black
+                                ),
+                                onClick = {},
+                            ) {
+                                Text(text = tag.name)
+                            }
+                        }
                     }
                 }
                 item(span = { GridItemSpan(3) }) {
