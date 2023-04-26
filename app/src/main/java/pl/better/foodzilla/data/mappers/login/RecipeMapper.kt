@@ -75,6 +75,13 @@ fun RecipeDetailsQuery.Tag.toTag(): pl.better.foodzilla.data.models.RecipeTag {
     )
 }
 
+fun TagsQuery.Tag.toTag(): pl.better.foodzilla.data.models.RecipeTag {
+    return pl.better.foodzilla.data.models.RecipeTag(
+        id = id!!.toLong(),
+        name = name
+    )
+}
+
 fun SearchRecipesQuery.Recipe.toRecipe(): Recipe {
     return Recipe(
         id = id!!.toLong(),

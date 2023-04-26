@@ -10,6 +10,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusState
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 
@@ -18,13 +20,14 @@ fun TextFieldSearch(
     modifier: Modifier = Modifier,
     value: String,
     label: String,
-    icon: ImageVector,
+    icon: ImageVector?,
     textColor: Color,
     onTextChanged: (String) -> Unit,
     onSearch: (String) -> Unit,
+    onFocusChanged: (FocusState) -> Unit = {}
 ) {
     TextField(
-        modifier = modifier,
+        modifier = modifier.onFocusChanged { onFocusChanged(it) },
         value = value,
         onValueChange = onTextChanged,
         label = { Text(label) },
@@ -39,14 +42,16 @@ fun TextFieldSearch(
             )
         },
         trailingIcon = {
-            Icon(
-                modifier = Modifier.clickable {
-                    onSearch(value)
-                },
-                imageVector = icon,
-                tint = Color.Black,
-                contentDescription = null
-            )
+            if (icon != null) {
+                Icon(
+                    modifier = Modifier.clickable {
+                        onSearch(value)
+                    },
+                    imageVector = icon,
+                    tint = Color.Black,
+                    contentDescription = null
+                )
+            }
         },
         singleLine = true,
         colors = TextFieldDefaults.textFieldColors(
