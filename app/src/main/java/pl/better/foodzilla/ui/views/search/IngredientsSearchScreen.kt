@@ -42,17 +42,18 @@ fun IngredientsSearchScreen(
         ListAdderWithSuggestions(
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(bottom = 10.dp)
                 .padding(horizontal = 15.dp),
             label = "Add ingredients",
-            possibleItems = viewModel.possibleIngredientsFiltered.collectAsStateWithLifecycle().value,
-            onChangeAddingSearchItem = viewModel::changeAddingSearchIngredient,
-            addingItemSearch = viewModel.addingIngredientSearch.collectAsStateWithLifecycle().value,
+            possibleItems = viewModel.possibleItemsFiltered.collectAsStateWithLifecycle().value,
+            onChangeAddingSearchItem = viewModel::changeAddingSearchItem,
+            addingItemSearch = viewModel.addingItemSearch.collectAsStateWithLifecycle().value,
             onChangeSearchState = viewModel::changeSearchState,
             searchState = viewModel.searchState.collectAsStateWithLifecycle().value,
-            onChangeChosenItem = viewModel::changeChosenIngredient,
-            addItem = viewModel::addIngredient
+            onChangeChosenItem = viewModel::changeChosenItem,
+            addItem = viewModel::addItem
         )
-        if (viewModel.chosenIngredients.collectAsStateWithLifecycle().value.isNotEmpty()) {
+        if (viewModel.chosenItems.collectAsStateWithLifecycle().value.isNotEmpty()) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
@@ -65,7 +66,7 @@ fun IngredientsSearchScreen(
                     )
                 )
             ) {
-                items(viewModel.chosenIngredients.value) { item ->
+                items(viewModel.chosenItems.value) { item ->
                     LabelWithDelete(
                         modifier = Modifier
                             .fillMaxWidth(0.5f)
@@ -79,7 +80,7 @@ fun IngredientsSearchScreen(
                             .background(MaterialTheme.colors.primary),
                         label = item.name,
                         item = item,
-                        removeTag = viewModel::removeIngredient
+                        removeTag = viewModel::removeItem
                     )
                 }
             }

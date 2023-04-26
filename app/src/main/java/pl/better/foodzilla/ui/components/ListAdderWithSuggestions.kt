@@ -14,6 +14,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.unit.sp
 import pl.better.foodzilla.data.models.RecipeItem
 import pl.better.foodzilla.utils.SizeNormalizer
 
@@ -35,7 +36,7 @@ fun <T:RecipeItem>ListAdderWithSuggestions(
         modifier = modifier
             .height(
                 SizeNormalizer.normalize(
-                    if (searchState) 180.dp else 90.dp,
+                    if (searchState) 190.dp else 90.dp,
                     screenHeight
                 )
             ),
@@ -56,7 +57,8 @@ fun <T:RecipeItem>ListAdderWithSuggestions(
             )
             AnimatedVisibility(visible = searchState) {
                 LazyColumn(
-                    horizontalAlignment = Alignment.Start
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.spacedBy(SizeNormalizer.normalize(8.dp, screenHeight))
                 ) {
                     items(possibleItems) { item ->
                         Box(modifier = Modifier.clickable {
@@ -64,7 +66,7 @@ fun <T:RecipeItem>ListAdderWithSuggestions(
                             onChangeChosenItem(item)
                             focusManager.clearFocus()
                         }) {
-                            Text(text = item.name)
+                            Text(text = item.name, fontSize = 16.sp)
                         }
                     }
                 }

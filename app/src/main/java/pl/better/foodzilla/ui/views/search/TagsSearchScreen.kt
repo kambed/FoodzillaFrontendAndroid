@@ -40,17 +40,18 @@ fun TagsSearchScreen(
         ListAdderWithSuggestions(
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(bottom = 10.dp)
                 .padding(horizontal = 15.dp),
             label = "Add tags",
-            possibleItems = viewModel.possibleTagsFiltered.collectAsStateWithLifecycle().value,
-            onChangeAddingSearchItem = viewModel::changeAddingSearchTag,
-            addingItemSearch = viewModel.addingTagSearch.collectAsStateWithLifecycle().value,
+            possibleItems = viewModel.possibleItemsFiltered.collectAsStateWithLifecycle().value,
+            onChangeAddingSearchItem = viewModel::changeAddingSearchItem,
+            addingItemSearch = viewModel.addingItemSearch.collectAsStateWithLifecycle().value,
             onChangeSearchState = viewModel::changeSearchState,
             searchState = viewModel.searchState.collectAsStateWithLifecycle().value,
-            onChangeChosenItem = viewModel::changeChosenTag,
-            addItem = viewModel::addTag
+            onChangeChosenItem = viewModel::changeChosenItem,
+            addItem = viewModel::addItem
         )
-        if (viewModel.chosenTags.collectAsStateWithLifecycle().value.isNotEmpty()) {
+        if (viewModel.chosenItems.collectAsStateWithLifecycle().value.isNotEmpty()) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
@@ -63,7 +64,7 @@ fun TagsSearchScreen(
                     )
                 )
             ) {
-                items(viewModel.chosenTags.value) { tag ->
+                items(viewModel.chosenItems.value) { tag ->
                     LabelWithDelete(
                         modifier = Modifier
                             .fillMaxWidth(0.5f)
@@ -77,7 +78,7 @@ fun TagsSearchScreen(
                             .background(MaterialTheme.colors.primary),
                         label = tag.name,
                         item = tag,
-                        removeTag = viewModel::removeTag
+                        removeTag = viewModel::removeItem
                     )
                 }
             }
