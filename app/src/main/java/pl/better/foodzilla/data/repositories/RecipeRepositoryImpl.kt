@@ -7,7 +7,9 @@ import kotlinx.coroutines.flow.Flow
 import pl.better.foodzilla.data.api.recipe.RecipeFlowClient
 import pl.better.foodzilla.data.api.recipe.RecipePagingSource
 import pl.better.foodzilla.data.models.Recipe
+import pl.better.foodzilla.data.models.RecipeIngredient
 import pl.better.foodzilla.data.models.RecipeReview
+import pl.better.foodzilla.data.models.RecipeTag
 
 class RecipeRepositoryImpl(private val recipeFlowClient: RecipeFlowClient) : RecipeRepository {
     override suspend fun getRecommendations(): List<Recipe>? {
@@ -22,10 +24,6 @@ class RecipeRepositoryImpl(private val recipeFlowClient: RecipeFlowClient) : Rec
         return recipeFlowClient.getRecipeDetails(recipeId)
     }
 
-    override suspend fun createReview(recipeId: Long, review: String, rating: Int): RecipeReview? {
-        return recipeFlowClient.createReview(recipeId, review, rating)
-    }
-
     override fun searchRecipes(phrase: String): Flow<PagingData<Recipe>> {
         return Pager(
             config = PagingConfig(pageSize = 6, prefetchDistance = 12, initialLoadSize = 6),
@@ -33,5 +31,17 @@ class RecipeRepositoryImpl(private val recipeFlowClient: RecipeFlowClient) : Rec
                 RecipePagingSource(recipeFlowClient, phrase)
             }
         ).flow
+    }
+
+    override suspend fun createReview(recipeId: Long, review: String, rating: Int): RecipeReview? {
+        return recipeFlowClient.createReview(recipeId, review, rating)
+    }
+
+    override suspend fun getTags(): List<RecipeTag>? {
+        return recipeFlowClient.getTags()
+    }
+
+    override suspend fun getIngredients(): List<RecipeIngredient>? {
+        return recipeFlowClient.getIngredients()
     }
 }

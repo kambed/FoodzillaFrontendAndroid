@@ -93,8 +93,6 @@ type Query {
 
   recommendations: [Recipe]!
 
-  forceChangeRecommendations: Boolean!
-
   search(input: SearchInput! = {
 
   }
@@ -139,6 +137,8 @@ type Recipe {
   ingredients: [Ingredient]
 
   tags: [Tag]
+
+  rating: Float
 }
 
 input RecipeInput {
@@ -196,7 +196,7 @@ input SearchInput {
 
   currentPage: Int = 1
 
-  pageSize: Int = 5
+  pageSize: Int = 6
 
   sort: [RecipeSort] = [{
     attribute: "name"

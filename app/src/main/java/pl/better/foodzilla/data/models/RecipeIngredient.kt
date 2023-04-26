@@ -1,10 +1,9 @@
 package pl.better.foodzilla.data.models
 
-import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class RecipeIngredient(
-    val id: Long,
-    val name: String,
-) : Parcelable
+    override val id: Long,
+    override val name: String,
+) : RecipeItem(id, name)

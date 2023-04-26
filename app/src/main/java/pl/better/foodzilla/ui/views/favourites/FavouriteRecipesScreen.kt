@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import pl.better.foodzilla.data.models.*
-import pl.better.foodzilla.data.models.login.Login
 import pl.better.foodzilla.ui.components.ListRecipesHorizontal
 import pl.better.foodzilla.ui.components.TextFieldSearch
 import pl.better.foodzilla.ui.views.destinations.RecipesListScreenDestination
@@ -26,7 +25,6 @@ import pl.better.foodzilla.ui.views.destinations.RecipesListScreenDestination
 @Composable
 fun FavouriteRecipesScreen(
     navigator: DestinationsNavigator,
-    user: Login?
 ) {
     //TODO: MOCK REMOVE WHEN DATA FROM API RETRIVED
     val imgBitmap = remember {
