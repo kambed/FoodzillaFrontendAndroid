@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import pl.better.foodzilla.data.models.login.Login
 import pl.better.foodzilla.ui.components.TabLayout
 import pl.better.foodzilla.ui.components.TopBarWithAvatar
 import pl.better.foodzilla.ui.navigation.BottomBarNavGraph
