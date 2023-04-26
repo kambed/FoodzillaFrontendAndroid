@@ -68,6 +68,13 @@ fun RecipeDetailsQuery.Ingredient.toIngredient(): pl.better.foodzilla.data.model
     )
 }
 
+fun IngredientsQuery.Ingredient.toIngredient(): pl.better.foodzilla.data.models.RecipeIngredient {
+    return pl.better.foodzilla.data.models.RecipeIngredient(
+        id = id!!.toLong(),
+        name = name
+    )
+}
+
 fun RecipeDetailsQuery.Tag.toTag(): pl.better.foodzilla.data.models.RecipeTag {
     return pl.better.foodzilla.data.models.RecipeTag(
         id = id!!.toLong(),

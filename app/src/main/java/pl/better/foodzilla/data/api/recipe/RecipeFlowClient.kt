@@ -2,10 +2,12 @@ package pl.better.foodzilla.data.api.recipe
 
 import com.apollographql.apollo3.ApolloClient
 import pl.better.foodzilla.*
+import pl.better.foodzilla.data.mappers.login.toIngredient
 import pl.better.foodzilla.data.mappers.login.toRecipe
 import pl.better.foodzilla.data.mappers.login.toReview
 import pl.better.foodzilla.data.mappers.login.toTag
 import pl.better.foodzilla.data.models.Recipe
+import pl.better.foodzilla.data.models.RecipeIngredient
 import pl.better.foodzilla.data.models.RecipeReview
 import pl.better.foodzilla.data.models.RecipeTag
 import pl.better.foodzilla.utils.exception.GraphQLErrorResponseException
@@ -92,5 +94,18 @@ class RecipeFlowClient @Inject constructor(
             .data
             ?.tags
             ?.map { it!!.toTag() }
+    }
+
+    suspend fun getIngredients(): List<RecipeIngredient>? {
+        val response = apolloClient
+            .query(IngredientsQuery())
+            .execute()
+        if (response.data?.ingredients == null && response.errors != null) {
+            throw GraphQLErrorResponseException(response.errors!!.stream().map { it.message }.toList())
+        }
+        return response
+            .data
+            ?.ingredients
+            ?.map { it!!.toIngredient() }
     }
 }

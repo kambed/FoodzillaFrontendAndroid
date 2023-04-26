@@ -63,10 +63,10 @@ fun MainNavigationScreen(
                         HomeScreen(destinationsNavigator, user, navigator)
                     }
                     composable(SearchScreenDestination) {
-                        SearchScreen(destinationsNavigator, user)
+                        SearchScreen(destinationsNavigator)
                     }
                     composable(FavoritesScreenDestination) {
-                        FavoritesScreen(destinationsNavigator, user)
+                        FavoritesScreen(destinationsNavigator)
                     }
                     composable(DashboardScreenDestination) {
                         DashboardScreen(destinationsNavigator, user, navigator)

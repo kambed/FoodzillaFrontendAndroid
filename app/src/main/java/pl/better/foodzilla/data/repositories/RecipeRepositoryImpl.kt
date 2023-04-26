@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import pl.better.foodzilla.data.api.recipe.RecipeFlowClient
 import pl.better.foodzilla.data.api.recipe.RecipePagingSource
 import pl.better.foodzilla.data.models.Recipe
+import pl.better.foodzilla.data.models.RecipeIngredient
 import pl.better.foodzilla.data.models.RecipeReview
 import pl.better.foodzilla.data.models.RecipeTag
 
@@ -38,5 +39,9 @@ class RecipeRepositoryImpl(private val recipeFlowClient: RecipeFlowClient) : Rec
 
     override suspend fun getTags(): List<RecipeTag>? {
         return recipeFlowClient.getTags()
+    }
+
+    override suspend fun getIngredients(): List<RecipeIngredient>? {
+        return recipeFlowClient.getIngredients()
     }
 }

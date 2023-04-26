@@ -26,7 +26,6 @@ import pl.better.foodzilla.ui.views.destinations.RecipesListScreenDestination
 @Composable
 fun FavouriteRecipesScreen(
     navigator: DestinationsNavigator,
-    user: Login?
 ) {
     //TODO: MOCK REMOVE WHEN DATA FROM API RETRIVED
     val imgBitmap = remember {
