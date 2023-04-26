@@ -15,6 +15,7 @@ query RecipeDetails($id: ID!) {
         protein
         saturatedFat
         carbohydrates
+        rating
         reviews {
             id
             review

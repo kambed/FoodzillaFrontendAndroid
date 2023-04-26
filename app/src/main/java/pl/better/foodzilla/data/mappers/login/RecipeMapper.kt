@@ -28,7 +28,7 @@ fun RecipeDetailsQuery.Recipe.toRecipe(): Recipe {
         description = description,
         imageBase64 = image,
         steps = steps,
-        rating = reviews!!.map { it!!.rating }.toList().average().let { if (it.isNaN()) 0.0 else it }.toFloat(),
+        rating = if (rating!! != 0.0) rating.toFloat() else reviews!!.map { it!!.rating }.toList().average().let { if (it.isNaN()) 0.0 else it }.toFloat(),
         preparationTime = timeOfPreparation,
         numberOfSteps = numberOfSteps,
         numberOfIngredients = numberOfIngredients,
@@ -39,7 +39,7 @@ fun RecipeDetailsQuery.Recipe.toRecipe(): Recipe {
         protein = protein,
         saturatedFat = saturatedFat,
         carbohydrates = carbohydrates,
-        reviews = reviews.map { it!!.toReview() },
+        reviews = reviews!!.map { it!!.toReview() },
         ingredients = ingredients!!.map { it!!.toIngredient() },
         tags = tags!!.map { it!!.toTag() }
     )
