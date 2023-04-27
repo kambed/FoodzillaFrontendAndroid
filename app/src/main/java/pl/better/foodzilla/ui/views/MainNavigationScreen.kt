@@ -13,6 +13,7 @@ import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.manualcomposablecalls.composable
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.scope.resultRecipient
 import pl.better.foodzilla.data.models.login.Login
 import pl.better.foodzilla.ui.navigation.BottomBarDestinations
 import pl.better.foodzilla.ui.views.destinations.*
@@ -63,7 +64,11 @@ fun MainNavigationScreen(
                         HomeScreen(destinationsNavigator, user, navigator)
                     }
                     composable(SearchScreenDestination) {
-                        SearchScreen(destinationsNavigator)
+                        SearchScreen(
+                            destinationsNavigator,
+                            resultTagsRecipient = resultRecipient(),
+                            resultIngredientsRecipient = resultRecipient()
+                        )
                     }
                     composable(FavoritesScreenDestination) {
                         FavoritesScreen(destinationsNavigator)

@@ -1,8 +1,10 @@
-query SearchRecipes($phrase: String!, $currentPage: Int!, $pageSize: Int!) {
+query SearchRecipes($phrase: String!, $currentPage: Int!, $pageSize: Int!, $filters: [FilterType]!, $sort: [RecipeSort]!) {
     search (input: {
         phrase: $phrase
         currentPage: $currentPage
         pageSize: $pageSize
+        sort: $sort
+        filters: $filters
     }) {
         currentPage
         numberOfPages

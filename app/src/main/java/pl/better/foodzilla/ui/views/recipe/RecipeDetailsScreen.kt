@@ -144,7 +144,7 @@ fun RecipeDetailsScreen(
                         fontSize = 18.sp,
                     )
                     viewModel.uiState.collectAsStateWithLifecycle().value.recipe!!.ingredients?.forEach {
-                        Text(text = "• $it")
+                        Text(text = "• ${it.name}")
                     }
                     Text(
                         modifier = Modifier.padding(top = 10.dp),

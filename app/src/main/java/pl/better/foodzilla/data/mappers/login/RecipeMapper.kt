@@ -3,6 +3,13 @@ package pl.better.foodzilla.data.mappers.login
 import pl.better.foodzilla.*
 import pl.better.foodzilla.data.models.Recipe
 import pl.better.foodzilla.data.models.RecipeReview
+import pl.better.foodzilla.data.models.search.SearchFilter
+import pl.better.foodzilla.type.FilterType
+import com.apollographql.apollo3.api.Optional
+import pl.better.foodzilla.data.models.search.SearchSort
+import pl.better.foodzilla.data.models.search.SearchSortDirection
+import pl.better.foodzilla.type.RecipeSort
+import pl.better.foodzilla.type.SortDirection
 
 fun RecommendationsQuery.Recommendation.toRecipe(): Recipe {
     return Recipe(
@@ -96,5 +103,30 @@ fun SearchRecipesQuery.Recipe.toRecipe(): Recipe {
         preparationTime = timeOfPreparation,
         imageBase64 = image,
     )
+}
+
+fun SearchFilter.toFilterType(): FilterType {
+    return FilterType(
+        attribute = attribute,
+        equals = Optional.presentIfNotNull(equals),
+        from = Optional.presentIfNotNull(from),
+        to = Optional.presentIfNotNull(to),
+        `in` = Optional.presentIfNotNull(`in`),
+        hasOnly = Optional.presentIfNotNull(hasOnly)
+    )
+}
+
+fun SearchSort.toRecipeSort(): RecipeSort {
+    return RecipeSort(
+        attribute = attribute,
+        direction = Optional.presentIfNotNull(direction.toSortDirection())
+    )
+}
+
+fun SearchSortDirection.toSortDirection(): SortDirection {
+    return when (this) {
+        SearchSortDirection.ASC -> SortDirection.ASC
+        SearchSortDirection.DESC -> SortDirection.DESC
+    }
 }
 

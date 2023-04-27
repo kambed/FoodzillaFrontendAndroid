@@ -41,6 +41,8 @@ input FilterType {
   to: Int
 
   in: [String]
+
+  hasOnly: [String]
 }
 
 """

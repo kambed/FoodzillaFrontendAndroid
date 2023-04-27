@@ -2,10 +2,11 @@ package pl.better.foodzilla.data.api.recipe
 
 import androidx.paging.*
 import pl.better.foodzilla.data.models.Recipe
+import pl.better.foodzilla.data.models.search.SearchRequest
 
 class RecipePagingSource(
     private val recipeFlowClient: RecipeFlowClient,
-    private val phrase: String
+    private val search: SearchRequest
 ) : PagingSource<Int, Recipe>() {
     override fun getRefreshKey(state: PagingState<Int, Recipe>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
@@ -17,7 +18,7 @@ class RecipePagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Recipe> {
         return try {
             val page = params.key ?: 1
-            val response = recipeFlowClient.searchRecipes(phrase, page, params.loadSize)
+            val response = recipeFlowClient.searchRecipes(search.phrase, page, params.loadSize, search.filters, search.sort)
 
             LoadResult.Page(
                 data = response!!,

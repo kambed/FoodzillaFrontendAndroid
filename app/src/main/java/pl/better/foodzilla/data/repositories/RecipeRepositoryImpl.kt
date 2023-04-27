@@ -10,6 +10,7 @@ import pl.better.foodzilla.data.models.Recipe
 import pl.better.foodzilla.data.models.RecipeIngredient
 import pl.better.foodzilla.data.models.RecipeReview
 import pl.better.foodzilla.data.models.RecipeTag
+import pl.better.foodzilla.data.models.search.SearchRequest
 
 class RecipeRepositoryImpl(private val recipeFlowClient: RecipeFlowClient) : RecipeRepository {
     override suspend fun getRecommendations(): List<Recipe>? {
@@ -24,11 +25,11 @@ class RecipeRepositoryImpl(private val recipeFlowClient: RecipeFlowClient) : Rec
         return recipeFlowClient.getRecipeDetails(recipeId)
     }
 
-    override fun searchRecipes(phrase: String): Flow<PagingData<Recipe>> {
+    override fun searchRecipes(search: SearchRequest): Flow<PagingData<Recipe>> {
         return Pager(
             config = PagingConfig(pageSize = 6, prefetchDistance = 12, initialLoadSize = 6),
             pagingSourceFactory = {
-                RecipePagingSource(recipeFlowClient, phrase)
+                RecipePagingSource(recipeFlowClient, search)
             }
         ).flow
     }
