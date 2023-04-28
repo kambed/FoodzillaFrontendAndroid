@@ -9,6 +9,8 @@ import pl.better.foodzilla.data.models.RecipeReview
 import pl.better.foodzilla.data.models.RecipeTag
 import pl.better.foodzilla.data.models.search.SearchFilter
 import pl.better.foodzilla.data.models.search.SearchSort
+import pl.better.foodzilla.data.models.search.SearchSortDirection
+import pl.better.foodzilla.type.RecipeSort
 import pl.better.foodzilla.utils.exception.GraphQLErrorResponseException
 import javax.inject.Inject
 import kotlin.streams.toList
@@ -65,6 +67,10 @@ class RecipeFlowClient @Inject constructor(
         sf: List<SearchFilter>,
         ss: List<SearchSort>
     ): List<Recipe>? {
+        val ssWithDefault = ss.toMutableList()
+        if (ss.isEmpty()) {
+            ssWithDefault.add(SearchSort("name", SearchSortDirection.ASC))
+        }
         val response = apolloClient
             .query(
                 SearchRecipesQuery(
@@ -72,7 +78,7 @@ class RecipeFlowClient @Inject constructor(
                     page,
                     pageSize,
                     sf.stream().map { sfItem -> sfItem.toFilterType() }.toList(),
-                    ss.stream().map { sfItem -> sfItem.toRecipeSort() }.toList(),
+                    ssWithDefault.stream().map { sfItem -> sfItem.toRecipeSort() }.toList(),
                 )
             )
             .execute()

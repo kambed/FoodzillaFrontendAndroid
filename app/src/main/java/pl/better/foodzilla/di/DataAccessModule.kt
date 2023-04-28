@@ -9,6 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import pl.better.foodzilla.BuildConfig
 import pl.better.foodzilla.data.api.recipe.RecipeFlowClient
 import pl.better.foodzilla.data.api.login.LoginFlowClient
 import pl.better.foodzilla.data.repositories.RecipeRepository
@@ -26,7 +27,7 @@ object DataAccessModule {
     @Singleton
     fun provideApolloClient(sharedPreferencesRepository: SharedPreferencesRepository): ApolloClient {
         return ApolloClient.Builder()
-            .serverUrl("http://10.0.2.2:8080/graphql")
+            .serverUrl(BuildConfig.BACKEND_URL)
             .okHttpClient(
                 OkHttpClient.Builder()
                     .connectTimeout(300, java.util.concurrent.TimeUnit.SECONDS)
