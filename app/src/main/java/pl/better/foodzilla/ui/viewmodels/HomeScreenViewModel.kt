@@ -6,8 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import pl.better.foodzilla.data.models.Recipe
@@ -27,6 +26,8 @@ class HomeScreenViewModel @Inject constructor(
         savedStateHandle.getStateFlow<HomeScreenUIState>("uiState", HomeScreenUIState.Loading())
     private val _search = MutableStateFlow("")
     val search = _search.asStateFlow()
+    private val _recipes = MutableSharedFlow<List<Recipe>>()
+    val recipes = _recipes.asSharedFlow()
     private val exceptionHandler = CoroutineExceptionHandler { _, error ->
         var exceptionMessage = error.message
         if (error.message == null) {
@@ -38,13 +39,9 @@ class HomeScreenViewModel @Inject constructor(
 
     fun getRecipes() {
         viewModelScope.launch(dispatchers.io + exceptionHandler) {
-            if (uiState.value is HomeScreenUIState.Success) return@launch
-            if (uiState.value is HomeScreenUIState.SuccessNoImages) {
-                savedStateHandle["uiState"] = HomeScreenUIState.Success(recipeRepository.getRecommendationsWithImages())
-                return@launch
+            recipeRepository.getRecommendedRecipesWithImagesAsync().collectLatest {
+                _recipes.emit(it)
             }
-            savedStateHandle["uiState"] = HomeScreenUIState.SuccessNoImages(recipeRepository.getRecommendations())
-            savedStateHandle["uiState"] = HomeScreenUIState.Success(recipeRepository.getRecommendationsWithImages())
         }
     }
 
@@ -55,12 +52,8 @@ class HomeScreenViewModel @Inject constructor(
     @Parcelize
     sealed class HomeScreenUIState(open val recipes: List<Recipe>?) : Parcelable {
         data class Success(override val recipes: List<Recipe>? = null) : HomeScreenUIState(recipes)
-        data class SuccessNoImages(override val recipes: List<Recipe>? = null) :
-            HomeScreenUIState(recipes)
-
-        data class Error(val message: String?, override val recipes: List<Recipe>? = null) :
-            HomeScreenUIState(recipes)
-
+        data class SuccessNoImages(override val recipes: List<Recipe>? = null) : HomeScreenUIState(recipes)
+        data class Error(val message: String?, override val recipes: List<Recipe>? = null) : HomeScreenUIState(recipes)
         data class Loading(override val recipes: List<Recipe>? = null) : HomeScreenUIState(recipes)
     }
 }

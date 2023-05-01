@@ -28,6 +28,15 @@ fun RecommendationsWithImagesQuery.Recommendation.toRecipe(): Recipe {
     )
 }
 
+fun RecommendationsSubscription.RecommendationsSubscription.toRecipe(): Recipe {
+    return Recipe(
+        id = id!!.toLong(),
+        name = name,
+        preparationTime = timeOfPreparation!!,
+        imageBase64 = image
+    )
+}
+
 fun RecipeDetailsQuery.Recipe.toRecipe(): Recipe {
     return Recipe(
         id = id!!.toLong(),

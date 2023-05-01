@@ -21,6 +21,10 @@ class RecipeRepositoryImpl(private val recipeFlowClient: RecipeFlowClient) : Rec
         return recipeFlowClient.getRecommendedRecipesWithImages()
     }
 
+    override fun getRecommendedRecipesWithImagesAsync(): Flow<List<Recipe>> {
+        return recipeFlowClient.getRecommendedRecipesWithImagesAsync()
+    }
+
     override suspend fun getRecipeDetails(recipeId: Long): Recipe? {
         return recipeFlowClient.getRecipeDetails(recipeId)
     }

@@ -9,6 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -94,8 +95,8 @@ fun HomeScreen(
                 fontWeight = FontWeight.SemiBold
             )
         }
-        viewModel.uiState.collectAsStateWithLifecycle().value.recipes.let {
-            if (it == null || it.isEmpty()) {
+        viewModel.recipes.collectAsState(initial = emptyList()).value.let {
+            if (it.isEmpty()) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center

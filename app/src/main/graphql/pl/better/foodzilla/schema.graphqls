@@ -93,7 +93,7 @@ type Query {
 
   recipe(id: ID!): Recipe
 
-  recommendations: [Recipe]!
+  recommendations: [RecipeSummarization]!
 
   search(input: SearchInput! = {
 
@@ -177,6 +177,16 @@ input RecipeSort {
   direction: SortDirection! = ASC
 }
 
+type RecipeSummarization {
+  id: ID
+
+  name: String!
+
+  timeOfPreparation: Int
+
+  image: String
+}
+
 type Review {
   id: ID
 
@@ -215,7 +225,7 @@ type SearchResult {
 
   opinion: String
 
-  recipes: [Recipe]!
+  recipes: [RecipeSummarization]!
 }
 
 enum SortDirection {
@@ -228,6 +238,10 @@ enum SortDirection {
 Built-in String
 """
 scalar String
+
+type Subscription {
+  recommendationsSubscription: [RecipeSummarization]!
+}
 
 type Tag {
   id: ID
@@ -526,4 +540,5 @@ directive @specifiedBy ("The URL that specifies the behaviour of this scalar." u
 schema {
   query: Query
   mutation: Mutation
+  subscription: Subscription
 }

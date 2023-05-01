@@ -14,3 +14,12 @@ query RecommendationsWithImages {
         image
     }
 }
+
+subscription RecommendationsSubscription {
+    recommendationsSubscription {
+        id
+        name
+        timeOfPreparation
+        image
+    }
+}

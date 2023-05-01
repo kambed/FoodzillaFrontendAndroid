@@ -1,6 +1,10 @@
 package pl.better.foodzilla.data.api.recipe
 
 import com.apollographql.apollo3.ApolloClient
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import pl.better.foodzilla.*
 import pl.better.foodzilla.data.mappers.login.*
 import pl.better.foodzilla.data.models.Recipe
@@ -44,6 +48,14 @@ class RecipeFlowClient @Inject constructor(
             .data
             ?.recommendations
             ?.map { it!!.toRecipe() }
+    }
+
+    fun getRecommendedRecipesWithImagesAsync(): Flow<List<Recipe>> {
+        return apolloClient
+            .subscription(RecommendationsSubscription())
+            .toFlow()
+            .map { it.data?.recommendationsSubscription }
+            .map { list -> list!!.map { it!!.toRecipe() } }
     }
 
     suspend fun getRecipeDetails(recipeId: Long): Recipe? {

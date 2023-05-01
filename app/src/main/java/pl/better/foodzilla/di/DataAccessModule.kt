@@ -27,7 +27,8 @@ object DataAccessModule {
     @Singleton
     fun provideApolloClient(sharedPreferencesRepository: SharedPreferencesRepository): ApolloClient {
         return ApolloClient.Builder()
-            .serverUrl(BuildConfig.BACKEND_URL)
+            .serverUrl("http://192.168.1.30:8080/graphql")
+            .webSocketServerUrl("ws://192.168.1.30:8080/graphql")
             .okHttpClient(
                 OkHttpClient.Builder()
                     .connectTimeout(300, java.util.concurrent.TimeUnit.SECONDS)
