@@ -48,7 +48,8 @@ fun RecipeDetailsQuery.Recipe.toRecipe(): Recipe {
         carbohydrates = carbohydrates,
         reviews = reviews!!.map { it!!.toReview() },
         ingredients = ingredients!!.map { it!!.toIngredient() },
-        tags = tags!!.map { it!!.toTag() }
+        tags = tags!!.map { it!!.toTag() },
+        isFavourite = isFavourite
     )
 }
 

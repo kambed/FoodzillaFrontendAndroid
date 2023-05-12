@@ -12,9 +12,8 @@ import okhttp3.Request
 import pl.better.foodzilla.BuildConfig
 import pl.better.foodzilla.data.api.recipe.RecipeFlowClient
 import pl.better.foodzilla.data.api.login.LoginFlowClient
-import pl.better.foodzilla.data.repositories.RecipeRepository
-import pl.better.foodzilla.data.repositories.RecipeRepositoryImpl
-import pl.better.foodzilla.data.repositories.SharedPreferencesRepository
+import pl.better.foodzilla.data.api.recipe.FavouriteRecipesFlowClient
+import pl.better.foodzilla.data.repositories.*
 import pl.better.foodzilla.data.repositories.login.LoginRepository
 import pl.better.foodzilla.data.repositories.login.LoginRepositoryImpl
 import javax.inject.Singleton
@@ -69,5 +68,17 @@ object DataAccessModule {
     @Singleton
     fun provideRecipeRepository(recipeFlowClient: RecipeFlowClient): RecipeRepository {
         return RecipeRepositoryImpl(recipeFlowClient)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFavouriteRecipesFlowClient(apolloClient: ApolloClient): FavouriteRecipesFlowClient {
+        return FavouriteRecipesFlowClient(apolloClient)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFavouriteRecipesRepository(favouriteRecipesFlowClient: FavouriteRecipesFlowClient): FavouriteRecipesRepository {
+        return FavouriteRecipesRepositoryImpl(favouriteRecipesFlowClient)
     }
 }

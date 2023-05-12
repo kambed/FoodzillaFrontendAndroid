@@ -1,0 +1,24 @@
+query getFavouriteRecipes {
+    favouriteRecipes {
+        id
+        name
+        timeOfPreparation
+        image
+    }
+}
+
+mutation addFavouriteRecipe($recipeId: ID!) {
+    addRecipeToFavourites(recipeId: $recipeId) {
+        id
+        name
+        timeOfPreparation
+    }
+}
+
+mutation removeFavouriteRecipe($recipeId: ID!) {
+    removeRecipeFromFavourites(recipeId: $recipeId) {
+        id
+        name
+        timeOfPreparation
+    }
+}

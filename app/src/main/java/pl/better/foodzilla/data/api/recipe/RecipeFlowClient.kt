@@ -10,7 +10,6 @@ import pl.better.foodzilla.data.models.RecipeTag
 import pl.better.foodzilla.data.models.search.SearchFilter
 import pl.better.foodzilla.data.models.search.SearchSort
 import pl.better.foodzilla.data.models.search.SearchSortDirection
-import pl.better.foodzilla.type.RecipeSort
 import pl.better.foodzilla.utils.exception.GraphQLErrorResponseException
 import javax.inject.Inject
 import kotlin.streams.toList

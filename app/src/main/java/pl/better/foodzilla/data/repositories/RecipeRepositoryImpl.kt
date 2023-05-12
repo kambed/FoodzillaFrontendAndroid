@@ -27,7 +27,7 @@ class RecipeRepositoryImpl(private val recipeFlowClient: RecipeFlowClient) : Rec
 
     override fun searchRecipes(search: SearchRequest): Flow<PagingData<Recipe>> {
         return Pager(
-            config = PagingConfig(pageSize = 6, prefetchDistance = 12, initialLoadSize = 6),
+            config = PagingConfig(pageSize = 6, prefetchDistance = 6, initialLoadSize = 6),
             pagingSourceFactory = {
                 RecipePagingSource(recipeFlowClient, search)
             }
