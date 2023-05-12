@@ -191,6 +191,7 @@ fun RecipeDetailsScreen(
             }
         }
         TopBar(
+            textModifier = Modifier.padding(end = 40.dp),
             color = Color.White.copy(alpha = 0.7f),
             title = recipe.name,
             icon = Icons.Filled.ArrowBack
@@ -202,16 +203,18 @@ fun RecipeDetailsScreen(
                 .fillMaxWidth()
                 .alpha(if (viewModel.uiState.collectAsStateWithLifecycle().value.recipe?.isFavourite == null) 0f else 1f)
                 .height(56.dp)
-                .padding(vertical = 8.dp)
+                .padding(vertical = 6.dp)
                 .padding(end = 20.dp),
             contentAlignment = Alignment.CenterEnd
         ) {
             viewModel.uiState.collectAsStateWithLifecycle().value.recipe?.let {
                 RatingBar(value = if (it.isFavourite == true) 1f else 0f,
                     config = RatingBarConfig()
+                        .activeColor(Color(226, 160, 0, 255))
                         .numStars(1)
                         .inactiveBorderColor(Color.Black)
-                        .size(40.dp)
+                        .isIndicator(true)
+                        .size(44.dp)
                         .style(RatingBarStyle.HighLighted),
                     onValueChange = {},
                     onRatingChanged = {}
