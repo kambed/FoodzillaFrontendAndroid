@@ -8,7 +8,9 @@ import pl.better.foodzilla.data.models.Recipe
 fun GetFavouriteRecipesQuery.FavouriteRecipe.toRecipe(): Recipe {
     return Recipe(
         id = id!!.toLong(),
-        name = name
+        name = name,
+        preparationTime = timeOfPreparation,
+        imageBase64 = image
     )
 }
 

@@ -16,10 +16,11 @@ import pl.better.foodzilla.ui.views.favourites.FavouriteSearchesScreen
 @Destination
 @Composable
 fun FavoritesScreen(
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
+    rootNavigator: DestinationsNavigator
 ) {
     val tabRowItems = listOf(
-        TabItem("Favorite recipes") { FavouriteRecipesScreen(navigator) },
+        TabItem("Favorite recipes") { FavouriteRecipesScreen(navigator, rootNavigator) },
         TabItem("Favorite searches") { FavouriteSearchesScreen() }
     )
     Column(modifier = Modifier.fillMaxSize()) {

@@ -71,7 +71,7 @@ fun MainNavigationScreen(
                         )
                     }
                     composable(FavoritesScreenDestination) {
-                        FavoritesScreen(destinationsNavigator)
+                        FavoritesScreen(destinationsNavigator, navigator)
                     }
                     composable(DashboardScreenDestination) {
                         DashboardScreen(destinationsNavigator, user, navigator)
