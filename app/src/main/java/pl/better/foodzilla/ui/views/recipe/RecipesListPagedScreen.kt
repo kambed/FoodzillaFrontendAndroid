@@ -15,6 +15,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import pl.better.foodzilla.data.models.search.SearchRequest
 import pl.better.foodzilla.ui.components.ListRecipesVertical2ColumnsWithPaging
 import pl.better.foodzilla.ui.components.TopBar
 import pl.better.foodzilla.ui.navigation.BottomBarNavGraph
@@ -25,15 +26,14 @@ import pl.better.foodzilla.ui.viewmodels.recipe.RecipesListPagedViewModel
 @Destination
 fun RecipesListPagedScreen(
     navigator: DestinationsNavigator,
-    title: String,
+    search: SearchRequest,
     viewModel: RecipesListPagedViewModel = hiltViewModel()
 ) {
     LaunchedEffect(key1 = true) {
-        viewModel.searchRecipes(title)
-        viewModel.searchRecipesWithImages(title)
+        viewModel.searchRecipes(search)
     }
     Column(modifier = Modifier.fillMaxSize()) {
-        TopBar(title = title, icon = Icons.Filled.ArrowBack) {
+        TopBar(title = search.phrase.ifEmpty { "Search results" }, icon = Icons.Filled.ArrowBack) {
             navigator.navigateUp()
         }
         viewModel.uiState.collectAsStateWithLifecycle().value.let { uiState ->

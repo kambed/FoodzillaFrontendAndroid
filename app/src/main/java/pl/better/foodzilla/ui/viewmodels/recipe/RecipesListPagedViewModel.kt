@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pl.better.foodzilla.data.models.Recipe
+import pl.better.foodzilla.data.models.search.SearchRequest
 import pl.better.foodzilla.data.repositories.RecipeRepository
 import pl.better.foodzilla.utils.DispatchersProvider
 import javax.inject.Inject
@@ -28,21 +29,14 @@ class RecipesListPagedViewModel @Inject constructor(
         _uiState.value = RecipesListPagedUIState.Error(exceptionMessage)
     }
 
-    fun searchRecipes(phrase: String) {
+    fun searchRecipes(search: SearchRequest) {
         viewModelScope.launch(dispatchers.io + exceptionHandler) {
-            _uiState.value = RecipesListPagedUIState.SuccessNoImages(recipeRepository.searchRecipes(phrase))
-        }
-    }
-
-    fun searchRecipesWithImages(phrase: String) {
-        viewModelScope.launch(dispatchers.io + exceptionHandler) {
-            _uiState.value = RecipesListPagedUIState.Success(recipeRepository.searchRecipes(phrase))
+            _uiState.value = RecipesListPagedUIState.Success(recipeRepository.searchRecipes(search))
         }
     }
 
     sealed class RecipesListPagedUIState {
         data class Success(val recipes: Flow<PagingData<Recipe>>) : RecipesListPagedUIState()
-        data class SuccessNoImages(val recipes: Flow<PagingData<Recipe>>) : RecipesListPagedUIState()
         data class Error(val message: String? = null) : RecipesListPagedUIState()
         data class Loading(val message: String? = null) : RecipesListPagedUIState()
     }

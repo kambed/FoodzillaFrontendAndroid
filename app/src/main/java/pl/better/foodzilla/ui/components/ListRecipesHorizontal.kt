@@ -32,6 +32,7 @@ fun ListRecipesHorizontal(
                     .width(140.dp)
                     .height(170.dp)
                     .clip(RoundedCornerShape(30.dp)),
+                textModifier = Modifier.width(140.dp),
                 recipe = recipe,
                 onClick = {
                     navigator.navigate(

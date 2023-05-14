@@ -34,6 +34,10 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+        buildConfigField "String", "BACKEND_URL", "\"${properties.getProperty("BACKEND_URL")}\""
     }
 
     buildTypes {

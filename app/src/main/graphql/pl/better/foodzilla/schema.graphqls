@@ -41,6 +41,8 @@ input FilterType {
   to: Int
 
   in: [String]
+
+  hasOnly: [String]
 }
 
 """
@@ -71,6 +73,8 @@ scalar Int
 type Mutation {
   login(username: String!, password: String!): Token
 
+  refreshToken(refreshToken: String!): Token
+
   createCustomer(customer: CustomerInput): Customer
 
   editCustomer(customer: CustomerEditInput): Customer
@@ -91,7 +95,7 @@ type Query {
 
   recipe(id: ID!): Recipe
 
-  recommendations: [Recipe]!
+  recommendations: [RecipeSummarization]!
 
   search(input: SearchInput! = {
 
@@ -139,6 +143,8 @@ type Recipe {
   tags: [Tag]
 
   rating: Float
+
+  isFavourite: Boolean
 }
 
 input RecipeInput {
@@ -173,6 +179,16 @@ input RecipeSort {
   attribute: String!
 
   direction: SortDirection! = ASC
+}
+
+type RecipeSummarization {
+  id: ID
+
+  name: String!
+
+  timeOfPreparation: Int
+
+  image: String
 }
 
 type Review {
@@ -213,7 +229,7 @@ type SearchResult {
 
   opinion: String
 
-  recipes: [Recipe]!
+  recipes: [RecipeSummarization]!
 }
 
 enum SortDirection {
@@ -239,6 +255,8 @@ input TagInput {
 
 type Token {
   token: String!
+
+  refreshToken: String!
 
   customer: Customer!
 }

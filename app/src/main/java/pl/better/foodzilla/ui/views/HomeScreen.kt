@@ -22,6 +22,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.collectLatest
 import pl.better.foodzilla.data.models.login.Login
+import pl.better.foodzilla.data.models.search.SearchRequest
 import pl.better.foodzilla.ui.components.ListRecipesVertical2Columns
 import pl.better.foodzilla.ui.components.TextFieldSearch
 import pl.better.foodzilla.ui.components.TopBarWithAvatar
@@ -76,7 +77,7 @@ fun HomeScreen(
                 textColor = MaterialTheme.colors.onBackground,
                 onTextChanged = viewModel::changeSearch,
                 onSearch = {
-                    navigator.navigate(RecipesListPagedScreenDestination(viewModel.search.value))
+                    navigator.navigate(RecipesListPagedScreenDestination(SearchRequest(viewModel.search.value, emptyList(), emptyList())))
                     viewModel.changeSearch("")
                 }
             )

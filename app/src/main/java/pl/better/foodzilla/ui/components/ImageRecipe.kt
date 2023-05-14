@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.sp
 import pl.better.foodzilla.data.models.Recipe
 
 @Composable
-fun ImageRecipe(modifier: Modifier = Modifier, recipe: Recipe, onClick: () -> Unit) {
+fun ImageRecipe(modifier: Modifier = Modifier, textModifier: Modifier = Modifier, recipe: Recipe, onClick: () -> Unit) {
     Column(modifier = Modifier
         .fillMaxWidth(0.85f)
         .padding(vertical = 8.dp)
@@ -42,7 +42,7 @@ fun ImageRecipe(modifier: Modifier = Modifier, recipe: Recipe, onClick: () -> Un
             }
         }
         Text(
-            modifier = Modifier.padding(vertical = 3.dp),
+            modifier = textModifier.padding(vertical = 3.dp),
             text = recipe.name,
             fontSize = 15.sp,
             fontWeight = FontWeight.SemiBold
