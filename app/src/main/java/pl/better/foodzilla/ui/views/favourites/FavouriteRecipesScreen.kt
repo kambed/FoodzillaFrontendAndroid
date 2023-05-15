@@ -12,20 +12,18 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.collectLatest
-import pl.better.foodzilla.data.models.*
+import pl.better.foodzilla.data.models.Recipes
 import pl.better.foodzilla.ui.components.ListRecipesHorizontal
 import pl.better.foodzilla.ui.components.TextFieldSearch
 import pl.better.foodzilla.ui.viewmodels.favourites.FavouriteRecipesScreenViewModel
@@ -51,7 +49,8 @@ fun FavouriteRecipesScreen(
                         .show()
                     rootNavigator.navigate(LoginScreenDestination)
                 }
-                else -> { /*ignored*/ }
+                else -> { /*ignored*/
+                }
             }
         }
     }
@@ -99,7 +98,10 @@ fun FavouriteRecipesScreen(
                     color = MaterialTheme.colors.primary
                 )
             }
-            ListRecipesHorizontal(navigator = navigator, recipes = it)
+            ListRecipesHorizontal(
+                navigator = navigator,
+                recipes = viewModel.uiState.collectAsStateWithLifecycle().value.recentRecipes!!
+            )
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -124,7 +126,7 @@ fun FavouriteRecipesScreen(
             }
             ListRecipesHorizontal(navigator = navigator, recipes = it)
         }
-    }?:run {
+    } ?: run {
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center

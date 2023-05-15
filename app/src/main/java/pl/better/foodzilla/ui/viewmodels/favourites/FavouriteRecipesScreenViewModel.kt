@@ -7,12 +7,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pl.better.foodzilla.data.models.Recipe
-import pl.better.foodzilla.data.repositories.FavouriteRecipesRepository
+import pl.better.foodzilla.data.repositories.FavouriteAndRecentRecipesRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class FavouriteRecipesScreenViewModel @Inject constructor(
-    private val favouriteRecipesRepository: FavouriteRecipesRepository
+    private val favouriteAndRecentRecipesRepository: FavouriteAndRecentRecipesRepository
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<FavouriteRecipesScreenUIState>(FavouriteRecipesScreenUIState.Loading())
     val uiState = _uiState.asStateFlow()
@@ -21,13 +21,16 @@ class FavouriteRecipesScreenViewModel @Inject constructor(
         viewModelScope.launch {
             var recentRecipes: List<Recipe>? = null
             var favRecipes: List<Recipe>? = null
-            favouriteRecipesRepository.getFavouriteRecipes()?.let {
+            favouriteAndRecentRecipesRepository.getFavouriteRecipes()?.let {
                 favRecipes = it
-                recentRecipes = it
             } ?: run {
                 _uiState.value = FavouriteRecipesScreenUIState.Error("Error while loading favourite recipes")
             }
-            //TODO: RETRIVE RECENT RECIPES FROM API
+            favouriteAndRecentRecipesRepository.getRecentlyViewedRecipes()?.let {
+                recentRecipes = it
+            } ?: run {
+                _uiState.value = FavouriteRecipesScreenUIState.Error("Error while loading recent recipes")
+            }
             if (recentRecipes != null && favRecipes != null) {
                 _uiState.value = FavouriteRecipesScreenUIState.Success(recentRecipes, favRecipes)
             } else {
