@@ -12,7 +12,7 @@ import okhttp3.Request
 import pl.better.foodzilla.BuildConfig
 import pl.better.foodzilla.data.api.recipe.RecipeFlowClient
 import pl.better.foodzilla.data.api.login.LoginFlowClient
-import pl.better.foodzilla.data.api.recipe.FavouriteRecipesFlowClient
+import pl.better.foodzilla.data.api.recipe.FavouriteAndRecentRecipesFlowClient
 import pl.better.foodzilla.data.repositories.*
 import pl.better.foodzilla.data.repositories.login.LoginRepository
 import pl.better.foodzilla.data.repositories.login.LoginRepositoryImpl
@@ -72,13 +72,13 @@ object DataAccessModule {
 
     @Provides
     @Singleton
-    fun provideFavouriteRecipesFlowClient(apolloClient: ApolloClient): FavouriteRecipesFlowClient {
-        return FavouriteRecipesFlowClient(apolloClient)
+    fun provideFavouriteRecipesFlowClient(apolloClient: ApolloClient): FavouriteAndRecentRecipesFlowClient {
+        return FavouriteAndRecentRecipesFlowClient(apolloClient)
     }
 
     @Provides
     @Singleton
-    fun provideFavouriteRecipesRepository(favouriteRecipesFlowClient: FavouriteRecipesFlowClient): FavouriteRecipesRepository {
-        return FavouriteRecipesRepositoryImpl(favouriteRecipesFlowClient)
+    fun provideFavouriteRecipesRepository(favouriteAndRecentRecipesFlowClient: FavouriteAndRecentRecipesFlowClient): FavouriteAndRecentRecipesRepository {
+        return FavouriteAndRecentRecipesRepositoryImpl(favouriteAndRecentRecipesFlowClient)
     }
 }

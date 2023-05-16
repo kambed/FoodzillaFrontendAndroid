@@ -1,4 +1,4 @@
-package pl.better.foodzilla.data.models
+package pl.better.foodzilla.data.models.recipe
 
 import kotlinx.parcelize.Parcelize
 

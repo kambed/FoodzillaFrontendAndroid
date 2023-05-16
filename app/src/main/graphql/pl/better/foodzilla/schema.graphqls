@@ -45,6 +45,20 @@ input FilterType {
   hasOnly: [String]
 }
 
+type FilterTypeResult {
+  attribute: String!
+
+  equals: String
+
+  from: Int
+
+  to: Int
+
+  in: [String]
+
+  hasOnly: [String]
+}
+
 """
 Built-in Float
 """
@@ -86,16 +100,24 @@ type Mutation {
   createRecipe(recipe: RecipeInput): Recipe
 
   createReview(command: ReviewInput): Review
+
+  deleteSavedSearch(id: Int): SavedSearchResult
+
+  addSavedSearch(input: SearchInput!): SavedSearchResult!
 }
 
 type Query {
-  favouriteRecipes: [Recipe]
+  favouriteRecipes: [RecipeSummarization]
 
   ingredients: [Ingredient]
 
   recipe(id: ID!): Recipe
 
+  recentlyViewedRecipes: [RecipeSummarization]
+
   recommendations: [RecipeSummarization]!
+
+  savedSearch: [SavedSearchResult]
 
   search(input: SearchInput! = {
 
@@ -205,6 +227,22 @@ input ReviewInput {
   review: String
 
   rating: Int!
+}
+
+type SavedSearchResult {
+  id: Int
+
+  phrase: String
+
+  filters: [FilterTypeResult]
+
+  sort: [SavedSearchSortType]
+}
+
+type SavedSearchSortType {
+  attribute: String
+
+  direction: SortDirection
 }
 
 input SearchInput {

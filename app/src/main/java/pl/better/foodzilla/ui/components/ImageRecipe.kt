@@ -16,7 +16,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import pl.better.foodzilla.data.models.Recipe
+import pl.better.foodzilla.data.models.recipe.Recipe
 
 @Composable
 fun ImageRecipe(modifier: Modifier = Modifier, textModifier: Modifier = Modifier, recipe: Recipe, onClick: () -> Unit) {

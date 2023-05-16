@@ -1,4 +1,4 @@
-query getFavouriteRecipes {
+query GetFavouriteRecipes {
     favouriteRecipes {
         id
         name
@@ -7,7 +7,7 @@ query getFavouriteRecipes {
     }
 }
 
-mutation addFavouriteRecipe($recipeId: ID!) {
+mutation AddFavouriteRecipe($recipeId: ID!) {
     addRecipeToFavourites(recipeId: $recipeId) {
         id
         name
@@ -15,7 +15,7 @@ mutation addFavouriteRecipe($recipeId: ID!) {
     }
 }
 
-mutation removeFavouriteRecipe($recipeId: ID!) {
+mutation RemoveFavouriteRecipe($recipeId: ID!) {
     removeRecipeFromFavourites(recipeId: $recipeId) {
         id
         name

@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import pl.better.foodzilla.data.models.RecipeItem
+import pl.better.foodzilla.data.models.recipe.RecipeItem
 
 open class RecipeItemViewModel<T : RecipeItem>() : ViewModel() {
     protected val _uiState = MutableStateFlow<RecipeItemUIState>(RecipeItemUIState.Loading())

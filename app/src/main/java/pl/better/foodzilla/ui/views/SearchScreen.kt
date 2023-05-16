@@ -2,6 +2,7 @@ package pl.better.foodzilla.ui.views
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Slider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.runtime.Composable
@@ -93,5 +94,9 @@ fun SearchScreen(
         ButtonRoundedCorners(buttonText = "Ingredients", textColor = Color.White) {
             navigator.navigate(IngredientsSearchScreenDestination(viewModel.searchRequest.value))
         }
+        Slider(value = 60f,
+            valueRange = 0f..300f,
+            steps = 30,
+            onValueChange = {})
     }
 }

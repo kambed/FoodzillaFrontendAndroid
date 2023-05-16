@@ -3,10 +3,10 @@ package pl.better.foodzilla.data.api.recipe
 import com.apollographql.apollo3.ApolloClient
 import pl.better.foodzilla.*
 import pl.better.foodzilla.data.mappers.login.*
-import pl.better.foodzilla.data.models.Recipe
-import pl.better.foodzilla.data.models.RecipeIngredient
-import pl.better.foodzilla.data.models.RecipeReview
-import pl.better.foodzilla.data.models.RecipeTag
+import pl.better.foodzilla.data.models.recipe.Recipe
+import pl.better.foodzilla.data.models.recipe.RecipeIngredient
+import pl.better.foodzilla.data.models.recipe.RecipeReview
+import pl.better.foodzilla.data.models.recipe.RecipeTag
 import pl.better.foodzilla.data.models.search.SearchFilter
 import pl.better.foodzilla.data.models.search.SearchSort
 import pl.better.foodzilla.data.models.search.SearchSortDirection

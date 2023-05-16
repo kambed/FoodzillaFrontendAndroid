@@ -1,7 +1,7 @@
 package pl.better.foodzilla.data.api.recipe
 
 import androidx.paging.*
-import pl.better.foodzilla.data.models.Recipe
+import pl.better.foodzilla.data.models.recipe.Recipe
 import pl.better.foodzilla.data.models.search.SearchRequest
 
 class RecipePagingSource(
