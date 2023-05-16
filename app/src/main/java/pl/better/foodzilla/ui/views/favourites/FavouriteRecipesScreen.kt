@@ -23,11 +23,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.collectLatest
-import pl.better.foodzilla.data.models.Recipes
+import pl.better.foodzilla.data.models.recipe.RecipeType
+import pl.better.foodzilla.data.models.search.SearchRequest
 import pl.better.foodzilla.ui.components.ListRecipesHorizontal
 import pl.better.foodzilla.ui.components.TextFieldSearch
 import pl.better.foodzilla.ui.viewmodels.favourites.FavouriteRecipesScreenViewModel
 import pl.better.foodzilla.ui.views.destinations.LoginScreenDestination
+import pl.better.foodzilla.ui.views.destinations.RecipesListPagedScreenDestination
 import pl.better.foodzilla.ui.views.destinations.RecipesListScreenDestination
 
 @Composable
@@ -69,12 +71,15 @@ fun FavouriteRecipesScreen(
                         vertical = 11.dp
                     )
                     .shadow(2.dp),
-                value = "",
-                label = "Search favourite recipes",
+                value = viewModel.search.collectAsStateWithLifecycle().value,
+                label = "Search recipes",
                 icon = Icons.Default.SwapHoriz,
                 textColor = MaterialTheme.colors.onBackground,
-                onTextChanged = { /*TODO*/ },
-                onSearch = { /*TODO*/ }
+                onTextChanged = viewModel::changeSearch,
+                onSearch = {
+                    navigator.navigate(RecipesListPagedScreenDestination(SearchRequest(viewModel.search.value, emptyList(), emptyList())))
+                    viewModel.changeSearch("")
+                }
             )
             Row(
                 modifier = Modifier
@@ -88,7 +93,7 @@ fun FavouriteRecipesScreen(
                         navigator.navigate(
                             RecipesListScreenDestination(
                                 title = "Recently viewed",
-                                recipes = Recipes(it)
+                                recipes = RecipeType.RECENT
                             )
                         )
                     },
@@ -114,7 +119,7 @@ fun FavouriteRecipesScreen(
                         navigator.navigate(
                             RecipesListScreenDestination(
                                 title = "Favourites",
-                                recipes = Recipes(it)
+                                recipes = RecipeType.FAVOURITE
                             )
                         )
                     },

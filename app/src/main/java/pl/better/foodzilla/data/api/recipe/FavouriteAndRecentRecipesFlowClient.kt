@@ -6,7 +6,7 @@ import pl.better.foodzilla.GetFavouriteRecipesQuery
 import pl.better.foodzilla.RecentlyViewedRecipesQuery
 import pl.better.foodzilla.RemoveFavouriteRecipeMutation
 import pl.better.foodzilla.data.mappers.login.toRecipe
-import pl.better.foodzilla.data.models.Recipe
+import pl.better.foodzilla.data.models.recipe.Recipe
 import pl.better.foodzilla.utils.exception.GraphQLErrorResponseException
 import javax.inject.Inject
 import kotlin.streams.toList

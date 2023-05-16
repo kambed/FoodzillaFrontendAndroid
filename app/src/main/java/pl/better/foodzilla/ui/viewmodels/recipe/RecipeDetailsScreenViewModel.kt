@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import pl.better.foodzilla.data.models.Recipe
+import pl.better.foodzilla.data.models.recipe.Recipe
 import pl.better.foodzilla.data.repositories.FavouriteAndRecentRecipesRepository
 import pl.better.foodzilla.data.repositories.RecipeRepository
 import pl.better.foodzilla.utils.DispatchersProvider

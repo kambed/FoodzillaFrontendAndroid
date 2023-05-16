@@ -1,6 +1,6 @@
 package pl.better.foodzilla.data.repositories
 
-import pl.better.foodzilla.data.models.Recipe
+import pl.better.foodzilla.data.models.recipe.Recipe
 
 interface FavouriteAndRecentRecipesRepository {
     suspend fun getFavouriteRecipes(): List<Recipe>?

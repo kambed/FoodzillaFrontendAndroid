@@ -23,7 +23,7 @@ import com.gowtham.ratingbar.StepSize
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.collectLatest
-import pl.better.foodzilla.data.models.Recipe
+import pl.better.foodzilla.data.models.recipe.Recipe
 import pl.better.foodzilla.ui.components.ButtonRoundedCorners
 import pl.better.foodzilla.ui.components.TopBar
 import pl.better.foodzilla.ui.navigation.BottomBarNavGraph

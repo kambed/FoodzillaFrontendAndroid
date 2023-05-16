@@ -1,7 +1,7 @@
 package pl.better.foodzilla.data.repositories
 
 import pl.better.foodzilla.data.api.recipe.FavouriteAndRecentRecipesFlowClient
-import pl.better.foodzilla.data.models.Recipe
+import pl.better.foodzilla.data.models.recipe.Recipe
 
 class FavouriteAndRecentRecipesRepositoryImpl(private val favouriteRecipeFlowClient: FavouriteAndRecentRecipesFlowClient) :
     FavouriteAndRecentRecipesRepository {

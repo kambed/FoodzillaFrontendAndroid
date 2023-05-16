@@ -30,7 +30,7 @@ import com.gowtham.ratingbar.RatingBarConfig
 import com.gowtham.ratingbar.RatingBarStyle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import pl.better.foodzilla.data.models.Recipe
+import pl.better.foodzilla.data.models.recipe.Recipe
 import pl.better.foodzilla.ui.components.Table
 import pl.better.foodzilla.ui.components.TopBar
 import pl.better.foodzilla.ui.navigation.BottomBarNavGraph
