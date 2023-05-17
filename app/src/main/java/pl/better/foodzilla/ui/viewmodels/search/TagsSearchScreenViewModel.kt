@@ -16,18 +16,25 @@ class TagsSearchScreenViewModel @Inject constructor(
     private val dispatchers: DispatchersProvider,
 ) : RecipeItemViewModel<RecipeTag>() {
 
-    init {
+    fun init(searchRequest: SearchRequest) {
         viewModelScope.launch(dispatchers.io + exceptionHandler) {
-            _uiState.value = RecipeItemUIState.Success()
             _possibleItems.value = recipeRepository.getTags()!!.sortedBy { it.name }
                 .filter { it.name.isNotEmpty() }
+            if (searchRequest.filters.any { it.attribute == "tags" }) {
+                _chosenItems.value = searchRequest.filters.first { it.attribute == "tags" }
+                    .`in`?.map { name -> _possibleItems.value.find { it.name == name }!! }
+                    ?: emptyList()
+            }
+            _possibleItems.value = _possibleItems.value.filter { !_chosenItems.value.contains(it) }
             _possibleItemsFiltered.value = _possibleItems.value
+            _uiState.value = RecipeItemUIState.Success()
         }
     }
 
     fun updateSearchRequest(searchRequest: SearchRequest): SearchRequest {
         if (chosenItems.value.isEmpty()) return searchRequest
         val newFilters = searchRequest.filters.filter { sf -> sf.attribute != "tags" }.toMutableList()
+        if (newFilters.any { it.attribute == "tags" }) newFilters.remove(newFilters.find { it.attribute == "tags" })
         newFilters.add(SearchFilter(attribute = "tags", `in` = chosenItems.value.map { it.name }))
         return searchRequest.copy(filters = newFilters.toList())
     }

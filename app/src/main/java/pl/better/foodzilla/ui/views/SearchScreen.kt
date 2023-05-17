@@ -1,8 +1,11 @@
 package pl.better.foodzilla.ui.views
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Slider
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.runtime.Composable
@@ -30,6 +33,7 @@ import pl.better.foodzilla.ui.views.destinations.RecipesListPagedScreenDestinati
 import pl.better.foodzilla.ui.views.destinations.TagsSearchScreenDestination
 import pl.better.foodzilla.utils.SizeNormalizer
 
+@OptIn(ExperimentalFoundationApi::class)
 @BottomBarNavGraph
 @Destination
 @Composable
@@ -45,7 +49,8 @@ fun SearchScreen(
             is NavResult.Value<SearchRequest> -> {
                 viewModel.changeSearchRequest(result.value)
             }
-            else -> { /*ignored*/ }
+            else -> { /*ignored*/
+            }
         }
     }
     resultIngredientsRecipient.onNavResult { result ->
@@ -53,7 +58,8 @@ fun SearchScreen(
             is NavResult.Value<SearchRequest> -> {
                 viewModel.changeSearchRequest(result.value)
             }
-            else -> { /*ignored*/ }
+            else -> { /*ignored*/
+            }
         }
     }
     Column {
@@ -90,6 +96,14 @@ fun SearchScreen(
         }
         ButtonRoundedCorners(buttonText = "Tags", textColor = Color.White) {
             navigator.navigate(TagsSearchScreenDestination(viewModel.searchRequest.value))
+        }
+        viewModel.searchRequest.collectAsStateWithLifecycle().value.filters.let {
+            if (it.any { sf -> sf.attribute == "tags" }) {
+                it.first { sf -> sf.attribute == "tags" }.`in`?.let { tags ->
+                    Text(text = tags.joinToString(separator = ", ", prefix = "Tags: "),
+                        modifier = Modifier.basicMarquee())
+                }
+            }
         }
         ButtonRoundedCorners(buttonText = "Ingredients", textColor = Color.White) {
             navigator.navigate(IngredientsSearchScreenDestination(viewModel.searchRequest.value))

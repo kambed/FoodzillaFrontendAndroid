@@ -9,6 +9,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,6 +39,9 @@ fun TagsSearchScreen(
     viewModel: TagsSearchScreenViewModel = hiltViewModel(),
 ) {
     val screenHeight = LocalConfiguration.current.screenHeightDp
+    LaunchedEffect(key1 = true) {
+        viewModel.init(searchRequest)
+    }
     Column(modifier = Modifier.fillMaxSize()) {
         TopBar(
             color = Color.White.copy(alpha = 0.5f),
