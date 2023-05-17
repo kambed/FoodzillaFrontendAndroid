@@ -1,4 +1,4 @@
-package pl.better.foodzilla.data.models
+package pl.better.foodzilla.data.models.recipe
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -28,7 +28,8 @@ data class Recipe(
     val carbohydrates: Int? = null,
     val reviews: List<RecipeReview>? = null,
     val ingredients: List<RecipeIngredient>? = null,
-    val tags: List<RecipeTag>? = null
+    val tags: List<RecipeTag>? = null,
+    val isFavourite: Boolean? = null
 ): Parcelable {
     fun getBitmap(): Bitmap {
         var image = imageBase64

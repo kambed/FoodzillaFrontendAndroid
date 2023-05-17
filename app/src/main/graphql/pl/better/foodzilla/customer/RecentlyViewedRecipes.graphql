@@ -1,0 +1,8 @@
+query RecentlyViewedRecipes {
+    recentlyViewedRecipes {
+        id
+        name
+        timeOfPreparation
+        image
+    }
+}

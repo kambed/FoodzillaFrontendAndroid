@@ -1,11 +1,13 @@
 package pl.better.foodzilla.data.mappers.login
 
 import pl.better.foodzilla.*
-import pl.better.foodzilla.data.models.Recipe
-import pl.better.foodzilla.data.models.RecipeReview
+import pl.better.foodzilla.data.models.recipe.Recipe
+import pl.better.foodzilla.data.models.recipe.RecipeReview
 import pl.better.foodzilla.data.models.search.SearchFilter
 import pl.better.foodzilla.type.FilterType
 import com.apollographql.apollo3.api.Optional
+import pl.better.foodzilla.data.models.recipe.RecipeIngredient
+import pl.better.foodzilla.data.models.recipe.RecipeTag
 import pl.better.foodzilla.data.models.search.SearchSort
 import pl.better.foodzilla.data.models.search.SearchSortDirection
 import pl.better.foodzilla.type.RecipeSort
@@ -48,7 +50,8 @@ fun RecipeDetailsQuery.Recipe.toRecipe(): Recipe {
         carbohydrates = carbohydrates,
         reviews = reviews!!.map { it!!.toReview() },
         ingredients = ingredients!!.map { it!!.toIngredient() },
-        tags = tags!!.map { it!!.toTag() }
+        tags = tags!!.map { it!!.toTag() },
+        isFavourite = isFavourite
     )
 }
 
@@ -68,29 +71,29 @@ fun CreateReviewMutation.CreateReview.toReview(): RecipeReview {
     )
 }
 
-fun RecipeDetailsQuery.Ingredient.toIngredient(): pl.better.foodzilla.data.models.RecipeIngredient {
-    return pl.better.foodzilla.data.models.RecipeIngredient(
+fun RecipeDetailsQuery.Ingredient.toIngredient(): RecipeIngredient {
+    return RecipeIngredient(
         id = id!!.toLong(),
         name = name
     )
 }
 
-fun IngredientsQuery.Ingredient.toIngredient(): pl.better.foodzilla.data.models.RecipeIngredient {
-    return pl.better.foodzilla.data.models.RecipeIngredient(
+fun IngredientsQuery.Ingredient.toIngredient(): RecipeIngredient {
+    return RecipeIngredient(
         id = id!!.toLong(),
         name = name
     )
 }
 
-fun RecipeDetailsQuery.Tag.toTag(): pl.better.foodzilla.data.models.RecipeTag {
-    return pl.better.foodzilla.data.models.RecipeTag(
+fun RecipeDetailsQuery.Tag.toTag(): RecipeTag {
+    return RecipeTag(
         id = id!!.toLong(),
         name = name
     )
 }
 
-fun TagsQuery.Tag.toTag(): pl.better.foodzilla.data.models.RecipeTag {
-    return pl.better.foodzilla.data.models.RecipeTag(
+fun TagsQuery.Tag.toTag(): RecipeTag {
+    return RecipeTag(
         id = id!!.toLong(),
         name = name
     )

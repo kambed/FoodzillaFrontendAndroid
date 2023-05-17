@@ -3,7 +3,7 @@ package pl.better.foodzilla.ui.viewmodels.search
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import pl.better.foodzilla.data.models.RecipeIngredient
+import pl.better.foodzilla.data.models.recipe.RecipeIngredient
 import pl.better.foodzilla.data.models.search.SearchFilter
 import pl.better.foodzilla.data.models.search.SearchRequest
 import pl.better.foodzilla.data.repositories.RecipeRepository

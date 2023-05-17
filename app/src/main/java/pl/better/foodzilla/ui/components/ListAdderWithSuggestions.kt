@@ -15,11 +15,11 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.lazy.items
 import androidx.compose.ui.unit.sp
-import pl.better.foodzilla.data.models.RecipeItem
+import pl.better.foodzilla.data.models.recipe.RecipeItem
 import pl.better.foodzilla.utils.SizeNormalizer
 
 @Composable
-fun <T:RecipeItem>ListAdderWithSuggestions(
+fun <T: RecipeItem>ListAdderWithSuggestions(
     modifier: Modifier = Modifier,
     label: String,
     possibleItems: List<T>,

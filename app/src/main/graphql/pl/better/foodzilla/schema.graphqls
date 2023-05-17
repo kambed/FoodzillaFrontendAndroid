@@ -45,6 +45,20 @@ input FilterType {
   hasOnly: [String]
 }
 
+type FilterTypeResult {
+  attribute: String!
+
+  equals: String
+
+  from: Int
+
+  to: Int
+
+  in: [String]
+
+  hasOnly: [String]
+}
+
 """
 Built-in Float
 """
@@ -73,6 +87,8 @@ scalar Int
 type Mutation {
   login(username: String!, password: String!): Token
 
+  refreshToken(refreshToken: String!): Token
+
   createCustomer(customer: CustomerInput): Customer
 
   editCustomer(customer: CustomerEditInput): Customer
@@ -84,16 +100,24 @@ type Mutation {
   createRecipe(recipe: RecipeInput): Recipe
 
   createReview(command: ReviewInput): Review
+
+  deleteSavedSearch(id: Int): SavedSearchResult
+
+  addSavedSearch(input: SearchInput!): SavedSearchResult!
 }
 
 type Query {
-  favouriteRecipes: [Recipe]
+  favouriteRecipes: [RecipeSummarization]
 
   ingredients: [Ingredient]
 
   recipe(id: ID!): Recipe
 
-  recommendations: [Recipe]!
+  recentlyViewedRecipes: [RecipeSummarization]
+
+  recommendations: [RecipeSummarization]!
+
+  savedSearch: [SavedSearchResult]
 
   search(input: SearchInput! = {
 
@@ -141,6 +165,8 @@ type Recipe {
   tags: [Tag]
 
   rating: Float
+
+  isFavourite: Boolean
 }
 
 input RecipeInput {
@@ -177,6 +203,16 @@ input RecipeSort {
   direction: SortDirection! = ASC
 }
 
+type RecipeSummarization {
+  id: ID
+
+  name: String!
+
+  timeOfPreparation: Int
+
+  image: String
+}
+
 type Review {
   id: ID
 
@@ -191,6 +227,22 @@ input ReviewInput {
   review: String
 
   rating: Int!
+}
+
+type SavedSearchResult {
+  id: Int
+
+  phrase: String
+
+  filters: [FilterTypeResult]
+
+  sort: [SavedSearchSortType]
+}
+
+type SavedSearchSortType {
+  attribute: String
+
+  direction: SortDirection
 }
 
 input SearchInput {
@@ -215,7 +267,7 @@ type SearchResult {
 
   opinion: String
 
-  recipes: [Recipe]!
+  recipes: [RecipeSummarization]!
 }
 
 enum SortDirection {
@@ -241,6 +293,8 @@ input TagInput {
 
 type Token {
   token: String!
+
+  refreshToken: String!
 
   customer: Customer!
 }

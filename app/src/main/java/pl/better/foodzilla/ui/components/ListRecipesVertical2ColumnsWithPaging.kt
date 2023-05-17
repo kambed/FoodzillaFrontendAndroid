@@ -19,7 +19,7 @@ import androidx.paging.LoadState
 import pl.better.foodzilla.R
 import androidx.paging.compose.LazyPagingItems
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import pl.better.foodzilla.data.models.Recipe
+import pl.better.foodzilla.data.models.recipe.Recipe
 import pl.better.foodzilla.ui.views.destinations.RecipeDetailsScreenDestination
 
 @Composable

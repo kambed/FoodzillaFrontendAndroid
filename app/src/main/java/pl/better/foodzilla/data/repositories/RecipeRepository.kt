@@ -2,10 +2,10 @@ package pl.better.foodzilla.data.repositories
 
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
-import pl.better.foodzilla.data.models.Recipe
-import pl.better.foodzilla.data.models.RecipeIngredient
-import pl.better.foodzilla.data.models.RecipeReview
-import pl.better.foodzilla.data.models.RecipeTag
+import pl.better.foodzilla.data.models.recipe.Recipe
+import pl.better.foodzilla.data.models.recipe.RecipeIngredient
+import pl.better.foodzilla.data.models.recipe.RecipeReview
+import pl.better.foodzilla.data.models.recipe.RecipeTag
 import pl.better.foodzilla.data.models.search.SearchRequest
 
 interface RecipeRepository {

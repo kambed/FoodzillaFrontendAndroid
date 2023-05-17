@@ -29,5 +29,6 @@ query RecipeDetails($id: ID!) {
             id
             name
         }
+        isFavourite
     }
 }

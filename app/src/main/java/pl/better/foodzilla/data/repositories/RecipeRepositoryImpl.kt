@@ -6,10 +6,10 @@ import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import pl.better.foodzilla.data.api.recipe.RecipeFlowClient
 import pl.better.foodzilla.data.api.recipe.RecipePagingSource
-import pl.better.foodzilla.data.models.Recipe
-import pl.better.foodzilla.data.models.RecipeIngredient
-import pl.better.foodzilla.data.models.RecipeReview
-import pl.better.foodzilla.data.models.RecipeTag
+import pl.better.foodzilla.data.models.recipe.Recipe
+import pl.better.foodzilla.data.models.recipe.RecipeIngredient
+import pl.better.foodzilla.data.models.recipe.RecipeReview
+import pl.better.foodzilla.data.models.recipe.RecipeTag
 import pl.better.foodzilla.data.models.search.SearchRequest
 
 class RecipeRepositoryImpl(private val recipeFlowClient: RecipeFlowClient) : RecipeRepository {
@@ -27,7 +27,7 @@ class RecipeRepositoryImpl(private val recipeFlowClient: RecipeFlowClient) : Rec
 
     override fun searchRecipes(search: SearchRequest): Flow<PagingData<Recipe>> {
         return Pager(
-            config = PagingConfig(pageSize = 6, prefetchDistance = 12, initialLoadSize = 6),
+            config = PagingConfig(pageSize = 6, prefetchDistance = 6, initialLoadSize = 6),
             pagingSourceFactory = {
                 RecipePagingSource(recipeFlowClient, search)
             }
