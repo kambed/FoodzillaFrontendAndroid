@@ -110,9 +110,9 @@ class SearchScreenViewModel @Inject constructor(
             } else {
                 favourite = searchRepository.saveSearch(_searchRequest.value)
             }
+            _uiState.value = SearchScreenUIState.Success()
+            _isAddedToFavourites.value = !_isAddedToFavourites.value
         }
-        _uiState.value = SearchScreenUIState.Success()
-        _isAddedToFavourites.value = !_isAddedToFavourites.value
     }
 
     fun searchChanged() {

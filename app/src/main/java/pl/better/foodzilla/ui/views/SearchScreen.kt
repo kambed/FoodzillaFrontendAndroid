@@ -84,6 +84,8 @@ fun SearchScreen(
                 }
             }
         }
+    }
+    LaunchedEffect(key1 = true) {
         viewModel.searchRequest.collect {
             viewModel.searchChanged()
         }
