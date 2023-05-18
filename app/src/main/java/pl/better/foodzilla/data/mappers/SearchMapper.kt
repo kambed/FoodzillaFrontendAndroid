@@ -2,7 +2,6 @@ package pl.better.foodzilla.data.mappers
 
 import pl.better.foodzilla.AddFavouriteSearchMutation
 import pl.better.foodzilla.FavouriteSearchesQuery
-import pl.better.foodzilla.RemoveFavouriteRecipeMutation
 import pl.better.foodzilla.RemoveFavouriteSearchMutation
 import pl.better.foodzilla.data.models.search.SearchFilter
 import pl.better.foodzilla.data.models.search.SearchRequest
@@ -25,8 +24,8 @@ fun FavouriteSearchesQuery.Filter.toSearchFilter(): SearchFilter {
         from = from,
         to = to,
         equals = equals,
-        `in` = `in`?.map { it!! }!!,
-        hasOnly = hasOnly?.map { it!! }!!
+        `in` = `in`?.map { it!! },
+        hasOnly = hasOnly?.map { it!! }
     )
 }
 
@@ -60,8 +59,8 @@ fun AddFavouriteSearchMutation.Filter.toSearchFilter(): SearchFilter {
         from = from,
         to = to,
         equals = equals,
-        `in` = `in`?.map { it!! }!!,
-        hasOnly = hasOnly?.map { it!! }!!
+        `in` = `in`?.map { it!! },
+        hasOnly = hasOnly?.map { it!! }
     )
 }
 
@@ -87,8 +86,8 @@ fun RemoveFavouriteSearchMutation.Filter.toSearchFilter(): SearchFilter {
         from = from,
         to = to,
         equals = equals,
-        `in` = `in`?.map { it!! }!!,
-        hasOnly = hasOnly?.map { it!! }!!
+        `in` = `in`?.map { it!! },
+        hasOnly = hasOnly?.map { it!! }
     )
 }
 
