@@ -10,13 +10,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.lazy.items
 import androidx.compose.ui.unit.sp
 import pl.better.foodzilla.data.models.recipe.RecipeItem
-import pl.better.foodzilla.utils.SizeNormalizer
 
 @Composable
 fun <T: RecipeItem>ListAdderWithSuggestions(
@@ -31,22 +29,15 @@ fun <T: RecipeItem>ListAdderWithSuggestions(
     addItem: () -> Unit
 ) {
     val focusManager = LocalFocusManager.current
-    val screenHeight = LocalConfiguration.current.screenHeightDp
     Row(
         modifier = modifier
-            .height(
-                SizeNormalizer.normalize(
-                    if (searchState) 190.dp else 90.dp,
-                    screenHeight
-                )
-            ),
+            .height(if (searchState) 190.dp else 90.dp),
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.Top
     ) {
         Column(modifier = Modifier.fillMaxWidth(0.8f)) {
             TextFieldSearch(
-                modifier = Modifier
-                    .height(SizeNormalizer.normalize(60.dp, screenHeight)),
+                modifier = Modifier.height(60.dp),
                 value = addingItemSearch,
                 label = label,
                 icon = null,
@@ -58,7 +49,7 @@ fun <T: RecipeItem>ListAdderWithSuggestions(
             AnimatedVisibility(visible = searchState) {
                 LazyColumn(
                     horizontalAlignment = Alignment.Start,
-                    verticalArrangement = Arrangement.spacedBy(SizeNormalizer.normalize(8.dp, screenHeight))
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     items(possibleItems) { item ->
                         Box(modifier = Modifier.clickable {
@@ -75,28 +66,13 @@ fun <T: RecipeItem>ListAdderWithSuggestions(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(
-                    SizeNormalizer.normalize(
-                        60.dp,
-                        screenHeight
-                    )
-                ),
+                .height(60.dp),
             contentAlignment = Alignment.Center
         ) {
             ButtonRoundedCorners(
                 modifier = Modifier
-                    .width(
-                        SizeNormalizer.normalize(
-                            50.dp,
-                            screenHeight
-                        )
-                    )
-                    .height(
-                        SizeNormalizer.normalize(
-                            50.dp,
-                            screenHeight
-                        )
-                    ),
+                    .width(50.dp)
+                    .height(50.dp),
                 buttonText = "+",
                 textColor = Color.White
             ) {

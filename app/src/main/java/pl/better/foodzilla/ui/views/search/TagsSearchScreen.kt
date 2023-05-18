@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -26,6 +27,7 @@ import pl.better.foodzilla.R
 import pl.better.foodzilla.data.models.search.SearchRequest
 import pl.better.foodzilla.ui.components.*
 import pl.better.foodzilla.ui.navigation.BottomBarNavGraph
+import pl.better.foodzilla.ui.viewmodels.search.RecipeItemViewModel
 import pl.better.foodzilla.ui.viewmodels.search.TagsSearchScreenViewModel
 import pl.better.foodzilla.utils.SizeNormalizer
 
@@ -55,51 +57,64 @@ fun TagsSearchScreen(
             imageModifier = Modifier.height(SizeNormalizer.normalize(30.dp, screenHeight)),
             painterResource = painterResource(id = R.drawable.foodzilla_logo)
         )
-        ListAdderWithSuggestions(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 10.dp)
-                .padding(horizontal = 15.dp),
-            label = "Add tags",
-            possibleItems = viewModel.possibleItemsFiltered.collectAsStateWithLifecycle().value,
-            onChangeAddingSearchItem = viewModel::changeAddingSearchItem,
-            addingItemSearch = viewModel.addingItemSearch.collectAsStateWithLifecycle().value,
-            onChangeSearchState = viewModel::changeSearchState,
-            searchState = viewModel.searchState.collectAsStateWithLifecycle().value,
-            onChangeChosenItem = viewModel::changeChosenItem,
-            addItem = viewModel::addItem
-        )
-        if (viewModel.chosenItems.collectAsStateWithLifecycle().value.isNotEmpty()) {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 15.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(
-                    SizeNormalizer.normalize(
-                        8.dp,
-                        screenHeight
-                    )
-                )
-            ) {
-                items(viewModel.chosenItems.value) { tag ->
-                    LabelWithDelete(
-                        modifier = Modifier
-                            .fillMaxWidth(0.5f)
-                            .defaultMinSize(
-                                minHeight = SizeNormalizer.normalize(
-                                    50.dp,
-                                    screenHeight
-                                ), minWidth = 0.dp
-                            )
-                            .clip(RoundedCornerShape(5.dp))
-                            .background(MaterialTheme.colors.primary),
-                        label = tag.name,
-                        item = tag,
-                        removeTag = viewModel::removeItem
-                    )
+        when (viewModel.uiState.collectAsStateWithLifecycle().value) {
+            is RecipeItemViewModel.RecipeItemUIState.Loading -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
                 }
             }
+            is RecipeItemViewModel.RecipeItemUIState.Success -> {
+                ListAdderWithSuggestions(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = SizeNormalizer.normalize(10.dp, screenHeight))
+                        .padding(horizontal = 15.dp),
+                    label = "Add tags",
+                    possibleItems = viewModel.possibleItemsFiltered.collectAsStateWithLifecycle().value,
+                    onChangeAddingSearchItem = viewModel::changeAddingSearchItem,
+                    addingItemSearch = viewModel.addingItemSearch.collectAsStateWithLifecycle().value,
+                    onChangeSearchState = viewModel::changeSearchState,
+                    searchState = viewModel.searchState.collectAsStateWithLifecycle().value,
+                    onChangeChosenItem = viewModel::changeChosenItem,
+                    addItem = viewModel::addItem
+                )
+                if (viewModel.chosenItems.collectAsStateWithLifecycle().value.isNotEmpty()) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 15.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(
+                            SizeNormalizer.normalize(
+                                8.dp,
+                                screenHeight
+                            )
+                        )
+                    ) {
+                        items(viewModel.chosenItems.value) { tag ->
+                            LabelWithDelete(
+                                modifier = Modifier
+                                    .fillMaxWidth(0.5f)
+                                    .defaultMinSize(
+                                        minHeight = SizeNormalizer.normalize(
+                                            50.dp,
+                                            screenHeight
+                                        ), minWidth = 0.dp
+                                    )
+                                    .clip(RoundedCornerShape(5.dp))
+                                    .background(MaterialTheme.colors.primary),
+                                label = tag.name,
+                                item = tag,
+                                removeTag = viewModel::removeItem
+                            )
+                        }
+                    }
+                }
+            }
+            else -> {}
         }
     }
 }
