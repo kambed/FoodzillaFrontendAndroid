@@ -18,7 +18,7 @@ open class RecipeItemViewModel<T : RecipeItem>() : ViewModel() {
     protected val _possibleItems = MutableStateFlow<List<T>>(emptyList())
     protected val _possibleItemsFiltered = MutableStateFlow<List<T>>(emptyList())
     val possibleItemsFiltered = _possibleItemsFiltered.asStateFlow()
-    private val _chosenItems = MutableStateFlow<List<T>>(emptyList())
+    protected val _chosenItems = MutableStateFlow<List<T>>(emptyList())
     val chosenItems = _chosenItems.asStateFlow()
     protected val exceptionHandler = CoroutineExceptionHandler { _, error ->
         var exceptionMessage = error.message
