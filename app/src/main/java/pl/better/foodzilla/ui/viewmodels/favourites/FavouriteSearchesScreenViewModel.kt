@@ -3,6 +3,7 @@ package pl.better.foodzilla.ui.viewmodels.favourites
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -22,17 +23,24 @@ class FavouriteSearchesScreenViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
     private val _searchRequest = MutableStateFlow(SearchRequest("", emptyList(), emptyList()))
     val searchRequest = _searchRequest.asStateFlow()
+    private val exceptionHandler = CoroutineExceptionHandler { _, error ->
+        var exceptionMessage = error.message
+        if (error.message == null) {
+            exceptionMessage = "Unexpected error occurred. Try again later!"
+        }
+        _uiState.value = FavouriteSearchesScreenUIState.Error(exceptionMessage)
+    }
 
     init {
-        viewModelScope.launch(dispatchers.io) {
+        viewModelScope.launch(dispatchers.io + exceptionHandler) {
             _uiState.value =
                 FavouriteSearchesScreenUIState.Success(searchRepository.getSavedSearches()!!.sortedByDescending { it.id })
         }
     }
 
     fun deleteSearch(search: SearchRequest) {
-        viewModelScope.launch(dispatchers.io) {
-            _uiState.value = FavouriteSearchesScreenUIState.Loading(_uiState.value.favSearches!!)
+        viewModelScope.launch(dispatchers.io + exceptionHandler) {
+            _uiState.value = FavouriteSearchesScreenUIState.Loading(favSearches = _uiState.value.favSearches!!)
             searchRepository.deleteSearch(search)
             _uiState.value = FavouriteSearchesScreenUIState.Success(_uiState.value.favSearches!!.filter { it.id != search.id })
         }
@@ -68,13 +76,13 @@ class FavouriteSearchesScreenViewModel @Inject constructor(
             FavouriteSearchesScreenUIState(favSearches)
 
         data class Error(
+            val message: String? = null,
             override val favSearches: List<SearchRequest>? = null,
-            val message: String? = null
         ) : FavouriteSearchesScreenUIState(favSearches)
 
         data class Loading(
-            override val favSearches: List<SearchRequest>? = null,
-            val message: String? = null
+            val message: String? = null,
+            override val favSearches: List<SearchRequest>? = null
         ) : FavouriteSearchesScreenUIState(favSearches)
     }
 }

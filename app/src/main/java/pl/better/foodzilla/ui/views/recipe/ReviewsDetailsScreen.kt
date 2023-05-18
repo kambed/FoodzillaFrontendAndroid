@@ -50,7 +50,7 @@ fun ReviewsDetailsScreen(
         ) {
             navigator.navigateUp()
         }
-        viewModel.uiState.collectAsStateWithLifecycle().value.reviews.let { reviews ->
+        viewModel.uiState.collectAsStateWithLifecycle().value.reviews!!.let { reviews ->
             LazyColumn {
                 item {
                     Row(

@@ -3,6 +3,7 @@ package pl.better.foodzilla.ui.viewmodels.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -29,6 +30,13 @@ class RegisterScreenViewModel @Inject constructor(
     val password = _password.asStateFlow()
     private val _confirmPassword = MutableStateFlow("")
     val confirmPassword = _confirmPassword.asStateFlow()
+    private val exceptionHandler = CoroutineExceptionHandler { _, error ->
+        var exceptionMessage = error.message
+        if (error.message == null) {
+            exceptionMessage = "Unexpected error occurred. Try again later!"
+        }
+        _uiState.value = RegisterUIState.Error(exceptionMessage)
+    }
 
     fun changeFirstname(firstname : String) {
         _firstname.value = firstname
@@ -51,7 +59,7 @@ class RegisterScreenViewModel @Inject constructor(
     }
 
     fun sendRegisterRequest() {
-        viewModelScope.launch(dispatchers.io) {
+        viewModelScope.launch(dispatchers.io + exceptionHandler) {
             _uiState.value = RegisterUIState.Waiting()
             try {
                 if (_password.value != _confirmPassword.value) {

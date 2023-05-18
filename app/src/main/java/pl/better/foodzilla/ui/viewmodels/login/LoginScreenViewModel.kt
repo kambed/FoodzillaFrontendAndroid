@@ -3,12 +3,14 @@ package pl.better.foodzilla.ui.viewmodels.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pl.better.foodzilla.data.models.login.Login
 import pl.better.foodzilla.data.repositories.SharedPreferencesRepository
 import pl.better.foodzilla.data.repositories.login.LoginRepository
+import pl.better.foodzilla.ui.viewmodels.favourites.FavouriteSearchesScreenViewModel
 import pl.better.foodzilla.utils.DispatchersProvider
 import pl.better.foodzilla.utils.exception.GraphQLErrorResponseException
 import javax.inject.Inject
@@ -25,6 +27,13 @@ class LoginScreenViewModel @Inject constructor(
     val login = _login.asStateFlow()
     private val _password = MutableStateFlow("")
     val password = _password.asStateFlow()
+    private val exceptionHandler = CoroutineExceptionHandler { _, error ->
+        var exceptionMessage = error.message
+        if (error.message == null) {
+            exceptionMessage = "Unexpected error occurred. Try again later!"
+        }
+        _uiState.value = LoginUIState.Error(exceptionMessage)
+    }
 
     fun changeLogin(login: String) {
         _login.value = login
@@ -35,7 +44,7 @@ class LoginScreenViewModel @Inject constructor(
     }
 
     fun sendLoginRequest() {
-        viewModelScope.launch(dispatchers.io) {
+        viewModelScope.launch(dispatchers.io + exceptionHandler) {
             _uiState.value = LoginUIState.Waiting()
             try {
                 val loginResponse = loginRepository.login(_login.value, _password.value)
