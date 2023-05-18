@@ -1,5 +1,6 @@
 package pl.better.foodzilla.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
@@ -28,6 +29,7 @@ fun SearchSortSection(
         thickness = 1.dp
     )
     ComboBox(
+        modifier = Modifier.background(Color.White),
         items = possibleItems.keys.toList(),
         onItemSelected = changeSort,
     )

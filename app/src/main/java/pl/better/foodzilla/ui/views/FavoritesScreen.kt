@@ -21,7 +21,7 @@ fun FavoritesScreen(
 ) {
     val tabRowItems = listOf(
         TabItem("Favorite recipes") { FavouriteRecipesScreen(navigator, rootNavigator) },
-        TabItem("Favorite searches") { FavouriteSearchesScreen() }
+        TabItem("Favorite searches") { FavouriteSearchesScreen(navigator) }
     )
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarWithAvatar(text = "Favourites")

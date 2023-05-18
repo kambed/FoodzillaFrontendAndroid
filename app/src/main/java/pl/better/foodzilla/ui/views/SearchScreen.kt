@@ -50,8 +50,7 @@ fun SearchScreen(
             is NavResult.Value<SearchRequest> -> {
                 viewModel.changeSearchRequest(result.value)
             }
-            else -> { /*ignored*/
-            }
+            else -> { /*ignored*/ }
         }
     }
     resultIngredientsRecipient.onNavResult { result ->
@@ -65,7 +64,7 @@ fun SearchScreen(
     }
     LaunchedEffect(key1 = true) {
         viewModel.searchRequest.collect {
-
+            viewModel.searchChanged()
         }
     }
     Column(

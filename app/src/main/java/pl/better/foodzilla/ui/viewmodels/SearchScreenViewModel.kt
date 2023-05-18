@@ -104,4 +104,12 @@ class SearchScreenViewModel @Inject constructor(
         }
         _isAddedToFavourites.value = !_isAddedToFavourites.value
     }
+
+    fun searchChanged() {
+        if (favourite == null || favourite == _searchRequest.value) {
+            return
+        }
+        _isAddedToFavourites.value = false
+        favourite = null
+    }
 }
