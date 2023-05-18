@@ -1,4 +1,4 @@
-package pl.better.foodzilla.data.repositories
+package pl.better.foodzilla.data.repositories.recipe
 
 import pl.better.foodzilla.data.api.recipe.FavouriteAndRecentRecipesFlowClient
 import pl.better.foodzilla.data.models.recipe.Recipe

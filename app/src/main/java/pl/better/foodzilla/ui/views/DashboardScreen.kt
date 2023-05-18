@@ -4,7 +4,6 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,7 +26,6 @@ import kotlinx.coroutines.flow.collectLatest
 import pl.better.foodzilla.R
 import pl.better.foodzilla.data.models.login.Login
 import pl.better.foodzilla.ui.components.ButtonRoundedCorners
-import pl.better.foodzilla.ui.components.TextClickableTwoColors
 import pl.better.foodzilla.ui.components.TextFieldDisabled
 import pl.better.foodzilla.ui.navigation.BottomBarNavGraph
 import pl.better.foodzilla.ui.viewmodels.DashboardScreenViewModel
@@ -193,27 +191,6 @@ fun DashboardScreen(
             ) {
                 viewModel.logOut()
             }
-        }
-        if (viewModel.uiState.collectAsStateWithLifecycle().value !is DashboardScreenViewModel.DashboardScreenUIState.Edit) {
-            Spacer(modifier = Modifier.height(SizeNormalizer.normalize(60.dp, screenHeight)))
-            ButtonRoundedCorners(
-                buttonText = "Modify filters",
-                textColor = Color.White,
-                modifier = Modifier
-                    .height(SizeNormalizer.normalize(45.dp, screenHeight))
-                    .fillMaxWidth()
-                    .padding(horizontal = SizeNormalizer.normalize(80.dp, screenHeight))
-            ) {
-                //TODO: Navigate to ModifyFiltersScreen
-            }
-            Spacer(modifier = Modifier.height(SizeNormalizer.normalize(40.dp, screenHeight)))
-            TextClickableTwoColors(
-                text1 = "Enabled: ",
-                text1Color = MaterialTheme.colors.primary,
-                text2 = "dietary | low-carb | gluten-free",
-                text2Color = Color.Black,
-                textSize = SizeNormalizer.normalize(12.sp, screenHeight)
-            ) {}
         }
     }
 }

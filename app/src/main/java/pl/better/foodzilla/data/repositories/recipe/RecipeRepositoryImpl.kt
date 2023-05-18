@@ -1,4 +1,4 @@
-package pl.better.foodzilla.data.repositories
+package pl.better.foodzilla.data.repositories.recipe
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig

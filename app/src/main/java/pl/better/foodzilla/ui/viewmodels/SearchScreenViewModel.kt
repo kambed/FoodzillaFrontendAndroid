@@ -1,18 +1,25 @@
 package pl.better.foodzilla.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import pl.better.foodzilla.data.models.search.SearchFilter
 import pl.better.foodzilla.data.models.search.SearchRequest
 import pl.better.foodzilla.data.models.search.SearchSort
 import pl.better.foodzilla.data.models.search.SearchSortDirection
+import pl.better.foodzilla.data.repositories.recipe.SavedSearchesRepository
+import pl.better.foodzilla.utils.DispatchersProvider
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
 @HiltViewModel
-class SearchScreenViewModel @Inject constructor() : ViewModel() {
+class SearchScreenViewModel @Inject constructor(
+    private val dispatchers: DispatchersProvider,
+    private val searchRepository: SavedSearchesRepository
+) : ViewModel() {
     private val _searchRequest = MutableStateFlow(SearchRequest("", emptyList(), emptyList()))
     val searchRequest = _searchRequest.asStateFlow()
     val possibleItems = mapOf(
@@ -45,6 +52,7 @@ class SearchScreenViewModel @Inject constructor() : ViewModel() {
     val preparationTimeString = _preparationTimeString.asStateFlow()
     private val _isAddedToFavourites = MutableStateFlow(false)
     val isAddedToFavourites = _isAddedToFavourites.asStateFlow()
+    private var favourite: SearchRequest? = null
 
     fun changeSearchRequest(searchRequest: SearchRequest) {
         _searchRequest.value = searchRequest
@@ -82,7 +90,26 @@ class SearchScreenViewModel @Inject constructor() : ViewModel() {
     }
 
     fun changeFavourite() {
+        if (_isAddedToFavourites.value) {
+            viewModelScope.launch(dispatchers.io) {
+                if (favourite == null) {
+                    return@launch
+                }
+                searchRepository.deleteSearch(favourite!!)
+            }
+        } else {
+            viewModelScope.launch(dispatchers.io) {
+                favourite = searchRepository.saveSearch(_searchRequest.value)
+            }
+        }
         _isAddedToFavourites.value = !_isAddedToFavourites.value
+    }
 
+    fun searchChanged() {
+        if (favourite == null || favourite == _searchRequest.value) {
+            return
+        }
+        _isAddedToFavourites.value = false
+        favourite = null
     }
 }

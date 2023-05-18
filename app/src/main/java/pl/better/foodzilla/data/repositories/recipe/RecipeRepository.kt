@@ -1,4 +1,4 @@
-package pl.better.foodzilla.data.repositories
+package pl.better.foodzilla.data.repositories.recipe
 
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow

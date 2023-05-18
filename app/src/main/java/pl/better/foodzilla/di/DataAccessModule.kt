@@ -13,9 +13,11 @@ import pl.better.foodzilla.BuildConfig
 import pl.better.foodzilla.data.api.recipe.RecipeFlowClient
 import pl.better.foodzilla.data.api.login.LoginFlowClient
 import pl.better.foodzilla.data.api.recipe.FavouriteAndRecentRecipesFlowClient
+import pl.better.foodzilla.data.api.search.FavouriteSearchesClient
 import pl.better.foodzilla.data.repositories.*
 import pl.better.foodzilla.data.repositories.login.LoginRepository
 import pl.better.foodzilla.data.repositories.login.LoginRepositoryImpl
+import pl.better.foodzilla.data.repositories.recipe.*
 import javax.inject.Singleton
 
 @Module
@@ -80,5 +82,17 @@ object DataAccessModule {
     @Singleton
     fun provideFavouriteRecipesRepository(favouriteAndRecentRecipesFlowClient: FavouriteAndRecentRecipesFlowClient): FavouriteAndRecentRecipesRepository {
         return FavouriteAndRecentRecipesRepositoryImpl(favouriteAndRecentRecipesFlowClient)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFavouriteSearchesClient(apolloClient: ApolloClient): FavouriteSearchesClient {
+        return FavouriteSearchesClient(apolloClient)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSavedSearchesRepository(favouriteSearchesClient: FavouriteSearchesClient): SavedSearchesRepository {
+        return SavedSearchesRepositoryImpl(favouriteSearchesClient)
     }
 }
