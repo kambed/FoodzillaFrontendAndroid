@@ -1,31 +1,54 @@
 package pl.better.foodzilla.ui.views.favourites
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.flow.collectLatest
 import pl.better.foodzilla.ui.components.ChipSearch
 import pl.better.foodzilla.ui.components.TextFieldSearch
 import pl.better.foodzilla.ui.viewmodels.favourites.FavouriteSearchesScreenViewModel
+import pl.better.foodzilla.ui.views.destinations.LoginScreenDestination
 import pl.better.foodzilla.ui.views.destinations.RecipesListPagedScreenDestination
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun FavouriteSearchesScreen(
     navigator: DestinationsNavigator,
+    rootNavigator: DestinationsNavigator,
     viewModel: FavouriteSearchesScreenViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
+    LaunchedEffect(key1 = true) {
+        viewModel.uiState.collectLatest { uiState ->
+            when (uiState) {
+                is FavouriteSearchesScreenViewModel.FavouriteSearchesScreenUIState.Error -> {
+                    Toast.makeText(
+                        context,
+                        uiState.message,
+                        Toast.LENGTH_LONG
+                    ).show()
+                    rootNavigator.navigate(LoginScreenDestination)
+                }
+                else -> { /*ignored*/ }
+            }
+        }
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()

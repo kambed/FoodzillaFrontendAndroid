@@ -101,15 +101,13 @@ class SearchScreenViewModel @Inject constructor(
 
     fun changeFavourite() {
         _uiState.value = SearchScreenUIState.Loading()
-        if (_isAddedToFavourites.value) {
-            viewModelScope.launch(dispatchers.io + exceptionHandler) {
+        viewModelScope.launch(dispatchers.io + exceptionHandler) {
+            if (_isAddedToFavourites.value) {
                 if (favourite == null) {
                     return@launch
                 }
                 searchRepository.deleteSearch(favourite!!)
-            }
-        } else {
-            viewModelScope.launch(dispatchers.io + exceptionHandler) {
+            } else {
                 favourite = searchRepository.saveSearch(_searchRequest.value)
             }
         }

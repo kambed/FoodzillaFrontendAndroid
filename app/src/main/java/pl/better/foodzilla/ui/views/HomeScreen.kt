@@ -46,8 +46,11 @@ fun HomeScreen(
         viewModel.uiState.collectLatest { uiState ->
             when (uiState) {
                 is HomeScreenViewModel.HomeScreenUIState.Error -> {
-                    Toast.makeText(context, "Your session expired, log in again!", Toast.LENGTH_LONG)
-                        .show()
+                    Toast.makeText(
+                        context,
+                        uiState.message,
+                        Toast.LENGTH_LONG
+                    ).show()
                     rootNavigator.navigate(LoginScreenDestination)
                 }
                 else -> { /*ignored*/ }

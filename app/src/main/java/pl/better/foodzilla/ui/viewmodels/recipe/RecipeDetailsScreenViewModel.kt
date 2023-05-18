@@ -10,7 +10,6 @@ import kotlinx.coroutines.launch
 import pl.better.foodzilla.data.models.recipe.Recipe
 import pl.better.foodzilla.data.repositories.recipe.FavouriteAndRecentRecipesRepository
 import pl.better.foodzilla.data.repositories.recipe.RecipeRepository
-import pl.better.foodzilla.ui.viewmodels.login.RegisterScreenViewModel
 import pl.better.foodzilla.utils.DispatchersProvider
 import javax.inject.Inject
 

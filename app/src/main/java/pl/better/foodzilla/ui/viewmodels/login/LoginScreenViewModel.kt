@@ -10,7 +10,6 @@ import kotlinx.coroutines.launch
 import pl.better.foodzilla.data.models.login.Login
 import pl.better.foodzilla.data.repositories.SharedPreferencesRepository
 import pl.better.foodzilla.data.repositories.login.LoginRepository
-import pl.better.foodzilla.ui.viewmodels.favourites.FavouriteSearchesScreenViewModel
 import pl.better.foodzilla.utils.DispatchersProvider
 import pl.better.foodzilla.utils.exception.GraphQLErrorResponseException
 import javax.inject.Inject

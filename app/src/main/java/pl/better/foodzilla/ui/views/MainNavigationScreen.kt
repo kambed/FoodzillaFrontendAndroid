@@ -66,6 +66,7 @@ fun MainNavigationScreen(
                     composable(SearchScreenDestination) {
                         SearchScreen(
                             destinationsNavigator,
+                            navigator,
                             resultTagsRecipient = resultRecipient(),
                             resultIngredientsRecipient = resultRecipient()
                         )

@@ -1,5 +1,6 @@
 package pl.better.foodzilla.ui.views.recipe
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
@@ -30,6 +32,7 @@ import com.gowtham.ratingbar.RatingBarConfig
 import com.gowtham.ratingbar.RatingBarStyle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.flow.collectLatest
 import pl.better.foodzilla.data.models.recipe.Recipe
 import pl.better.foodzilla.ui.components.Table
 import pl.better.foodzilla.ui.components.TopBar
@@ -47,8 +50,23 @@ fun RecipeDetailsScreen(
     recipe: Recipe,
     viewModel: RecipeDetailsScreenViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     LaunchedEffect(key1 = true) {
         viewModel.getRecipeDetails(recipe.id)
+        viewModel.uiState.collectLatest { uiState ->
+            when (uiState) {
+                is RecipeDetailsScreenViewModel.RecipeDetailsScreenUIState.Error -> {
+                    Toast.makeText(
+                        context,
+                        uiState.message,
+                        Toast.LENGTH_LONG
+                    ).show()
+                    navigator.navigateUp()
+                }
+                else -> { /*ignored*/
+                }
+            }
+        }
     }
     Box(modifier = Modifier.fillMaxSize()) {
         Column {

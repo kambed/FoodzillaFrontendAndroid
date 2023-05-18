@@ -45,14 +45,12 @@ fun FavouriteRecipesScreen(
                 is FavouriteRecipesScreenViewModel.FavouriteRecipesScreenUIState.Error -> {
                     Toast.makeText(
                         context,
-                        "Your session expired, log in again!",
+                        uiState.message,
                         Toast.LENGTH_LONG
-                    )
-                        .show()
+                    ).show()
                     rootNavigator.navigate(LoginScreenDestination)
                 }
-                else -> { /*ignored*/
-                }
+                else -> { /*ignored*/ }
             }
         }
     }
