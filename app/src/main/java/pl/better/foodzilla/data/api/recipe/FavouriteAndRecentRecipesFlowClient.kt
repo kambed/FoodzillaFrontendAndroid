@@ -26,6 +26,7 @@ class FavouriteAndRecentRecipesFlowClient @Inject constructor(
             .data
             ?.favouriteRecipes
             ?.map { it!!.toRecipe() }
+            ?.reversed()
     }
 
     suspend fun addRecipeToFavourite(recipeId: Long): List<Recipe>? {

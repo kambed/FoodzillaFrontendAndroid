@@ -6,7 +6,7 @@ import kotlinx.coroutines.launch
 import pl.better.foodzilla.data.models.recipe.RecipeIngredient
 import pl.better.foodzilla.data.models.search.SearchFilter
 import pl.better.foodzilla.data.models.search.SearchRequest
-import pl.better.foodzilla.data.repositories.RecipeRepository
+import pl.better.foodzilla.data.repositories.recipe.RecipeRepository
 import pl.better.foodzilla.utils.DispatchersProvider
 import javax.inject.Inject
 

@@ -49,48 +49,6 @@ fun FavouriteSearchesScreen() {
                 .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(text = "Recent searches", fontWeight = FontWeight.Bold)
-        }
-        LazyColumn(
-            modifier = Modifier.fillMaxHeight(0.5f),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            contentPadding = PaddingValues(vertical = 6.dp)
-        ) {
-            items(
-                listOf(
-                    "chicken, eggs, 10 min, 300 cal",
-                    "butter, sugar, vanilla, eggs, weeknight, hmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm?",
-                    "tomatoes, garlic, onion,  30 min"
-                )
-            ) { search ->
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .defaultMinSize(minHeight = 35.dp)
-                        .padding(horizontal = 18.dp)
-                        .clip(RoundedCornerShape(18.dp))
-                        .background(Color(224, 224, 224))
-                        .clickable {
-                            //TODO: COPY TEXT TO SEARCH TEXT FIELD
-                        },
-                    contentAlignment = Alignment.CenterStart
-                ) {
-                    Text(
-                        modifier = Modifier
-                            .padding(horizontal = 12.dp),
-                        text = search,
-                        fontSize = 16.sp,
-                        textAlign = TextAlign.Start,
-                    )
-                }
-            }
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
             Text(text = "Saved searches", fontWeight = FontWeight.Bold)
         }
         LazyColumn(
@@ -104,7 +62,17 @@ fun FavouriteSearchesScreen() {
                     "butter, sugar, vanilla, eggs, sweet",
                     "30 min, giga chad recipe",
                     "hehe",
-                    "what to eat?"
+                    "what to eat?",
+                    "eggs, dog, 10 min, 0 cal",
+                    "butter, sugar, vanilla, eggs, sweet",
+                    "30 min, giga chad recipe",
+                    "hehe",
+                    "gasgasg",
+                    "eggs, dog, 10 min, 0 cal",
+                    "butter, sugar, vanilla, eggs, sweet",
+                    "30 min, giga chad recipe",
+                    "hehe",
+                    "gasgasg"
                 )
             ) { search ->
                 Box(

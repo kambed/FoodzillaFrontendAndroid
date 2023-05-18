@@ -1,0 +1,60 @@
+query FavouriteSearches{
+    savedSearch {
+        id
+        phrase
+        filters {
+            attribute
+            equals
+            from
+            to
+            in
+            hasOnly
+        }
+        sort {
+            attribute
+            direction
+        }
+    }
+}
+
+mutation AddFavouriteSearch($phrase: String!, $filters: [FilterType]!, $sort: [RecipeSort]!) {
+    addSavedSearch(input: {
+        phrase: $phrase
+        filters: $filters
+        sort: $sort
+    }) {
+        id
+        phrase
+        filters {
+            attribute
+            equals
+            from
+            to
+            in
+            hasOnly
+        }
+        sort {
+            attribute
+            direction
+        }
+    }
+}
+
+mutation RemoveFavouriteSearch($id: Int!) {
+    deleteSavedSearch(id: $id) {
+        id
+        phrase
+        filters {
+            attribute
+            equals
+            from
+            to
+            in
+            hasOnly
+        }
+        sort {
+            attribute
+            direction
+        }
+    }
+}

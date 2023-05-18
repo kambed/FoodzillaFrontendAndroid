@@ -7,5 +7,6 @@ import kotlinx.parcelize.Parcelize
 data class SearchRequest(
     var phrase: String,
     var sort: List<SearchSort>,
-    var filters: List<SearchFilter>
+    var filters: List<SearchFilter>,
+    var id: Int? = null,
 ) : Parcelable
