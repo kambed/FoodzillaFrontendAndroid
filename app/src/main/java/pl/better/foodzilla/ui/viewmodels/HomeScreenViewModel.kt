@@ -35,21 +35,29 @@ class HomeScreenViewModel @Inject constructor(
         sharedPreferencesRepository.removeLoggedUserData()
         savedStateHandle["uiState"] = HomeScreenUIState.Error(exceptionMessage)
     }
+    private val _isPopupVisible = MutableStateFlow(false)
+    val isPopupVisible = _isPopupVisible.asStateFlow()
 
     fun getRecipes() {
         viewModelScope.launch(dispatchers.io + exceptionHandler) {
             if (uiState.value is HomeScreenUIState.Success) return@launch
             if (uiState.value is HomeScreenUIState.SuccessNoImages) {
                 savedStateHandle["uiState"] = HomeScreenUIState.Success(recipeRepository.getRecommendationsWithImages())
+                _isPopupVisible.value = true
                 return@launch
             }
             savedStateHandle["uiState"] = HomeScreenUIState.SuccessNoImages(recipeRepository.getRecommendations())
             savedStateHandle["uiState"] = HomeScreenUIState.Success(recipeRepository.getRecommendationsWithImages())
+            _isPopupVisible.value = true
         }
     }
 
     fun changeSearch(search: String) {
         _search.value = search
+    }
+
+    fun hidePopup() {
+        _isPopupVisible.value = false
     }
 
     @Parcelize
