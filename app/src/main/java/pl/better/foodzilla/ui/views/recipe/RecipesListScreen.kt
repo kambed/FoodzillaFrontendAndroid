@@ -1,5 +1,6 @@
 package pl.better.foodzilla.ui.views.recipe
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,10 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.flow.collectLatest
 import pl.better.foodzilla.data.models.recipe.RecipeType
 import pl.better.foodzilla.ui.components.ListRecipesVertical2Columns
 import pl.better.foodzilla.ui.components.TopBar
@@ -29,8 +32,23 @@ fun RecipesListScreen(
     recipes: RecipeType,
     viewModel: RecipesListScreenViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     LaunchedEffect(key1 = true) {
         viewModel.getRecipes(recipes)
+        viewModel.uiState.collectLatest { uiState ->
+            when (uiState) {
+                is RecipesListScreenViewModel.RecipesListScreenUIState.Error -> {
+                    Toast.makeText(
+                        context,
+                        uiState.message,
+                        Toast.LENGTH_LONG
+                    ).show()
+                    navigator.navigateUp()
+                }
+                else -> { /*ignored*/
+                }
+            }
+        }
     }
     Column(modifier = Modifier.fillMaxSize()) {
         TopBar(title = title, icon = Icons.Filled.ArrowBack) {
@@ -39,8 +57,7 @@ fun RecipesListScreen(
         viewModel.uiState.collectAsStateWithLifecycle().value.recipes?.let {
             ListRecipesVertical2Columns(
                 navigator = navigator,
-                recipes = viewModel.uiState.collectAsStateWithLifecycle().value.recipes
-                    ?: emptyList()
+                recipes = it
             )
         } ?: run {
             Box(

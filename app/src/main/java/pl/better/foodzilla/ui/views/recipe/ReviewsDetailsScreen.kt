@@ -1,5 +1,6 @@
 package pl.better.foodzilla.ui.views.recipe
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,6 +25,7 @@ import com.gowtham.ratingbar.RatingBarConfig
 import com.gowtham.ratingbar.RatingBarStyle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.flow.collectLatest
 import pl.better.foodzilla.data.models.recipe.Recipe
 import pl.better.foodzilla.ui.components.ButtonRoundedCorners
 import pl.better.foodzilla.ui.components.ComboBox
@@ -39,8 +42,23 @@ fun ReviewsDetailsScreen(
     recipe: Recipe,
     viewModel: ReviewsDetailsScreenViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     LaunchedEffect(key1 = true) {
         viewModel.loadReviews(recipe)
+        viewModel.uiState.collectLatest { uiState ->
+            when (uiState) {
+                is ReviewsDetailsScreenViewModel.ReviewsDetailsScreenUIState.Error -> {
+                    Toast.makeText(
+                        context,
+                        uiState.message,
+                        Toast.LENGTH_LONG
+                    ).show()
+                    navigator.navigateUp()
+                }
+                else -> { /*ignored*/
+                }
+            }
+        }
     }
     Column(modifier = Modifier.fillMaxSize()) {
         TopBar(
@@ -50,7 +68,7 @@ fun ReviewsDetailsScreen(
         ) {
             navigator.navigateUp()
         }
-        viewModel.uiState.collectAsStateWithLifecycle().value.reviews.let { reviews ->
+        viewModel.uiState.collectAsStateWithLifecycle().value.reviews!!.let { reviews ->
             LazyColumn {
                 item {
                     Row(

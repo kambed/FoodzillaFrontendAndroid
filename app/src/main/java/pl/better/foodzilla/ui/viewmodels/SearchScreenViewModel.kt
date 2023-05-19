@@ -3,6 +3,7 @@ package pl.better.foodzilla.ui.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -20,6 +21,8 @@ class SearchScreenViewModel @Inject constructor(
     private val dispatchers: DispatchersProvider,
     private val searchRepository: SavedSearchesRepository
 ) : ViewModel() {
+    private val _uiState = MutableStateFlow<SearchScreenUIState>(SearchScreenUIState.Loading())
+    val uiState = _uiState.asStateFlow()
     private val _searchRequest = MutableStateFlow(SearchRequest("", emptyList(), emptyList()))
     val searchRequest = _searchRequest.asStateFlow()
     val possibleItems = mapOf(
@@ -53,6 +56,13 @@ class SearchScreenViewModel @Inject constructor(
     private val _isAddedToFavourites = MutableStateFlow(false)
     val isAddedToFavourites = _isAddedToFavourites.asStateFlow()
     private var favourite: SearchRequest? = null
+    private val exceptionHandler = CoroutineExceptionHandler { _, error ->
+        var exceptionMessage = error.message
+        if (error.message == null) {
+            exceptionMessage = "Unexpected error occurred. Try again later!"
+        }
+        _uiState.value = SearchScreenUIState.Error(exceptionMessage)
+    }
 
     fun changeSearchRequest(searchRequest: SearchRequest) {
         _searchRequest.value = searchRequest
@@ -90,19 +100,19 @@ class SearchScreenViewModel @Inject constructor(
     }
 
     fun changeFavourite() {
-        if (_isAddedToFavourites.value) {
-            viewModelScope.launch(dispatchers.io) {
+        _uiState.value = SearchScreenUIState.Loading()
+        viewModelScope.launch(dispatchers.io + exceptionHandler) {
+            if (_isAddedToFavourites.value) {
                 if (favourite == null) {
                     return@launch
                 }
                 searchRepository.deleteSearch(favourite!!)
-            }
-        } else {
-            viewModelScope.launch(dispatchers.io) {
+            } else {
                 favourite = searchRepository.saveSearch(_searchRequest.value)
             }
+            _uiState.value = SearchScreenUIState.Success()
+            _isAddedToFavourites.value = !_isAddedToFavourites.value
         }
-        _isAddedToFavourites.value = !_isAddedToFavourites.value
     }
 
     fun searchChanged() {
@@ -111,5 +121,11 @@ class SearchScreenViewModel @Inject constructor(
         }
         _isAddedToFavourites.value = false
         favourite = null
+    }
+
+    sealed class SearchScreenUIState {
+        data class Loading(val message: String? = null) : SearchScreenUIState()
+        data class Success(val message: String? = null) : SearchScreenUIState()
+        data class Error(val message: String?) : SearchScreenUIState()
     }
 }

@@ -1,5 +1,6 @@
 package pl.better.foodzilla.ui.views
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
@@ -14,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -22,6 +24,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.result.NavResult
 import com.ramcosta.composedestinations.result.ResultRecipient
+import kotlinx.coroutines.flow.collectLatest
 import pl.better.foodzilla.R
 import pl.better.foodzilla.data.models.search.SearchRequest
 import pl.better.foodzilla.ui.components.ImageCenter
@@ -31,6 +34,7 @@ import pl.better.foodzilla.ui.components.TextFieldSearch
 import pl.better.foodzilla.ui.navigation.BottomBarNavGraph
 import pl.better.foodzilla.ui.viewmodels.SearchScreenViewModel
 import pl.better.foodzilla.ui.views.destinations.IngredientsSearchScreenDestination
+import pl.better.foodzilla.ui.views.destinations.LoginScreenDestination
 import pl.better.foodzilla.ui.views.destinations.RecipesListPagedScreenDestination
 import pl.better.foodzilla.ui.views.destinations.TagsSearchScreenDestination
 import pl.better.foodzilla.utils.SizeNormalizer
@@ -40,17 +44,20 @@ import pl.better.foodzilla.utils.SizeNormalizer
 @Composable
 fun SearchScreen(
     navigator: DestinationsNavigator,
+    rootNavigator: DestinationsNavigator,
     resultTagsRecipient: ResultRecipient<TagsSearchScreenDestination, SearchRequest>,
     resultIngredientsRecipient: ResultRecipient<IngredientsSearchScreenDestination, SearchRequest>,
     viewModel: SearchScreenViewModel = hiltViewModel(),
 ) {
+    val context = LocalContext.current
     val screenHeight = LocalConfiguration.current.screenHeightDp
     resultTagsRecipient.onNavResult { result ->
         when (result) {
             is NavResult.Value<SearchRequest> -> {
                 viewModel.changeSearchRequest(result.value)
             }
-            else -> { /*ignored*/ }
+            else -> { /*ignored*/
+            }
         }
     }
     resultIngredientsRecipient.onNavResult { result ->
@@ -59,6 +66,22 @@ fun SearchScreen(
                 viewModel.changeSearchRequest(result.value)
             }
             else -> { /*ignored*/
+            }
+        }
+    }
+    LaunchedEffect(key1 = true) {
+        viewModel.uiState.collectLatest { uiState ->
+            when (uiState) {
+                is SearchScreenViewModel.SearchScreenUIState.Error -> {
+                    Toast.makeText(
+                        context,
+                        uiState.message,
+                        Toast.LENGTH_LONG
+                    ).show()
+                    rootNavigator.navigate(LoginScreenDestination)
+                }
+                else -> { /*ignored*/
+                }
             }
         }
     }

@@ -29,9 +29,9 @@ import pl.better.foodzilla.ui.components.ButtonRoundedCorners
 import pl.better.foodzilla.ui.components.TextFieldDisabled
 import pl.better.foodzilla.ui.navigation.BottomBarNavGraph
 import pl.better.foodzilla.ui.viewmodels.DashboardScreenViewModel
+import pl.better.foodzilla.ui.views.destinations.HomeScreenDestination
 import pl.better.foodzilla.ui.views.destinations.LoginScreenDestination
 import pl.better.foodzilla.utils.SizeNormalizer
-import pl.better.foodzilla.ui.views.destinations.HomeScreenDestination
 
 @BottomBarNavGraph
 @Destination
@@ -52,9 +52,10 @@ fun DashboardScreen(
                 is DashboardScreenViewModel.DashboardScreenUIState.Error -> {
                     Toast.makeText(
                         context,
-                        "Edit failed: ${it.message}",
+                        it.message,
                         Toast.LENGTH_LONG
                     ).show()
+                    rootNavigator.navigate(LoginScreenDestination)
                 }
                 is DashboardScreenViewModel.DashboardScreenUIState.LoggedOut -> {
                     rootNavigator.navigate(LoginScreenDestination)
@@ -67,7 +68,8 @@ fun DashboardScreen(
                     ).show()
                     navigator.navigate(HomeScreenDestination(user!!.copy(customer = it.customer!!)))
                 }
-                else -> { /*ignored*/ }
+                else -> { /*ignored*/
+                }
             }
         }
     }

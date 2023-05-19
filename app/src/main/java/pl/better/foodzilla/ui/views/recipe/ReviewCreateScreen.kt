@@ -1,5 +1,6 @@
 package pl.better.foodzilla.ui.views.recipe
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
@@ -11,6 +12,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,14 +39,24 @@ fun ReviewCreateScreen(
     recipe: Recipe,
     viewModel: ReviewCreateScreenViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     LaunchedEffect(key1 = true) {
         viewModel.uiState.collectLatest {
-            when(it) {
+            when (it) {
                 is ReviewCreateScreenViewModel.ReviewCreateScreenUIState.Success -> {
                     navigator.navigateUp()
                     navigator.navigateUp()
                 }
-                else -> { /*ignored*/ }
+                is ReviewCreateScreenViewModel.ReviewCreateScreenUIState.Error -> {
+                    Toast.makeText(
+                        context,
+                        it.message,
+                        Toast.LENGTH_LONG
+                    ).show()
+                    navigator.navigateUp()
+                }
+                else -> { /*ignored*/
+                }
             }
         }
     }

@@ -1,6 +1,7 @@
 package pl.better.foodzilla.ui.views
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.ramcosta.composedestinations.annotation.Destination
@@ -21,7 +22,7 @@ fun FavoritesScreen(
 ) {
     val tabRowItems = listOf(
         TabItem("Favorite recipes") { FavouriteRecipesScreen(navigator, rootNavigator) },
-        TabItem("Favorite searches") { FavouriteSearchesScreen(navigator) }
+        TabItem("Favorite searches") { FavouriteSearchesScreen(navigator, rootNavigator) }
     )
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarWithAvatar(text = "Favourites")
