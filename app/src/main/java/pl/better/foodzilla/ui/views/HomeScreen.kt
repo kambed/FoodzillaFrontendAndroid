@@ -1,7 +1,10 @@
 package pl.better.foodzilla.ui.views
 
 import android.widget.Toast
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -12,6 +15,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -24,6 +28,7 @@ import kotlinx.coroutines.flow.collectLatest
 import pl.better.foodzilla.data.models.login.Login
 import pl.better.foodzilla.data.models.search.SearchRequest
 import pl.better.foodzilla.ui.components.ListRecipesVertical2Columns
+import pl.better.foodzilla.ui.components.PopupWindow
 import pl.better.foodzilla.ui.components.TextFieldSearch
 import pl.better.foodzilla.ui.components.TopBarWithAvatar
 import pl.better.foodzilla.ui.navigation.BottomBarNavGraph
@@ -55,6 +60,15 @@ fun HomeScreen(
                 }
                 else -> { /*ignored*/ }
             }
+        }
+    }
+    if (viewModel.isPopupVisible.collectAsStateWithLifecycle().value) {
+        PopupWindow(modifier = Modifier.width(300.dp)
+            .shadow(elevation = 15.dp, RoundedCornerShape(10.dp))
+            .background(Color(244, 244, 244), RoundedCornerShape(10.dp)),
+            label = "GPT Opinion",
+            text = "Based on your requirements, we have found a total of 20 recipes that match your criteria. 10 of these recipes are considered healthy, and 7 are under the requested calorie limit. You can now explore the recipes and choose the one that best suits your needs. Bon appétit!") {
+            viewModel.hidePopup()
         }
     }
     Column {
