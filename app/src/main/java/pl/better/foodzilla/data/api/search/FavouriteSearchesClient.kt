@@ -4,8 +4,8 @@ import com.apollographql.apollo3.ApolloClient
 import pl.better.foodzilla.AddFavouriteSearchMutation
 import pl.better.foodzilla.FavouriteSearchesQuery
 import pl.better.foodzilla.RemoveFavouriteSearchMutation
-import pl.better.foodzilla.data.mappers.login.toFilterType
-import pl.better.foodzilla.data.mappers.login.toRecipeSort
+import pl.better.foodzilla.data.mappers.toFilterType
+import pl.better.foodzilla.data.mappers.toRecipeSort
 import pl.better.foodzilla.data.mappers.toSearchRequest
 import pl.better.foodzilla.data.models.search.SearchRequest
 import pl.better.foodzilla.utils.exception.GraphQLErrorResponseException

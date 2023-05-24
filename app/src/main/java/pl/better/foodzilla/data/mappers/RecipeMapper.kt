@@ -1,19 +1,23 @@
-package pl.better.foodzilla.data.mappers.login
+package pl.better.foodzilla.data.mappers
 
 import pl.better.foodzilla.*
-import pl.better.foodzilla.data.models.recipe.Recipe
-import pl.better.foodzilla.data.models.recipe.RecipeReview
 import pl.better.foodzilla.data.models.search.SearchFilter
 import pl.better.foodzilla.type.FilterType
 import com.apollographql.apollo3.api.Optional
-import pl.better.foodzilla.data.models.recipe.RecipeIngredient
-import pl.better.foodzilla.data.models.recipe.RecipeTag
+import pl.better.foodzilla.data.models.recipe.*
 import pl.better.foodzilla.data.models.search.SearchSort
 import pl.better.foodzilla.data.models.search.SearchSortDirection
 import pl.better.foodzilla.type.RecipeSort
 import pl.better.foodzilla.type.SortDirection
 
-fun RecommendationsQuery.Recommendation.toRecipe(): Recipe {
+fun RecommendationsQuery.Recommendations.toRecommendations(): Recommendations {
+    return Recommendations(
+        recipes = recipes.map { it!!.toRecipe() },
+        opinion = null
+    )
+}
+
+fun RecommendationsQuery.Recipe.toRecipe(): Recipe {
     return Recipe(
         id = id!!.toLong(),
         name = name,
@@ -21,12 +25,19 @@ fun RecommendationsQuery.Recommendation.toRecipe(): Recipe {
     )
 }
 
-fun RecommendationsWithImagesQuery.Recommendation.toRecipe(): Recipe {
+fun RecommendationsWithImagesAndOpinionQuery.Recommendations.toRecommendations(): Recommendations {
+    return Recommendations(
+        recipes = recipes.map { it!!.toRecipe() },
+        opinion = opinion
+    )
+}
+
+fun RecommendationsWithImagesAndOpinionQuery.Recipe.toRecipe(): Recipe {
     return Recipe(
         id = id!!.toLong(),
         name = name,
-        preparationTime = timeOfPreparation!!,
-        imageBase64 = image
+        imageBase64 = image,
+        preparationTime = timeOfPreparation!!
     )
 }
 

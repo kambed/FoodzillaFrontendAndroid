@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
-import pl.better.foodzilla.data.models.recipe.Recipe
+import pl.better.foodzilla.data.models.recipe.Recommendations
 import pl.better.foodzilla.data.repositories.recipe.RecipeRepository
 import pl.better.foodzilla.data.repositories.SharedPreferencesRepository
 import pl.better.foodzilla.utils.DispatchersProvider
@@ -61,14 +61,14 @@ class HomeScreenViewModel @Inject constructor(
     }
 
     @Parcelize
-    sealed class HomeScreenUIState(open val recipes: List<Recipe>?) : Parcelable {
-        data class Success(override val recipes: List<Recipe>? = null) : HomeScreenUIState(recipes)
-        data class SuccessNoImages(override val recipes: List<Recipe>? = null) :
+    sealed class HomeScreenUIState(open val recipes: Recommendations?) : Parcelable {
+        data class Success(override val recipes: Recommendations? = null) : HomeScreenUIState(recipes)
+        data class SuccessNoImages(override val recipes: Recommendations? = null) :
             HomeScreenUIState(recipes)
 
-        data class Error(val message: String?, override val recipes: List<Recipe>? = null) :
+        data class Error(val message: String?, override val recipes: Recommendations? = null) :
             HomeScreenUIState(recipes)
 
-        data class Loading(override val recipes: List<Recipe>? = null) : HomeScreenUIState(recipes)
+        data class Loading(override val recipes: Recommendations? = null) : HomeScreenUIState(recipes)
     }
 }
