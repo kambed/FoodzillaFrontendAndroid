@@ -2,11 +2,9 @@ package pl.better.foodzilla.data.api.recipe
 
 import com.apollographql.apollo3.ApolloClient
 import pl.better.foodzilla.*
+import pl.better.foodzilla.data.mappers.*
 import pl.better.foodzilla.data.mappers.login.*
-import pl.better.foodzilla.data.models.recipe.Recipe
-import pl.better.foodzilla.data.models.recipe.RecipeIngredient
-import pl.better.foodzilla.data.models.recipe.RecipeReview
-import pl.better.foodzilla.data.models.recipe.RecipeTag
+import pl.better.foodzilla.data.models.recipe.*
 import pl.better.foodzilla.data.models.search.SearchFilter
 import pl.better.foodzilla.data.models.search.SearchSort
 import pl.better.foodzilla.data.models.search.SearchSortDirection
@@ -17,7 +15,7 @@ import kotlin.streams.toList
 class RecipeFlowClient @Inject constructor(
     private val apolloClient: ApolloClient
 ) {
-    suspend fun getRecommendedRecipes(): List<Recipe>? {
+    suspend fun getRecommendedRecipes(): Recommendations? {
         val response = apolloClient
             .query(RecommendationsQuery())
             .execute()
@@ -28,12 +26,12 @@ class RecipeFlowClient @Inject constructor(
         return response
             .data
             ?.recommendations
-            ?.map { it!!.toRecipe() }
+            ?.toRecommendations()
     }
 
-    suspend fun getRecommendedRecipesWithImages(): List<Recipe>? {
+    suspend fun getRecommendedRecipesWithImages(): Recommendations? {
         val response = apolloClient
-            .query(RecommendationsWithImagesQuery())
+            .query(RecommendationsWithImagesAndOpinionQuery())
             .execute()
         if (response.data?.recommendations == null && response.errors != null) {
             throw GraphQLErrorResponseException(response.errors!!.stream().map { it.message }
@@ -42,7 +40,7 @@ class RecipeFlowClient @Inject constructor(
         return response
             .data
             ?.recommendations
-            ?.map { it!!.toRecipe() }
+            ?.toRecommendations()
     }
 
     suspend fun getRecipeDetails(recipeId: Long): Recipe? {

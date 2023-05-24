@@ -2,7 +2,6 @@ package pl.better.foodzilla.ui.views
 
 import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
@@ -58,17 +57,23 @@ fun HomeScreen(
                     ).show()
                     rootNavigator.navigate(LoginScreenDestination)
                 }
-                else -> { /*ignored*/ }
+                else -> { /*ignored*/
+                }
             }
         }
     }
     if (viewModel.isPopupVisible.collectAsStateWithLifecycle().value) {
-        PopupWindow(modifier = Modifier.width(300.dp)
-            .shadow(elevation = 15.dp, RoundedCornerShape(10.dp))
-            .background(Color(244, 244, 244), RoundedCornerShape(10.dp)),
-            label = "GPT Opinion",
-            text = "Based on your requirements, we have found a total of 20 recipes that match your criteria. 10 of these recipes are considered healthy, and 7 are under the requested calorie limit. You can now explore the recipes and choose the one that best suits your needs. Bon appétit!") {
-            viewModel.hidePopup()
+        viewModel.uiState.collectAsStateWithLifecycle().value.recipes?.opinion?.let {
+            PopupWindow(
+                modifier = Modifier
+                    .width(300.dp)
+                    .shadow(elevation = 15.dp, RoundedCornerShape(10.dp))
+                    .background(Color(244, 244, 244), RoundedCornerShape(10.dp)),
+                label = "GPT Opinion",
+                text = it
+            ) {
+                viewModel.hidePopup()
+            }
         }
     }
     Column {
@@ -94,7 +99,15 @@ fun HomeScreen(
                 textColor = MaterialTheme.colors.onBackground,
                 onTextChanged = viewModel::changeSearch,
                 onSearch = {
-                    navigator.navigate(RecipesListPagedScreenDestination(SearchRequest(viewModel.search.value, emptyList(), emptyList())))
+                    navigator.navigate(
+                        RecipesListPagedScreenDestination(
+                            SearchRequest(
+                                viewModel.search.value,
+                                emptyList(),
+                                emptyList()
+                            )
+                        )
+                    )
                     viewModel.changeSearch("")
                 }
             )
@@ -112,7 +125,7 @@ fun HomeScreen(
             )
         }
         viewModel.uiState.collectAsStateWithLifecycle().value.recipes.let {
-            if (it == null || it.isEmpty()) {
+            if (it?.recipes == null || it.recipes.isEmpty()) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
@@ -122,7 +135,7 @@ fun HomeScreen(
             } else {
                 ListRecipesVertical2Columns(
                     navigator = navigator,
-                    recipes = it
+                    recipes = it.recipes
                 )
             }
         }

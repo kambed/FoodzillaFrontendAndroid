@@ -107,15 +107,15 @@ type Mutation {
 }
 
 type Query {
-  favouriteRecipes: [RecipeSummarization]
+  favouriteRecipes: [Recipe]
 
   ingredients: [Ingredient]
 
   recipe(id: ID!): Recipe
 
-  recentlyViewedRecipes: [RecipeSummarization]
+  recentlyViewedRecipes: [Recipe]
 
-  recommendations: [RecipeSummarization]!
+  recommendations: Recommendations!
 
   savedSearch: [SavedSearchResult]
 
@@ -203,14 +203,10 @@ input RecipeSort {
   direction: SortDirection! = ASC
 }
 
-type RecipeSummarization {
-  id: ID
+type Recommendations {
+  opinion: String
 
-  name: String!
-
-  timeOfPreparation: Int
-
-  image: String
+  recipes: [Recipe]!
 }
 
 type Review {
@@ -265,9 +261,7 @@ type SearchResult {
 
   numberOfPages: Int!
 
-  opinion: String
-
-  recipes: [RecipeSummarization]!
+  recipes: [Recipe]!
 }
 
 enum SortDirection {

@@ -1,16 +1,21 @@
 query Recommendations {
     recommendations {
-        id
-        name
-        timeOfPreparation
+        recipes {
+            id
+            name
+            timeOfPreparation
+        }
     }
 }
 
-query RecommendationsWithImages {
+query RecommendationsWithImagesAndOpinion {
     recommendations {
-        id
-        name
-        timeOfPreparation
-        image
+        opinion
+        recipes {
+            id
+            name
+            timeOfPreparation
+            image
+        }
     }
 }
