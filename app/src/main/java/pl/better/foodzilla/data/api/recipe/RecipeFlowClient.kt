@@ -143,7 +143,7 @@ class RecipeFlowClient @Inject constructor(
                         recipe.name,
                         Optional.present(recipe.description),
                         Optional.present(recipe.preparationTime),
-                        Optional.present(recipe.steps),
+                        Optional.present(recipe.steps ?: emptyList()),
                         Optional.present(recipe.calories),
                         Optional.present(recipe.fat),
                         Optional.present(recipe.sugar),
@@ -151,8 +151,8 @@ class RecipeFlowClient @Inject constructor(
                         Optional.present(recipe.protein),
                         Optional.present(recipe.saturatedFat),
                         Optional.present(recipe.carbohydrates),
-                        Optional.present(recipe.ingredients?.map { IngredientInput(it.name) }),
-                        Optional.present(recipe.tags?.map { TagInput(it.name) })
+                        Optional.present(recipe.ingredients?.map { IngredientInput(it.name) } ?: emptyList()),
+                        Optional.present(recipe.tags?.map { TagInput(it.name) } ?: emptyList())
                     )
                 )
             )
