@@ -11,6 +11,7 @@ interface RecipeRepository {
     suspend fun getRecipeDetails(recipeId: Long): Recipe?
     fun searchRecipes(search: SearchRequest): Flow<PagingData<Recipe>>
     suspend fun createReview(recipeId: Long, review: String, rating: Int): RecipeReview?
+    suspend fun createRecipe(recipe: Recipe): Recipe?
     suspend fun getTags(): List<RecipeTag>?
     suspend fun getIngredients(): List<RecipeIngredient>?
 }

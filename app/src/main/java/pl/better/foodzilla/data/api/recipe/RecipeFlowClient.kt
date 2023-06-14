@@ -1,13 +1,34 @@
 package pl.better.foodzilla.data.api.recipe
 
 import com.apollographql.apollo3.ApolloClient
-import pl.better.foodzilla.*
-import pl.better.foodzilla.data.mappers.*
-import pl.better.foodzilla.data.mappers.login.*
-import pl.better.foodzilla.data.models.recipe.*
+import com.apollographql.apollo3.api.Optional
+import pl.better.foodzilla.CreateRecipeMutation
+import pl.better.foodzilla.CreateReviewMutation
+import pl.better.foodzilla.IngredientsQuery
+import pl.better.foodzilla.RecipeDetailsQuery
+import pl.better.foodzilla.RecommendationsQuery
+import pl.better.foodzilla.RecommendationsWithImagesAndOpinionQuery
+import pl.better.foodzilla.SearchRecipesQuery
+import pl.better.foodzilla.TagsQuery
+import pl.better.foodzilla.data.mappers.toFilterType
+import pl.better.foodzilla.data.mappers.toIngredient
+import pl.better.foodzilla.data.mappers.toRecipe
+import pl.better.foodzilla.data.mappers.toRecipeSort
+import pl.better.foodzilla.data.mappers.toRecommendations
+import pl.better.foodzilla.data.mappers.toReview
+import pl.better.foodzilla.data.mappers.toTag
+import pl.better.foodzilla.data.models.recipe.Recipe
+import pl.better.foodzilla.data.models.recipe.RecipeIngredient
+import pl.better.foodzilla.data.models.recipe.RecipeReview
+import pl.better.foodzilla.data.models.recipe.RecipeTag
+import pl.better.foodzilla.data.models.recipe.Recommendations
 import pl.better.foodzilla.data.models.search.SearchFilter
 import pl.better.foodzilla.data.models.search.SearchSort
 import pl.better.foodzilla.data.models.search.SearchSortDirection
+import pl.better.foodzilla.type.IngredientInput
+import pl.better.foodzilla.type.RecipeInput
+import pl.better.foodzilla.type.ReviewInput
+import pl.better.foodzilla.type.TagInput
 import pl.better.foodzilla.utils.exception.GraphQLErrorResponseException
 import javax.inject.Inject
 import kotlin.streams.toList
@@ -92,7 +113,17 @@ class RecipeFlowClient @Inject constructor(
 
     suspend fun createReview(recipeId: Long, review: String, rating: Int): RecipeReview? {
         val response = apolloClient
-            .mutation(CreateReviewMutation(recipeId.toInt(), review, rating))
+            .mutation(
+                CreateReviewMutation(
+                    Optional.present(
+                        ReviewInput(
+                            recipeId.toInt(),
+                            Optional.present(review),
+                            rating
+                        )
+                    )
+                )
+            )
             .execute()
         if (response.data?.createReview == null && response.errors != null) {
             throw GraphQLErrorResponseException(response.errors!!.stream().map { it.message }
@@ -102,6 +133,38 @@ class RecipeFlowClient @Inject constructor(
             .data
             ?.createReview
             ?.toReview()
+    }
+
+    suspend fun createRecipe(recipe: Recipe): Recipe? {
+        val response = apolloClient
+            .mutation(
+                CreateRecipeMutation(
+                    RecipeInput(
+                        recipe.name,
+                        Optional.present(recipe.description),
+                        Optional.present(recipe.preparationTime),
+                        Optional.present(recipe.steps),
+                        Optional.present(recipe.calories),
+                        Optional.present(recipe.fat),
+                        Optional.present(recipe.sugar),
+                        Optional.present(recipe.sodium),
+                        Optional.present(recipe.protein),
+                        Optional.present(recipe.saturatedFat),
+                        Optional.present(recipe.carbohydrates),
+                        Optional.present(recipe.ingredients?.map { IngredientInput(it.name) }),
+                        Optional.present(recipe.tags?.map { TagInput(it.name) })
+                    )
+                )
+            )
+            .execute()
+        if (response.data?.createRecipe == null && response.errors != null) {
+            throw GraphQLErrorResponseException(response.errors!!.stream().map { it.message }
+                .toList())
+        }
+        return response
+            .data
+            ?.createRecipe
+            ?.toRecipe()
     }
 
     suspend fun getTags(): List<RecipeTag>? {
