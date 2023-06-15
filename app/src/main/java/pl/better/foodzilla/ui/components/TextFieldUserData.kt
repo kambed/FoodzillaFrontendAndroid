@@ -37,6 +37,7 @@ fun TextFieldUserData(
     textColor: Color,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     onKeyboardDoneExecuteRequest: (() -> Unit)? = null,
+    enabled: Boolean = true,
     onTextChanged: (String) -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
@@ -59,6 +60,7 @@ fun TextFieldUserData(
             fontSize = valueFontSize,
             color = textColor
         ),
+        enabled = enabled,
         keyboardOptions = if (isPasswordTextField) KeyboardOptions(keyboardType = KeyboardType.Password) else KeyboardOptions.Default,
         keyboardActions = KeyboardActions(
             onDone = {

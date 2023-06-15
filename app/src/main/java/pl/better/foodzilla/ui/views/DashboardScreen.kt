@@ -29,7 +29,6 @@ import pl.better.foodzilla.ui.components.ButtonRoundedCorners
 import pl.better.foodzilla.ui.components.TextFieldDisabled
 import pl.better.foodzilla.ui.navigation.BottomBarNavGraph
 import pl.better.foodzilla.ui.viewmodels.DashboardScreenViewModel
-import pl.better.foodzilla.ui.views.destinations.HomeScreenDestination
 import pl.better.foodzilla.ui.views.destinations.LoginScreenDestination
 import pl.better.foodzilla.utils.SizeNormalizer
 
@@ -37,7 +36,6 @@ import pl.better.foodzilla.utils.SizeNormalizer
 @Destination
 @Composable
 fun DashboardScreen(
-    navigator: DestinationsNavigator,
     user: Login?,
     rootNavigator: DestinationsNavigator,
     viewModel: DashboardScreenViewModel = hiltViewModel()
@@ -47,6 +45,7 @@ fun DashboardScreen(
         viewModel.changeUsername(user?.customer?.username ?: "")
         viewModel.changeFirstname(user?.customer?.firstname ?: "")
         viewModel.changeLastname(user?.customer?.lastname ?: "")
+        viewModel.changeEmail(user?.customer?.email ?: "")
         viewModel.uiState.collectLatest {
             when (it) {
                 is DashboardScreenViewModel.DashboardScreenUIState.Error -> {
@@ -66,7 +65,7 @@ fun DashboardScreen(
                         "Successfully edited account!",
                         Toast.LENGTH_LONG
                     ).show()
-                    navigator.navigate(HomeScreenDestination(user!!.copy(customer = it.customer!!)))
+                    viewModel.logOut()
                 }
                 else -> { /*ignored*/
                 }
@@ -133,6 +132,20 @@ fun DashboardScreen(
                 .padding(horizontal = SizeNormalizer.normalize(15.dp, screenHeight))
         ) {
             viewModel.changeUsername(it)
+        }
+        Spacer(modifier = Modifier.height(SizeNormalizer.normalize(10.dp, screenHeight)))
+        TextFieldDisabled(
+            value = viewModel.email.collectAsStateWithLifecycle().value,
+            label = "Email",
+            valueFontSize = SizeNormalizer.normalize(16.sp, screenHeight),
+            labelFontSize = SizeNormalizer.normalize(12.sp, screenHeight),
+            enabled = viewModel.uiState.collectAsStateWithLifecycle().value is DashboardScreenViewModel.DashboardScreenUIState.Edit,
+            modifier = Modifier
+                .height(SizeNormalizer.normalize(55.dp, screenHeight))
+                .fillMaxWidth()
+                .padding(horizontal = SizeNormalizer.normalize(15.dp, screenHeight))
+        ) {
+            viewModel.changeEmail(it)
         }
         Spacer(modifier = Modifier.height(SizeNormalizer.normalize(10.dp, screenHeight)))
         if (viewModel.uiState.collectAsStateWithLifecycle().value is DashboardScreenViewModel.DashboardScreenUIState.Edit) {

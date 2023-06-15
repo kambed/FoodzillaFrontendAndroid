@@ -30,6 +30,8 @@ class RegisterScreenViewModel @Inject constructor(
     val password = _password.asStateFlow()
     private val _confirmPassword = MutableStateFlow("")
     val confirmPassword = _confirmPassword.asStateFlow()
+    private val _email = MutableStateFlow("")
+    val email = _email.asStateFlow()
     private val exceptionHandler = CoroutineExceptionHandler { _, error ->
         var exceptionMessage = error.message
         if (error.message == null) {
@@ -58,6 +60,10 @@ class RegisterScreenViewModel @Inject constructor(
         _confirmPassword.value = confirmPassword
     }
 
+    fun changeEmail(email : String) {
+        _email.value = email
+    }
+
     fun sendRegisterRequest() {
         viewModelScope.launch(dispatchers.io + exceptionHandler) {
             _uiState.value = RegisterUIState.Waiting()
@@ -66,7 +72,7 @@ class RegisterScreenViewModel @Inject constructor(
                     throw GraphQLErrorResponseException(listOf("Passwords are not identical"))
                 }
                 val registerResponse = loginRepository.register(_firstname.value, _lastname.value,
-                    _login.value, _password.value)
+                    _login.value, _password.value, _email.value)
                 _uiState.value = RegisterUIState.Success(registerResponse)
             } catch (exception: GraphQLErrorResponseException) {
                 _uiState.value = RegisterUIState.Error(exception.errors.joinToString(",\n"))

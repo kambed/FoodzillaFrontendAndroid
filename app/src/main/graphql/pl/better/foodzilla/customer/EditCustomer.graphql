@@ -3,6 +3,7 @@ mutation EditCustomer(
     $lastname: String!
     $username: String!
     $password: String!
+    $email: String!
 ) {
     editCustomer(
         customer: {
@@ -10,10 +11,12 @@ mutation EditCustomer(
             lastname: $lastname
             username: $username
             password: $password
+            email: $email
         }
     ) {
         firstname
         lastname
         username
+        email
     }
 }

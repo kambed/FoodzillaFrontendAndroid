@@ -30,6 +30,8 @@ class DashboardScreenViewModel @Inject constructor(
     val username = _username.asStateFlow()
     private val _password = MutableStateFlow("")
     val password = _password.asStateFlow()
+    private val _email = MutableStateFlow("")
+    val email = _email.asStateFlow()
     private val _passwordConfirm = MutableStateFlow("")
     val passwordConfirm = _passwordConfirm.asStateFlow()
     private val exceptionHandler = CoroutineExceptionHandler { _, error ->
@@ -51,7 +53,7 @@ class DashboardScreenViewModel @Inject constructor(
                 return@launch
             }
             _uiState.value = DashboardScreenUIState.Success(
-                loginRepository.editCustomer(firstname.value, lastname.value, username.value, password.value)
+                loginRepository.editCustomer(firstname.value, lastname.value, username.value, password.value, email.value)
             )
         }
     }
@@ -77,6 +79,10 @@ class DashboardScreenViewModel @Inject constructor(
 
     fun changePassword(password: String) {
         _password.value = password
+    }
+
+    fun changeEmail(email: String) {
+        _email.value = email
     }
 
     fun changePasswordConfirm(passwordConfirm: String) {

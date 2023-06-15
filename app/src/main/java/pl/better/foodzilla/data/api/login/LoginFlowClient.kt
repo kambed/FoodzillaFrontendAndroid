@@ -4,6 +4,8 @@ import com.apollographql.apollo3.ApolloClient
 import pl.better.foodzilla.LoginMutation
 import pl.better.foodzilla.RegisterMutation
 import pl.better.foodzilla.EditCustomerMutation
+import pl.better.foodzilla.ResetPasswordMutation
+import pl.better.foodzilla.ResetPasswordRequestMutation
 import pl.better.foodzilla.data.mappers.login.toCustomer
 import pl.better.foodzilla.data.mappers.login.toLogin
 import pl.better.foodzilla.data.models.login.Customer
@@ -29,9 +31,9 @@ class LoginFlowClient @Inject constructor(
             ?.toLogin()
     }
 
-    suspend fun register(firstname: String, lastname: String, login: String, password: String): Customer? {
+    suspend fun register(firstname: String, lastname: String, login: String, password: String, email: String): Customer? {
         val response = apolloClient
-            .mutation(RegisterMutation(firstname, lastname, login, password))
+            .mutation(RegisterMutation(firstname, lastname, login, password, email))
             .execute()
         if (response.data?.createCustomer == null && response.errors != null) {
             throw GraphQLErrorResponseException(response.errors!!.stream().map { it.message }.toList())
@@ -42,9 +44,9 @@ class LoginFlowClient @Inject constructor(
             ?.toCustomer()
     }
 
-    suspend fun editCustomer(firstname: String, lastname: String, username: String, password: String): Customer? {
+    suspend fun editCustomer(firstname: String, lastname: String, username: String, password: String, email: String): Customer? {
         val response = apolloClient
-            .mutation(EditCustomerMutation(firstname, lastname, username, password))
+            .mutation(EditCustomerMutation(firstname, lastname, username, password, email))
             .execute()
         if (response.data?.editCustomer == null && response.errors != null) {
             throw GraphQLErrorResponseException(response.errors!!.stream().map { it.message }.toList())
@@ -53,5 +55,31 @@ class LoginFlowClient @Inject constructor(
             .data
             ?.editCustomer
             ?.toCustomer()
+    }
+
+    suspend fun sendResetPasswordEmail(email: String): Boolean {
+        val response = apolloClient
+            .mutation(ResetPasswordRequestMutation(email))
+            .execute()
+        if (response.data?.requestPasswordResetEmail == null && response.errors != null) {
+            throw GraphQLErrorResponseException(response.errors!!.stream().map { it.message }.toList())
+        }
+        return response
+            .data
+            ?.requestPasswordResetEmail
+            ?: false
+    }
+
+    suspend fun resetPassword(email: String, token: String, password: String): Boolean {
+        val response = apolloClient
+            .mutation(ResetPasswordMutation(email, password, token))
+            .execute()
+        if (response.data?.resetPassword == null && response.errors != null) {
+            throw GraphQLErrorResponseException(response.errors!!.stream().map { it.message }.toList())
+        }
+        return response
+            .data
+            ?.resetPassword
+            ?: false
     }
 }
