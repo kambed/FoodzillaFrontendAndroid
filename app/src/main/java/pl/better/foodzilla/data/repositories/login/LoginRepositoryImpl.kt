@@ -32,4 +32,12 @@ class LoginRepositoryImpl(private val loginFlowClient: LoginFlowClient) : LoginR
     ): Customer? {
         return loginFlowClient.editCustomer(firstname, lastname, username, password, email)
     }
+
+    override suspend fun sendResetPasswordEmail(email: String): Boolean {
+        return loginFlowClient.sendResetPasswordEmail(email)
+    }
+
+    override suspend fun resetPassword(email: String, token: String, password: String): Boolean {
+        return loginFlowClient.resetPassword(email, token, password)
+    }
 }

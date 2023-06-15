@@ -4,6 +4,8 @@ import com.apollographql.apollo3.ApolloClient
 import pl.better.foodzilla.LoginMutation
 import pl.better.foodzilla.RegisterMutation
 import pl.better.foodzilla.EditCustomerMutation
+import pl.better.foodzilla.ResetPasswordMutation
+import pl.better.foodzilla.ResetPasswordRequestMutation
 import pl.better.foodzilla.data.mappers.login.toCustomer
 import pl.better.foodzilla.data.mappers.login.toLogin
 import pl.better.foodzilla.data.models.login.Customer
@@ -53,5 +55,31 @@ class LoginFlowClient @Inject constructor(
             .data
             ?.editCustomer
             ?.toCustomer()
+    }
+
+    suspend fun sendResetPasswordEmail(email: String): Boolean {
+        val response = apolloClient
+            .mutation(ResetPasswordRequestMutation(email))
+            .execute()
+        if (response.data?.requestPasswordResetEmail == null && response.errors != null) {
+            throw GraphQLErrorResponseException(response.errors!!.stream().map { it.message }.toList())
+        }
+        return response
+            .data
+            ?.requestPasswordResetEmail
+            ?: false
+    }
+
+    suspend fun resetPassword(email: String, token: String, password: String): Boolean {
+        val response = apolloClient
+            .mutation(ResetPasswordMutation(email, password, token))
+            .execute()
+        if (response.data?.resetPassword == null && response.errors != null) {
+            throw GraphQLErrorResponseException(response.errors!!.stream().map { it.message }.toList())
+        }
+        return response
+            .data
+            ?.resetPassword
+            ?: false
     }
 }

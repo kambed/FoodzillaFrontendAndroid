@@ -29,7 +29,6 @@ import pl.better.foodzilla.ui.components.ButtonRoundedCorners
 import pl.better.foodzilla.ui.components.TextFieldDisabled
 import pl.better.foodzilla.ui.navigation.BottomBarNavGraph
 import pl.better.foodzilla.ui.viewmodels.DashboardScreenViewModel
-import pl.better.foodzilla.ui.views.destinations.HomeScreenDestination
 import pl.better.foodzilla.ui.views.destinations.LoginScreenDestination
 import pl.better.foodzilla.utils.SizeNormalizer
 
@@ -37,7 +36,6 @@ import pl.better.foodzilla.utils.SizeNormalizer
 @Destination
 @Composable
 fun DashboardScreen(
-    navigator: DestinationsNavigator,
     user: Login?,
     rootNavigator: DestinationsNavigator,
     viewModel: DashboardScreenViewModel = hiltViewModel()

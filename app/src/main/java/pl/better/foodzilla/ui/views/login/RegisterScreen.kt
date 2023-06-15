@@ -6,6 +6,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.Lock
@@ -90,6 +91,16 @@ fun RegisterScreen(
                     icon = Icons.Default.AccountBox,
                     textColor = Color.Black,
                     onTextChanged = viewModel::changeLogin
+                )
+                TextFieldUserData(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = viewModel.email.collectAsState().value,
+                    valueFontSize = SizeNormalizer.normalize(16.sp, screenHeight),
+                    label = "Email",
+                    labelFontSize = SizeNormalizer.normalize(12.sp, screenHeight),
+                    icon = Icons.Default.Email,
+                    textColor = Color.Black,
+                    onTextChanged = viewModel::changeEmail
                 )
                 TextFieldUserData(
                     modifier = Modifier.fillMaxWidth(),

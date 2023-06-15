@@ -1,8 +1,12 @@
 package pl.better.foodzilla.ui.views.login
 
 import android.widget.Toast
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.ArrowBack
@@ -19,37 +23,42 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.collectLatest
 import pl.better.foodzilla.R
-import pl.better.foodzilla.ui.components.*
-import pl.better.foodzilla.ui.viewmodels.login.LoginScreenViewModel
-import pl.better.foodzilla.ui.views.destinations.ForgotPasswordScreenDestination
-import pl.better.foodzilla.ui.views.destinations.LandingScreenDestination
-import pl.better.foodzilla.ui.views.destinations.MainNavigationScreenDestination
-import pl.better.foodzilla.ui.views.destinations.RegisterScreenDestination
+import pl.better.foodzilla.ui.components.ButtonRoundedCorners
+import pl.better.foodzilla.ui.components.ImageCenter
+import pl.better.foodzilla.ui.components.TextFieldUserData
+import pl.better.foodzilla.ui.components.TopBar
+import pl.better.foodzilla.ui.viewmodels.login.ForgotPasswordScreenViewModel
 import pl.better.foodzilla.utils.SizeNormalizer
 
 @RootNavGraph
 @Destination
 @Composable
-fun LoginScreen(
+fun ForgotPasswordScreen(
     navigator: DestinationsNavigator,
-    viewModel: LoginScreenViewModel = hiltViewModel()
+    viewModel: ForgotPasswordScreenViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     LaunchedEffect(key1 = true) {
         viewModel.uiState.collectLatest { uiState ->
             when (uiState) {
-                is LoginScreenViewModel.LoginUIState.Success -> {
-                    navigator.navigate(MainNavigationScreenDestination(uiState.login))
+                is ForgotPasswordScreenViewModel.ForgotPasswordScreenUIState.Success -> {
+                    navigator.navigateUp()
                 }
-                is LoginScreenViewModel.LoginUIState.Error -> {
-                    Toast.makeText(context, "Login failed: ${uiState.message}", Toast.LENGTH_LONG)
-                        .show()
+
+                is ForgotPasswordScreenViewModel.ForgotPasswordScreenUIState.Error -> {
+                    Toast.makeText(
+                        context,
+                        "Failed to reset password: ${uiState.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
+
                 else -> { /*ignored*/
                 }
             }
@@ -60,34 +69,45 @@ fun LoginScreen(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        TopBar(title = "Sign in", icon = Icons.Filled.ArrowBack) {
-            navigator.navigate(LandingScreenDestination)
+        TopBar(title = "Reset password", icon = Icons.Filled.ArrowBack) {
+            navigator.navigateUp()
         }
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             ImageCenter(
                 modifier = Modifier.height(SizeNormalizer.normalize(136.dp, screenHeight)),
                 imageModifier = Modifier.height(SizeNormalizer.normalize(30.dp, screenHeight)),
                 painterResource = painterResource(id = R.drawable.foodzilla_logo)
             )
-            Column(
-                modifier = Modifier.height(SizeNormalizer.normalize(130.dp, screenHeight)),
-                verticalArrangement = Arrangement.SpaceAround
-            ) {
+            TextFieldUserData(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(SizeNormalizer.normalize(55.dp, screenHeight)),
+                value = viewModel.email.collectAsState().value,
+                valueFontSize = SizeNormalizer.normalize(16.sp, screenHeight),
+                label = "Email",
+                labelFontSize = SizeNormalizer.normalize(12.sp, screenHeight),
+                icon = Icons.Default.AccountBox,
+                textColor = Color.Black,
+                enabled = viewModel.uiState.collectAsStateWithLifecycle().value !is ForgotPasswordScreenViewModel.ForgotPasswordScreenUIState.Sent,
+                onTextChanged = viewModel::setEmail
+            )
+            if (viewModel.uiState.collectAsStateWithLifecycle().value is ForgotPasswordScreenViewModel.ForgotPasswordScreenUIState.Sent) {
                 TextFieldUserData(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(SizeNormalizer.normalize(55.dp, screenHeight)),
-                    value = viewModel.login.collectAsState().value,
+                    value = viewModel.token.collectAsState().value,
                     valueFontSize = SizeNormalizer.normalize(16.sp, screenHeight),
-                    label = "Username",
+                    label = "Code",
                     labelFontSize = SizeNormalizer.normalize(12.sp, screenHeight),
                     icon = Icons.Default.AccountBox,
                     textColor = Color.Black,
-                    onTextChanged = viewModel::changeLogin
+                    onTextChanged = viewModel::setToken
                 )
                 TextFieldUserData(
                     modifier = Modifier
@@ -95,26 +115,16 @@ fun LoginScreen(
                         .height(SizeNormalizer.normalize(55.dp, screenHeight)),
                     value = viewModel.password.collectAsState().value,
                     valueFontSize = SizeNormalizer.normalize(16.sp, screenHeight),
-                    label = "Password",
+                    label = "New password",
                     labelFontSize = SizeNormalizer.normalize(12.sp, screenHeight),
                     icon = Icons.Default.Lock,
                     textColor = Color.Black,
-                    onTextChanged = viewModel::changePassword,
-                    onKeyboardDoneExecuteRequest = viewModel::sendLoginRequest,
+                    onTextChanged = viewModel::setPassword,
                     visualTransformation = PasswordVisualTransformation()
                 )
             }
-            ButtonRoundedWithBorder(
-                modifier = Modifier
-                    .width(120.dp)
-                    .height(SizeNormalizer.normalize(20.dp, screenHeight)),
-                buttonText = "FORGOT PASSWORD?",
-                textColor = Color.Black
-            ) {
-                navigator.navigate(ForgotPasswordScreenDestination())
-            }
             ImageCenter(
-                modifier = Modifier.height(SizeNormalizer.normalize(250.dp, screenHeight)),
+                modifier = Modifier.height(SizeNormalizer.normalize(210.dp, screenHeight)),
                 imageModifier = Modifier.height(SizeNormalizer.normalize(170.dp, screenHeight)),
                 painterResource = painterResource(id = R.drawable.foodzilla_dino_logo)
             )
@@ -122,23 +132,11 @@ fun LoginScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(SizeNormalizer.normalize(45.dp, screenHeight)),
-                buttonText = "SIGN IN",
+                buttonText = if (viewModel.uiState.collectAsStateWithLifecycle().value is ForgotPasswordScreenViewModel.ForgotPasswordScreenUIState.Sent)
+                    "Reset password" else "Send reset password email",
                 textColor = Color.White
             ) {
-                viewModel.sendLoginRequest()
-            }
-            Spacer(
-                modifier = Modifier
-                    .height(SizeNormalizer.normalize(40.dp, screenHeight))
-            )
-            TextClickableTwoColors(
-                text1 = "NEW TO FOODZILLA? ",
-                text1Color = Color.Black,
-                text2 = "CREATE AN ACCOUNT",
-                text2Color = MaterialTheme.colors.primary,
-                textSize = SizeNormalizer.normalize(12.sp, screenHeight)
-            ) {
-                navigator.navigate(RegisterScreenDestination)
+                viewModel.reset()
             }
         }
     }
