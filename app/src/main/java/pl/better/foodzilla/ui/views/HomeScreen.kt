@@ -4,10 +4,14 @@ import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,6 +38,7 @@ import pl.better.foodzilla.ui.navigation.BottomBarNavGraph
 import pl.better.foodzilla.ui.viewmodels.HomeScreenViewModel
 import pl.better.foodzilla.ui.views.destinations.LoginScreenDestination
 import pl.better.foodzilla.ui.views.destinations.RecipesListPagedScreenDestination
+import pl.better.foodzilla.ui.views.destinations.RecipeCreateScreenDestination
 
 @BottomBarNavGraph(start = true)
 @Destination
@@ -57,6 +62,7 @@ fun HomeScreen(
                     ).show()
                     rootNavigator.navigate(LoginScreenDestination)
                 }
+
                 else -> { /*ignored*/
                 }
             }
@@ -83,15 +89,14 @@ fun HomeScreen(
                 .fillMaxWidth()
                 .padding(
                     horizontal = 18.dp
-                )
+                ),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             TextFieldSearch(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        horizontal = 16.dp,
-                        vertical = 11.dp
-                    )
+                    .weight(0.8f)
+                    .padding(vertical = 11.dp)
                     .shadow(2.dp),
                 value = viewModel.search.collectAsStateWithLifecycle().value,
                 label = "Search recipes",
@@ -111,6 +116,19 @@ fun HomeScreen(
                     viewModel.changeSearch("")
                 }
             )
+            Button(
+                modifier = Modifier.size(56.dp),
+                colors = ButtonDefaults.buttonColors(
+                    Color(0xFF666666)
+                ),
+                onClick = {
+                    navigator.navigate(
+                        RecipeCreateScreenDestination()
+                    )
+                }
+            ) {
+                Icon(imageVector = Icons.Default.Add, contentDescription = null, tint = Color.White)
+            }
         }
         Row(
             modifier = Modifier

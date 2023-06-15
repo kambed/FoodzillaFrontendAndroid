@@ -1,10 +1,6 @@
-mutation CreateReview($recipeId: Int!, $review: String!, $rating: Int!) {
+mutation CreateReview($review: ReviewInput) {
     createReview(
-        command: {
-            recipeId: $recipeId
-            review: $review
-            rating: $rating
-        }
+        command: $review
     ) {
         id
         review

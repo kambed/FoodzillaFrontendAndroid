@@ -144,3 +144,47 @@ fun SearchSortDirection.toSortDirection(): SortDirection {
     }
 }
 
+fun CreateRecipeMutation.CreateRecipe.toRecipe(): Recipe {
+    return Recipe(
+        id = id!!.toLong(),
+        name = name,
+        description = description,
+        preparationTime = timeOfPreparation,
+        numberOfSteps = numberOfSteps,
+        steps = steps,
+        numberOfIngredients = numberOfIngredients,
+        calories = calories,
+        fat = fat,
+        sugar = sugar,
+        sodium = sodium,
+        protein = protein,
+        saturatedFat = saturatedFat,
+        carbohydrates = carbohydrates,
+        reviews = reviews!!.map { it!!.toReview() },
+        ingredients = ingredients!!.map { it!!.toIngredient() },
+        tags = tags!!.map { it!!.toTag() },
+    )
+}
+
+fun CreateRecipeMutation.Review.toReview(): RecipeReview {
+    return RecipeReview(
+        id = id!!.toLong(),
+        review = review,
+        rating = rating
+    )
+}
+
+fun CreateRecipeMutation.Ingredient.toIngredient(): RecipeIngredient {
+    return RecipeIngredient(
+        id = id!!.toLong(),
+        name = name
+    )
+}
+
+fun CreateRecipeMutation.Tag.toTag(): RecipeTag {
+    return RecipeTag(
+        id = id!!.toLong(),
+        name = name
+    )
+}
+

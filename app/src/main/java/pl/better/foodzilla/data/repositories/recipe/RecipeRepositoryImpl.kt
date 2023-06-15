@@ -6,7 +6,11 @@ import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import pl.better.foodzilla.data.api.recipe.RecipeFlowClient
 import pl.better.foodzilla.data.api.recipe.RecipePagingSource
-import pl.better.foodzilla.data.models.recipe.*
+import pl.better.foodzilla.data.models.recipe.Recipe
+import pl.better.foodzilla.data.models.recipe.RecipeIngredient
+import pl.better.foodzilla.data.models.recipe.RecipeReview
+import pl.better.foodzilla.data.models.recipe.RecipeTag
+import pl.better.foodzilla.data.models.recipe.Recommendations
 import pl.better.foodzilla.data.models.search.SearchRequest
 
 class RecipeRepositoryImpl(private val recipeFlowClient: RecipeFlowClient) : RecipeRepository {
@@ -33,6 +37,14 @@ class RecipeRepositoryImpl(private val recipeFlowClient: RecipeFlowClient) : Rec
 
     override suspend fun createReview(recipeId: Long, review: String, rating: Int): RecipeReview? {
         return recipeFlowClient.createReview(recipeId, review, rating)
+    }
+
+    override suspend fun createRecipe(
+        recipe: Recipe
+    ): Recipe? {
+        return recipeFlowClient.createRecipe(
+            recipe
+        )
     }
 
     override suspend fun getTags(): List<RecipeTag>? {
