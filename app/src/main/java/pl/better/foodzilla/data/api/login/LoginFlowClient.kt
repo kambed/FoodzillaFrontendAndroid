@@ -29,9 +29,9 @@ class LoginFlowClient @Inject constructor(
             ?.toLogin()
     }
 
-    suspend fun register(firstname: String, lastname: String, login: String, password: String): Customer? {
+    suspend fun register(firstname: String, lastname: String, login: String, password: String, email: String): Customer? {
         val response = apolloClient
-            .mutation(RegisterMutation(firstname, lastname, login, password))
+            .mutation(RegisterMutation(firstname, lastname, login, password, email))
             .execute()
         if (response.data?.createCustomer == null && response.errors != null) {
             throw GraphQLErrorResponseException(response.errors!!.stream().map { it.message }.toList())
@@ -42,9 +42,9 @@ class LoginFlowClient @Inject constructor(
             ?.toCustomer()
     }
 
-    suspend fun editCustomer(firstname: String, lastname: String, username: String, password: String): Customer? {
+    suspend fun editCustomer(firstname: String, lastname: String, username: String, password: String, email: String): Customer? {
         val response = apolloClient
-            .mutation(EditCustomerMutation(firstname, lastname, username, password))
+            .mutation(EditCustomerMutation(firstname, lastname, username, password, email))
             .execute()
         if (response.data?.editCustomer == null && response.errors != null) {
             throw GraphQLErrorResponseException(response.errors!!.stream().map { it.message }.toList())

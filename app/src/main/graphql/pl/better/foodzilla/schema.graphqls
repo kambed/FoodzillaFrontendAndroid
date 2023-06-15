@@ -9,6 +9,8 @@ type Customer {
   lastname: String!
 
   username: String!
+
+  email: String!
 }
 
 input CustomerEditInput {
@@ -19,6 +21,8 @@ input CustomerEditInput {
   username: String!
 
   password: String!
+
+  email: String!
 }
 
 input CustomerInput {
@@ -29,6 +33,8 @@ input CustomerInput {
   username: String!
 
   password: String!
+
+  email: String!
 }
 
 input FilterType {
@@ -96,6 +102,10 @@ type Mutation {
   addRecipeToFavourites(recipeId: ID!): [Recipe]
 
   removeRecipeFromFavourites(recipeId: ID!): [Recipe]
+
+  requestPasswordResetEmail(email: String!): Boolean
+
+  resetPassword(resetPassword: ResetPasswordInput!): Boolean
 
   createRecipe(recipe: RecipeInput): Recipe
 
@@ -207,6 +217,14 @@ type Recommendations {
   opinion: String
 
   recipes: [Recipe]!
+}
+
+input ResetPasswordInput {
+  email: String!
+
+  resetPasswordToken: String!
+
+  newPassword: String!
 }
 
 type Review {

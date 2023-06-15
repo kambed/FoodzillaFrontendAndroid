@@ -17,7 +17,8 @@ fun LoginMutation.Customer.toCustomer(): Customer {
     return Customer(
         username = username,
         firstname = firstname,
-        lastname = lastname
+        lastname = lastname,
+        email = email
     )
 }
 
@@ -25,7 +26,8 @@ fun RegisterMutation.CreateCustomer.toCustomer(): Customer {
     return Customer(
         username = username,
         firstname = firstname,
-        lastname = lastname
+        lastname = lastname,
+        email = email
     )
 }
 
@@ -33,6 +35,7 @@ fun EditCustomerMutation.EditCustomer.toCustomer(): Customer {
     return Customer(
         username = username,
         firstname = firstname,
-        lastname = lastname
+        lastname = lastname,
+        email = email
     )
 }

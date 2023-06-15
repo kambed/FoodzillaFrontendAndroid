@@ -7,5 +7,6 @@ import kotlinx.parcelize.Parcelize
 data class Customer(
     val username: String,
     val firstname: String,
-    val lastname: String
+    val lastname: String,
+    val email: String
 ) : Parcelable

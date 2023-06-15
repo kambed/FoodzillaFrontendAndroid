@@ -17,17 +17,19 @@ class LoginRepositoryImpl(private val loginFlowClient: LoginFlowClient) : LoginR
         firstname: String,
         lastname: String,
         login: String,
-        password: String
+        password: String,
+        email: String
     ): Customer? {
-        return loginFlowClient.register(firstname, lastname, login, password)
+        return loginFlowClient.register(firstname, lastname, login, password, email)
     }
 
     override suspend fun editCustomer(
         firstname: String,
         lastname: String,
         username: String,
-        password: String
+        password: String,
+        email: String
     ): Customer? {
-        return loginFlowClient.editCustomer(firstname, lastname, username, password)
+        return loginFlowClient.editCustomer(firstname, lastname, username, password, email)
     }
 }

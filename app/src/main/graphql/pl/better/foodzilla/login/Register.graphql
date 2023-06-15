@@ -1,14 +1,16 @@
-mutation Register($firstname: String!, $lastname: String!, $login: String!, $password: String!) {
+mutation Register($firstname: String!, $lastname: String!, $login: String!, $password: String!, $email: String!) {
     createCustomer(
         customer: {
             firstname: $firstname
             lastname: $lastname
             username: $login
             password: $password
+            email: $email
         }
     ) {
         firstname
         lastname
         username
+        email
     }
 }

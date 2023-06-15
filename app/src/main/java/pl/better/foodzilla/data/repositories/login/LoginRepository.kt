@@ -13,13 +13,15 @@ interface LoginRepository {
         firstname: String,
         lastname: String,
         login: String,
-        password: String
+        password: String,
+        email: String
     ): Customer?
 
     suspend fun editCustomer(
         firstname: String,
         lastname: String,
         username: String,
-        password: String
+        password: String,
+        email: String
     ): Customer?
 }
